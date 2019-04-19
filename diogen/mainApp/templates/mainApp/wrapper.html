@@ -17,6 +17,9 @@
 
 </head>
 <body>
+
+
+  
   {% block header %}
   <body>
       <nav class="white" role="navigation">
@@ -42,7 +45,10 @@
   {% endblock %}
 
   {% block footer %}
-  <footer class="page-footer teal">
+  <footer>
+
+  
+  <footer class="footer teal">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -73,17 +79,20 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      ebaniy copyright
+        copyright
       </div>
     </div>
   </footer>
+</footer>
   {% endblock %}
 
   <!--Scripts-->
+  
+
+  </body>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="{% static 'js/materialize.js' %}"></script>
   <script src="{% static 'js/init.js' %}"></script>
-
-  </body>
 </html>
+
 
