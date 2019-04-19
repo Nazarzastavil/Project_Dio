@@ -11,6 +11,7 @@
 
   <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/custom.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
   
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -39,60 +40,63 @@
           </div>
       </nav>
   </body>
+  
   {% endblock %}
 
   {% block page %}
   {% endblock %}
 
   {% block footer %}
-  <footer>
-
-  
-  <footer class="footer teal">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">some text too.</p>
 
 
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-        copyright
-      </div>
-    </div>
+
+  <footer class="page-footer teal"> 
+    <div class="container"> 
+    <div class="row"> 
+    <div class="col l6 s12"> 
+    <h5 class="white-text">Company Bio</h5> 
+    <p class="grey-text text-lighten-4">some text too.</p> 
+    
+    
+    </div> 
+    <div class="col l3 s12"> 
+    <h5 class="white-text">Settings</h5> 
+    <ul> 
+    <li><a class="white-text" href="#!">Link 1</a></li> 
+    <li><a class="white-text" href="#!">Link 2</a></li> 
+    <li><a class="white-text" href="#!">Link 3</a></li> 
+    <li><a class="white-text" href="#!">Link 4</a></li> 
+    </ul> 
+    </div> 
+    <div class="col l3 s12"> 
+    <h5 class="white-text">Connect</h5> 
+    <ul> 
+    <li><a class="white-text" href="#!">Link 1</a></li> 
+    <li><a class="white-text" href="#!">Link 2</a></li> 
+    <li><a class="white-text" href="#!">Link 3</a></li> 
+    <li><a class="white-text" href="#!">Link 4</a></li> 
+    </ul> 
+    </div> 
+    </div> 
+    </div> 
+    <div class="footer-copyright"> 
+    <div class="container"> 
+    copyright 
+    </div> 
+    </div> 
+    </footer> 
   </footer>
-</footer>
   {% endblock %}
 
+   
   <!--Scripts-->
   
 
-  </body>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="{% static 'js/materialize.js' %}"></script>
-  <script src="{% static 'js/init.js' %}"></script>
+</body>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static 'js/materialize.js' %}"></script>
+<script src="{% static 'js/init.js' %}"></script>
+  
 </html>
 
 
