@@ -6,6 +6,7 @@
 
 {% block page %}
 <link href="{% static 'css/regchoice.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="{% static 'css/reggovna.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 <body>
         <div class="container">
@@ -14,7 +15,7 @@
                     
                     <div class="col s12 m4">
                             <figure class="snip1273 deg">
-                                    <img src="https://i.imgur.com/okMYRAm.png" alt="sample72" />
+                                    <img src="{% static 'images/Gervant.png' %}" alt="sample72" />
                                     <figcaption>
                                     <h3>Fletch Skinner</h3>
                                     <p>I don't need to compromise my principles, because they don't have the slightest bearing on what happens to me anyway. </p>
@@ -26,7 +27,7 @@
             
                     <div class="col s4 m4">
                             <figure class="snip1273 mus">
-                                    <img src="https://i.imgur.com/okMYRAm.png" alt="sample21" />
+                                    <img src="{% static 'images/Gervant.png' %}" alt="sample21" />
                                     <figcaption>
                                     <h3>Indigo Violet</h3>
                                     <p>What's the point of wearing your favorite rocketship underpants if nobody ever asks to see 'em?</p>
@@ -37,7 +38,7 @@
             
                     <div class="col s4 m4">
                             <figure class="snip1273 org">
-                                    <img src="https://i.imgur.com/okMYRAm.png" alt="sample86"/>
+                                    <img src="{% static 'images/Gervant.png' %}" alt="sample86"/>
                                     <figcaption>
                                     <h3>Gunther Beard</h3>
                                     <p>Given that sooner or later we're all just going to die, what's the point of learning about integers?</p>
@@ -49,56 +50,65 @@
             </div>
         </div>
 
-        <div class="row textbox deg">
-                <form class="col s12">
-                  <div class="row">
-                    <div class="input-field col s6">
-                      <i class="material-icons prefix">account_circle</i>
-                      <input id="icon_prefix" type="text" class="validate">
-                      <label for="icon_prefix">First Name DEGROID</label>
-                    </div>
-                    <div class="input-field col s6">
-                      <i class="material-icons prefix">phone</i>
-                      <input id="icon_telephone" type="tel" class="validate">
-                      <label for="icon_telephone">Telephone</label>
-                    </div>
-                  </div>
-                </form>
-              </div>
+        <section class="container text">
+                <div class="inner">
+                    <!-- 2 Columns -->
+                        <div class="flex flex-2">
+                            <div class="col col1">
+                                <div class="image round fit">
+                                    <a href="generic.html" class="link"><img src="images/pic01.jpg" alt="" /></a>
+                                </div>
+                            </div>
+                            <div class="col col2">
+                                    <div class="row textbox deg">
+                                            <form class="col s12 deg">
+                                              <div class="row">
+                                                    <div class="input-field col s6">
+                                                            <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                                                            <label for="first_name">First Name DEG</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                            <input placeholder="Placeholder" id="password" type="text" class="validate">
+                                                            <label for="password">Password DEG</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                            <input placeholder="Placeholder" id="password" type="text" class="validate">
+                                                            <label for="password">Password DEG</label>
+                                                    </div>
+                                                
+                                              </div>
+                                            </form>
+                                          </div>
+                            
+                                    <div class="row textbox mus">
+                                        <form class="col s12 mus">
+                                            <div class="row">
+                                                    <div class="input-field col s6">
+                                                            <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                                                            <label for="first_name">First Name MUS</label>
+                                                    </div>
+                                            
+                                            </div>
+                                        </form>
+                                        </div>
+                            
+                                    <div class="row textbox org">
+                                            <form class="col s12 org">
+                                                <div class="row">
+                                                        <div class="input-field col s6">
+                                                                <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                                                                <label for="first_name">First Name ORG</label>
+                                                        </div>
+                                                
+                                                </div>
+                                            </form>
+                                            </div><a href="#" class="button">Learn More</a>
+                            </div>
+                        </div>
+                </div>
+            </section>
 
-        <div class="row textbox mus">
-            <form class="col s12">
-                <div class="row">
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">account_circle</i>
-                    <input id="icon_prefix" type="text" class="validate">
-                    <label for="icon_prefix">First Name MUSICIAN</label>
-                </div>
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">phone</i>
-                    <input id="icon_telephone" type="tel" class="validate">
-                    <label for="icon_telephone">Telephone</label>
-                </div>
-                </div>
-            </form>
-            </div>
-
-        <div class="row textbox org">
-                <form class="col s12">
-                    <div class="row">
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="icon_prefix" type="text" class="validate">
-                        <label for="icon_prefix">First Name ORGANISATION</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">phone</i>
-                        <input id="icon_telephone" type="tel" class="validate">
-                        <label for="icon_telephone">Telephone</label>
-                    </div>
-                    </div>
-                </form>
-                </div>
+        
 
       
               

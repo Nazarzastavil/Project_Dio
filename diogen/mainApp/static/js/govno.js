@@ -7,6 +7,6 @@ $(".hover").mouseleave(
 
 $(".snip1273").click(function() {
     var myClass = $(this).attr("class").split(" ");
-    $(".row.textbox").hide();
+    $(".textbox").hide();
     $(".row." + myClass[1]).show();
  });
