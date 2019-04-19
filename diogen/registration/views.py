@@ -3,4 +3,4 @@ from django.shortcuts import render
 # Create your views here.
 
 def index(request):
-    return render(request, 'registration/wrapper.html')
+    return render(request, 'mainApp/reg.html')
