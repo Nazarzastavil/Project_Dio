@@ -5,8 +5,15 @@ $(".hover").mouseleave(
     }
   );
 
+
+
 $(".snip1273").click(function() {
-    var myClass = $(this).attr("class").split(" ");
-    $(".textbox").hide();
-    $(".row." + myClass[1]).show();
+    
+    $(".flex.flex-2").hide();
+    $(".flex.flex-2." + $(this).attr("class").split(" ")[1]).show();
  });
+
+ $(document).ready(function(){
+    $(".flex.flex-2").hide();
+    $(".flex.flex-2.deg").show()
+  });
