@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Diogen</title>
+  
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet">
+
+</head>
+<body>
+  {% block header %}
+ 321
+  {% endblock %}
+  
+
+  {% block page %}
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <br><br>
+        <h1 class="header center teal-text text-lighten-1" style = "font-family: 'Open Sans', sans-serif;">
+            DIOGEN
+        </h1>
+        <div class="row center">
+          <h5 class="header col s12 light">fuck u</h5>
+        </div>
+        <div class="row center">
+          <a href="/admin" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+        </div>
+        <br><br>
+
+      </div>
+    </div>
+    <div class="parallax"><img src="{% static 'images/7.jpg' %}" alt="Unsplashed background img 1"></div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center teal-text"><i class="material-icons">account_circle</i></h2>
+            <h5 class="center">Находите новых музыкантов</h5>
+
+            <p class="light">text1</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center teal-text"><i class="material-icons">location_on</i></h2>
+            <h5 class="center">Концерты в вашем городе</h5>
+
+            <p class="light">text2</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center teal-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">Создайте свою музыкальную группу</h5>
+
+            <p class="light">legends never die.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+ 
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">some text too?</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="{% static 'images/e0c4869e399a4d84_848x477.jpg' %}" alt="Unsplashed background img 3"></div>
+  </div>
+  {% endblock %}
+
+  {% block footer %}
+  <footer class="page-footer teal">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Company Bio</h5>
+          <p class="grey-text text-lighten-4">some text too.</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      ebaniy copyright
+      </div>
+    </div>
+  </footer>
+  {% endblock %}
+
+  <!--Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="{% static 'js/materialize.js' %}"></script>
+  <script src="{% static 'js/init.js' %}"></script>
+
+  </body>
+</html>
