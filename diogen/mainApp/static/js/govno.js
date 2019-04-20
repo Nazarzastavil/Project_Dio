@@ -29,11 +29,12 @@ $(".snip1273").click(function() {
   });
   });
 
-  $('#confirm_password#deg').on('keyup', function () {
-    if ($('#password').val() == $('#confirm_password#deg').val()) {
-      $('.helper-text').html('Rigth').css('color', 'green');
+  $('#confirm_password, #password').on('keyup', function () {
+    if ($('.' + $(this).attr("class").split(" ")[1] +'#password').val() == 
+        $( '.' + $(this).attr("class").split(" ")[1] +'#confirm_password').val()) {
+      $('.helper-text.' + $(this).attr("class").split(" ")[1]).html('Rigth').css('color', 'green');
     } else 
-      $('.helper-text').html('Wrong').css('color', 'red');
+      $('.helper-text.' + $(this).attr("class").split(" ")[1]).html('Wrong').css('color', 'red');
   });
 
   
