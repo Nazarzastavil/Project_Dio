@@ -5,7 +5,9 @@
 {% load static %}
 
 {% block page %}
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet">
 <link href="{% static 'css/regchoice.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="{% static 'css/reggovna.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 <body>
         <div class="container">
@@ -14,21 +16,21 @@
                     
                     <div class="col s12 m4">
                             <figure class="snip1273 deg">
-                                    <img src="https://i.imgur.com/okMYRAm.png" alt="sample72" />
+                                    <img src="{% static 'images/Gervant.png' %}" alt="sample72" />
                                     <figcaption>
-                                    <h3>Fletch Skinner</h3>
+                                    <h1 style = "color: #ffffff"> Дегроид</h1>
                                     <p>I don't need to compromise my principles, because they don't have the slightest bearing on what happens to me anyway. </p>
                                     
                                     </figcaption>
-                                    <a href="#deg" name="deg"></a>
+                                    <a href="#deg"></a>
                                 </figure>
                     </div> 
             
                     <div class="col s4 m4">
                             <figure class="snip1273 mus">
-                                    <img src="https://i.imgur.com/okMYRAm.png" alt="sample21" />
+                                    <img src="{% static 'images/Gervant.png' %}" alt="sample21" />
                                     <figcaption>
-                                    <h3>Indigo Violet</h3>
+                                            <h1 style = "color: #ffffff"> Музыкант</h1>
                                     <p>What's the point of wearing your favorite rocketship underpants if nobody ever asks to see 'em?</p>
                                     </figcaption>
                                     <a href="#mus"></a>
@@ -37,9 +39,9 @@
             
                     <div class="col s4 m4">
                             <figure class="snip1273 org">
-                                    <img src="https://i.imgur.com/okMYRAm.png" alt="sample86"/>
+                                    <img src="{% static 'images/Gervant.png' %}" alt="sample86"/>
                                     <figcaption>
-                                    <h3>Gunther Beard</h3>
+                                    <h1 style = "color: #ffffff"> Организация</h1>
                                     <p>Given that sooner or later we're all just going to die, what's the point of learning about integers?</p>
                                     </figcaption>
                                     <a href="#org"></a>
@@ -49,56 +51,122 @@
             </div>
         </div>
 
-        <div class="row textbox deg">
-                <form class="col s12">
-                  <div class="row">
-                    <div class="input-field col s6">
-                      <i class="material-icons prefix">account_circle</i>
-                      <input id="icon_prefix" type="text" class="validate">
-                      <label for="icon_prefix">First Name DEGROID</label>
-                    </div>
-                    <div class="input-field col s6">
-                      <i class="material-icons prefix">phone</i>
-                      <input id="icon_telephone" type="tel" class="validate">
-                      <label for="icon_telephone">Telephone</label>
-                    </div>
-                  </div>
-                </form>
-              </div>
+        <section class="container text">
+                <div class="inner">
+                    <!-- 2 Columns -->
+                        <div class="flex flex-2 deg">
+                            <div class="col col1">
+                                    <div class="card">
+                                            <div class="card-image">
+                                              <img src="{% static 'images/Gervant.png' %}">
+                                              <span class="card-title">Card Title</span>
+                                            </div>
+                                            <div class="card-content">
+                                              <p>I am a very simple card. I am good at containing small bits of information.
+                                              I am convenient because I require little markup to use effectively.</p>
+                                            </div>
+                                            <div class="card-action">
+                                              <a href="#">This is a link</a>
+                                            </div>
+                                          </div>
+                            </div>
+                            <div class="col col2">
+                                    <div class="row textbox">
+                                            <form class="col s12 deg">
+                                              <div class="row">
+                                                    <div class="input-field col s6">
+                                                            <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                                                            <label for="first_name">First Name DEG</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                            <input placeholder="Placeholder" id="last_name" type="text" class="validate">
+                                                            <label for="last_name">las DEG</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                            <input placeholder="Placeholder" id="password" type="text" class="validate">
+                                                            <label for="password">Password DEG</label>
+                                                    </div>
+                                                
+                                              </div>
+                                            </form>
+                                          </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-2 mus">
+                                <div class="col col1">
+                                        <div class="card">
+                                                <div class="card-image">
+                                                  <img src="{% static 'images/Gervant.png' %}">
+                                                  <span class="card-title">Card Title</span>
+                                                </div>
+                                                <div class="card-content">
+                                                  <p>I am a very simple card. I am good at containing small bits of information.
+                                                  I am convenient because I require little markup to use effectively.</p>
+                                                </div>
+                                                <div class="card-action">
+                                                  <a href="#">This is a link</a>
+                                                </div>
+                                              </div>
+                                </div>
+                                <div class="col col2">
+                                        <div class="row textbox">
+                                                
+                                            <form class="col s12 mus">
+                                                <div class="row">
+                                                        <div class="input-field col s6">
+                                                                <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                                                                <label for="first_name">First Name MUS</label>
+                                                        </div>
+                                                
+                                                </div>
+                                            </form>
+                                            </div>
+                                                    
+                                                
+                                </div>
+                            </div>
+                            <div class="flex flex-2 org">
+                                    <div class="col col1">
+                                            <div class="card">
+                                                    <div class="card-image">
+                                                      <img src="{% static 'images/Gervant.png' %}">
+                                                      <span class="card-title">Card Title</span>
+                                                    </div>
+                                                    <div class="card-content">
+                                                      <p>I am a very simple card. I am good at containing small bits of information.
+                                                      I am convenient because I require little markup to use effectively.</p>
+                                                    </div>
+                                                    <div class="card-action">
+                                                      <a href="#">This is a link</a>
+                                                    </div>
+                                                  </div>
+                                    </div>
+                                    <div class="col col2">
+                                            <div class="row textbox">
+                                                    
+                                                <form class="col s12 org">
+                                                    <div class="row">
+                                                            <div class="input-field col s6">
+                                                                    <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                                                                    <label for="first_name">First Name ORG</label>
+                                                            </div>
+                                                    
+                                                    </div>
+                                                </form>
+                                                </div><a href="#" class="button">Learn More</a>
+                                                        
+                                                 
+                                    </div>
+                                </div>
+                                    
+                            
+                                   
+                            </div>
+                        </div>
+                </div>
+            </section>
 
-        <div class="row textbox mus">
-            <form class="col s12">
-                <div class="row">
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">account_circle</i>
-                    <input id="icon_prefix" type="text" class="validate">
-                    <label for="icon_prefix">First Name MUSICIAN</label>
-                </div>
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">phone</i>
-                    <input id="icon_telephone" type="tel" class="validate">
-                    <label for="icon_telephone">Telephone</label>
-                </div>
-                </div>
-            </form>
-            </div>
-
-        <div class="row textbox org">
-                <form class="col s12">
-                    <div class="row">
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="icon_prefix" type="text" class="validate">
-                        <label for="icon_prefix">First Name ORGANISATION</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">phone</i>
-                        <input id="icon_telephone" type="tel" class="validate">
-                        <label for="icon_telephone">Telephone</label>
-                    </div>
-                    </div>
-                </form>
-                </div>
+        
 
       
               

@@ -123,3 +123,8 @@
 .snip1273.hover figcaption:after {
   opacity: 0.1;
 }
+
+
+.row.textbox {
+    width: 200%;
+}
