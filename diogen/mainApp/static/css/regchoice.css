@@ -125,6 +125,29 @@
 }
 
 
-.row.textbox {
-  width: 100%;
-}
+.container.text
+    {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    h3 {
+      font-size: 1.75em;
+    }
+  
+      @media screen and (max-width: 736px) {
+  
+        h3 {
+          font-size: 1.5em;
+        }
+  
+      }
+  
+      @media screen and (max-width: 480px) {
+  
+        h3 {
+          font-size: 1.25em;
+        }
+  
+      }
