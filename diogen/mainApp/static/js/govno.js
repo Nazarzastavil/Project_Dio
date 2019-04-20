@@ -29,4 +29,11 @@ $(".snip1273").click(function() {
   });
   });
 
+  $('#confirm_password#deg').on('keyup', function () {
+    if ($('#password').val() == $('#confirm_password#deg').val()) {
+      $('.helper-text').html('Rigth').css('color', 'green');
+    } else 
+      $('.helper-text').html('Wrong').css('color', 'red');
+  });
+
   
