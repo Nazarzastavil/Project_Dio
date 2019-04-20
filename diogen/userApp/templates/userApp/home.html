@@ -1,0 +1,29 @@
+{% extends 'userApp/base.html' %}
+{% block head %}
+<title>Главная</title>
+<meta name="description" content="{{ desc }}"/>
+<meta name="keywords" content="{{ key }}"/>
+{% endblock %}
+ 
+{% block body %}
+  <h1>Главная</h1>
+  {% if not persons %}
+  <b>Статьи не найдены</b>
+  {% else %}
+    {% for obj in persons %}
+    <a href="{{ obj.get_absolute_url }}"><b>{{ obj.title }}</b></a>
+    <img src="{{ obj.image.url }}" alt="">
+    <p>{{ obj.content|truncatechars:70 }}</p>
+    <span>{{ obj.timestamp }}</span>
+    <br><br><br>
+    {% endfor %}
+  {% endif %}
+ 
+  {% if persons.has_previous %}
+  <a href="?page={{ persons.previous_page_number }}">Назад</a>
+  {% endif %}
+  <span>{{ persons.number }} / {{ persons.num_pages }}</span>
+  {% if persons.has_next %}
+  <a href="?page={{ persons.next_page_number }}" >Вперед</a>
+  {% endif %}
+{% endblock %}
