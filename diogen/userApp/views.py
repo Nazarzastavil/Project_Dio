@@ -1,31 +1,10 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, get_object_or_404
+from .models import Person
  
-from  userApp.models import Person
+def allpersons(request):
+    persons = Person.objects
+    return render(request, 'userApp/allpersons.html', {'persons':persons})
  
- 
-def home(request):
-    #personList = Person.objects.filter(spec='1')
-    personList = Person.objects
-    paginator = Paginator(personList, 4)
-    page = request.GET.get('page')
-    querysetGoods = paginator.get_page(page)
- 
-    context = {
-        "persons": personList,
-        "description": "Описание",
-    }
-    return render(request, "userApp/home.html", context)
- 
-def single(request, id=None):
-    person = get_object_or_404(Person, id=id)
- 
-    context = {
-        "person": person,
-    }
-    return render(request, "userApp/single.html", context)
-
-
-def users(request):
-    return render(request, 'userApp/persons.html')
+def detail(request, person_id):
+    persondetail = get_object_or_404(Person, pk=person_id)
+    return render(request, 'userApp/detail.html', {'person':persondetail})
