@@ -12,15 +12,11 @@ class Person(models.Model):
     phone=models.CharField(max_length=20)
     email=models.CharField(max_length=50)
     description=models.TextField()
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
 
     def __str__(self):
         return self.name
     
-    def summary(self):
-        return self.description[:100]
 
     class Meta:
-        ordering = ['-registertime']
-
-        
+        ordering = ['-name']

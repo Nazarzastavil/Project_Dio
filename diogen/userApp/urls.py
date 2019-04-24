@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', views.allpersons , name='allpersons'),
+    path('', views.registration , name='registration'),
     path('<int:person_id>/', views.detail, name="detail"),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
