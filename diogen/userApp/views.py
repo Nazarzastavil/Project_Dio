@@ -27,20 +27,24 @@ def registration(request):
         date = request.POST.get("date")
         password = request.POST.get("password")
         spec = request.POST.get("spec")
+        image= request.POST.get("image")
         p = Person()
         p.name=name
-        p.password=password
         p.registertime=datetime.datetime.utcnow().replace(tzinfo=utc)
         p.date=date
-        p.password=password
         p.spec=spec
         p.phone=1337
-        p.image=''
         p.description='description'
         p.email='nu da'
+        p.clean()
+        p.image=image
+
         p.save()
         # age = request.POST.get("age")     # получение значения поля age
         return HttpResponse("<h2>Hello, {0}</h2>".format(name))
     else:
         personform = PersonForm()
         return render(request, "userApp/reg.html", {"form": personform})
+
+def login(request):
+    pass
