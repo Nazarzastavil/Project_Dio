@@ -9,6 +9,8 @@
 
 <link href="{% static 'css/regchoice.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 
+{{ form.media }}
+
 <body>
         <div class="container">
             <div class="row">
@@ -19,7 +21,7 @@
                                     <img src="https://recordart.files.wordpress.com/2017/08/love-you-live-fr.jpg?w=474" alt="sample72" />
                                     <figcaption>
                                     <h3 style = "color: #ffffff"> Любитель</h3>
-                                    <p>Если ты любишь музыку, ищешь новое и неизвестно, то добро пожаловать к нам!</p>
+                                    <p>Если ты любишь музыку, ищешь новое и неизвестное, то добро пожаловать к нам!</p>
                                     
                                     </figcaption>
                                     <a href="#deg"></a>
@@ -54,72 +56,63 @@
         <section class="container text">
                 <div class="inner">
                     <!-- 2 Columns -->
-                        <div class="row flex flex-2 deg">
-                            <div class="col col1 s4">
-                                    <div class="card">
-                                            <div class="card-image">
-                                              <img src="{% static 'images/Gervant.png' %}">
-                                              <span class="card-title">Card Title</span>
-                                            </div>
-                                            <div class="card-content">
-                                              <p>I am a very simple card. I am good at containing small bits of information.
-                                              I am convenient because I require little markup to use effectively.</p>
-                                            </div>
-                                            <div class="card-action">
-                                              <a href="#">This is a link</a>
-                                            </div>
-                                          </div>
-                            </div>
-                            <div class="col col2 s8">
-                                    <div class="row textbox">
-                                            
-                                                    <div class="input-field col s12">
-                                                            <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-                                                            <label for="first_name">First Name DEG</label>
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                            <input placeholder="Placeholder" id="last_name" type="text" class="validate">
-                                                            <label for="last_name">Last Name DEG</label>
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                            <input placeholder="Placeholder" id="password" type="password" class="validate deg">
-                                                            <label for="password">Password DEG</label>
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                                <input placeholder="Placeholder" id="confirm_password" type="password" class="validate deg">
-                                                                <label for="password">Password confirm MUS</label>
-                                                                <span class="helper-text deg" ></span>
+                        <!-- ur card in prison now...
 
-                                                        </div>
-                                                    <div class="input-field col s12">
-                                                                <input placeholder="Placeholder" id="email" type="email" class="validate">
-                                                                <label for="email">Email</label>
-                                                                
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                                <input placeholder="Placeholder" type="text" class="datepicker">
-                                                                <label for="datepicker">DBirth</label>
-                                                    </div>
-                                                
-                                              
-                                          </div>
-                            </div>
-                        </div>
-                        <div class="row flex flex-2 mus">
-                                <div class="col col1 s4">
+                        <div class="row flex flex-2 deg">
+                                <div class="col col1 s2">
+                                        
                                         <div class="card">
                                                 <div class="card-image">
-                                                  <img src="{% static 'images/Gervant.png' %}">
-                                                  <span class="card-title">Card Title</span>
+                                                <img src="{% static 'images/Gervant.png' %}">
+                                                <span class="card-title">Card Title</span>
                                                 </div>
                                                 <div class="card-content">
-                                                  <p>I am a very simple card. I am good at containing small bits of information.
-                                                  I am convenient because I require little markup to use effectively.</p>
+                                                <p>I am a very simple card. I am good at containing small bits of information.
+                                                I am convenient because I require little markup to use effectively.</p>
                                                 </div>
                                                 <div class="card-action">
-                                                  <a href="#">This is a link</a>
+                                                <a href="#">This is a link</a>
+                                        </div>
+                                        
+                                </div>
+                                
+                        </div>
+                        -->
+                        <div class="row flex flex-2 deg">
+                                <div class="col col1 s3">
+                                        <!--left banner-->
+                                </div>        
+                                                        
+                            <div class="col col2 s6">
+
+                                        <form method="POST">
+                                                {% csrf_token %}
+                                                <div>
+                                                {% for field in form %}
+                                                <div class="form-group">
+                                                        {{field.label_tag}}
+                                                
+                                                        <div>{{field}}</div>
+                                                        <div class="error">{{field.errors}}</div>
                                                 </div>
-                                              </div>
+                                                {% endfor %}
+                                                </div>
+                                                <input type="submit" value="Send" >
+                                        </form>
+        
+                            </div>
+                                <div class="col col1 s2">
+                                        <!--left banner-->
+                                </div>  
+                        </div>
+                        
+                      
+                
+
+                </div>
+                        <div class="row flex flex-2 mus">
+                                <div class="col col1 s4">
+                                     
                                 </div>
                                 <div class="col col2 s8">
                                         <div class="row textbox">

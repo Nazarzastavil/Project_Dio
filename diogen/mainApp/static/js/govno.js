@@ -17,7 +17,7 @@ $(".snip1273").click(function() {
     $(".flex.flex-2").hide();
     $(".flex.flex-2.deg").show();
     $('.datepicker').datepicker({
-    format: 'dd.mm.yyyy',
+    format: 'yyyy-mm-dd',
     autoClose: true,
     i18n: {months: ['Январь','Февраль','Март','Апрель','Май','Июнь', 
     'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],

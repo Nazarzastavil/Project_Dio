@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+	<body>
+      		<h1>test</h1>
+      		<br /> <br />
+     		 <h2>Latest persons</h2>
+     		 <hr/>
+     		 {% for person in  persons.all %}
+    			<a href="{% url 'detail' person.id %}">  <h3>{{ person.name }}</h3></a>
+   			   {{ person.pub_date_pretty }}
+   			    <br/>
+    			    <img src = "{{ person.image.url }}" height=200 width=200/>
+  			    <br/>
+    			  <p>{{ person.summary }}</p>
+     		 {% endfor %}
+    
+  		&copy; My Blog,  {% now "Y" %}
+	</body>
+</html>
