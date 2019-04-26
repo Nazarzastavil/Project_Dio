@@ -21,7 +21,9 @@ def registration(request):
             form.save()
             return render(request, 'userApp/reg.html', {'form': form1})
         else:
+            #TEMP
             return HttpResponse('WRONG!!!')
+            #return render(request, 'userApp/reg.html', {'form': form1})
     else:
         form = UserCreationForm()
         return render(request, 'userApp/create_user.html', {'form': form})
@@ -44,12 +46,9 @@ def update_profile(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
     #TEMP
-    form1=ProfileForm
     return render(request, 'userApp/reg.html', {
         'user_form': user_form,
         'profile_form': profile_form,
-        #TEMP
-        'form': form1
     })
 
 

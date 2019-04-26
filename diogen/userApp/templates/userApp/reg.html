@@ -71,29 +71,35 @@
                                 </div>        
                                                         
                             <div class="col col2 s6">
-                              
+                                <form method="POST">
+                                        {% csrf_token %}
+                                        {% for field in user_form %}
+                                        <div class="form-group">
+                                                {{field.label_tag}}
                                         
-                                        <form method="POST">
-                                                
-                                                {% csrf_token %}
-                                                <div>
-                                                {% for field in form %}
-                                                <div class="form-group">
-                                                        {{field.label_tag}}
-                                                
-                                                        <div>{{field}}</div>
-                                                        <div class="error">{{field.errors}}</div>
-                                                </div>
-                                                {% endfor %}
-                                                </div>
-                                                <div class="row center"></div>
-                                                <div class="row center">
-                                                        <input type="submit" value="Зарегистрироваться" class="btn-large" >
-                                                </div>
-                                                
-                                              
-                                               
-                                        </form>
+                                                <div>{{field}}</div>
+                                                <div class="error">{{field.errors}}</div>
+                                        </div>
+                                        {% endfor %}
+                                        <div>
+                                        {% for field in profile_form %}
+                                        <div class="form-group">
+                                                {{field.label_tag}}
+                                        
+                                                <div>{{field}}</div>
+                                                <div class="error">{{field.errors}}</div>
+                                        </div>
+                                        <div class="row"></div>
+                                        {% endfor %}
+                                        <div class="row center"> 
+                                                <button type="submit", class='btn-large '>Зарегистрироваться</button>
+                                        </div>
+                                       
+                                        
+                                        
+                                        
+                                        
+                                </form>
                                           
         
                             </div>

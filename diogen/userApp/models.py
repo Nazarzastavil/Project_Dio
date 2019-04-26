@@ -2,19 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-# Create your models here.
+from django.utils import timezone
 
 class PersonProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     #name=models.CharField(max_length=200, blank=False)
-    adress=models.CharField(max_length=100,default=None)
-    birth_date=models.DateField(default=None)
+    adress=models.CharField(max_length=100,default='')
+    birth_date=models.DateField(default=timezone.now())
     #spec=models.IntegerField(default=0)
-    phone=models.CharField(max_length=20,default=None)
-    description=models.TextField(default=None)
+    phone=models.CharField(max_length=20,default='')
+    description=models.TextField(default='')
     image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
 
-
+class MusicianProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    adress=models.CharField(max_length=100,default='')
+    birth_date=models.DateField(default=timezone.now())
+    phone=models.CharField(max_length=20,default='')
+    description=models.TextField(default='')
+    image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
 
 
 User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])

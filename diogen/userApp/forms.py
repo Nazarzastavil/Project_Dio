@@ -3,10 +3,16 @@ from django import forms
 from .models import *
 from django.contrib.auth.models import User
 
+
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
+        labels = {
+            'first_name':'Имя',
+            'last_name':'Фамилия',
+        }
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -21,7 +27,10 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
         }
-
+        initial = {
+            'birth_date': ''
+        }
+  '''
 class PersonForm(forms.Form):
     
 
@@ -39,7 +48,7 @@ class PersonForm(forms.Form):
 
 
 
-    '''
+  
     def clean_password(self):
         cleaned_data = super(PersonForm, self).clean()
         password = cleaned_data.get("password")
