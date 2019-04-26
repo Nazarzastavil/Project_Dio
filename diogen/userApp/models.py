@@ -5,25 +5,45 @@ from django.dispatch import receiver
 from django.utils import timezone
 
 class PersonProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False)
     #name=models.CharField(max_length=200, blank=False)
-    adress=models.CharField(max_length=100,default='')
-    birth_date=models.DateField(default=timezone.now())
+    adress=models.CharField(max_length=100,default='', blank=False)
+    birth_date=models.DateField(default=timezone.now(), blank=False)
     #spec=models.IntegerField(default=0)
-    phone=models.CharField(max_length=20,default='')
+    phone=models.CharField(max_length=20,default='', blank=True)
     description=models.TextField(default='')
     image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
 
 class MusicianProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False)
+    adress=models.CharField(max_length=100,default='', blank=False)
+    birth_date=models.DateField(default=timezone.now(), blank=False)
+    phone=models.CharField(max_length=20,default='', blank=True)
+    
+    nickname=models.CharField(max_length=100,default='')
+    genres=models.CharField(max_length=100,default='')
+    instruments=models.CharField(max_length=200,default='')
+    soundcloud=models.URLField(default='')
+
+    description=models.TextField(default='')
+    image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
+
+
+class CompanyProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     adress=models.CharField(max_length=100,default='')
-    birth_date=models.DateField(default=timezone.now())
     phone=models.CharField(max_length=20,default='')
+
+    company=models.CharField(max_length=100,default='')
+
     description=models.TextField(default='')
     image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
 
 
 User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
+User.profile = property(lambda u: MusicianProfile.objects.get_or_create(user=u)[0])
+User.profile = property(lambda u: CompanyProfile.objects.get_or_create(user=u)[0])
+
 
 #сигналы
 @receiver(post_save, sender=User)

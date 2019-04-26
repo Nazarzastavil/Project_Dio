@@ -76,7 +76,7 @@
                                         {% for field in user_form %}
                                         <div class="form-group">
                                                 {{field.label_tag}}
-                                        
+
                                                 <div>{{field}}</div>
                                                 <div class="error">{{field.errors}}</div>
                                         </div>
@@ -92,16 +92,9 @@
                                         <div class="row"></div>
                                         {% endfor %}
                                         <div class="row center"> 
-                                                <button type="submit", class='btn-large '>Зарегистрироваться</button>
-                                        </div>
-                                       
-                                        
-                                        
-                                        
-                                        
+                                                <button type="submit", class='btn-large '>Я - любитель</button>
+                                        </div> 
                                 </form>
-                                          
-        
                             </div>
                                 <div class="col col1 s2">
                                         <!--left banner-->
@@ -112,101 +105,76 @@
                 
 
                 </div>
-                        <div class="row flex flex-2 mus">
-                                <div class="col col1 s4">
-                                     
-                                </div>
-                                <div class="col col2 s8">
-                                        <div class="row textbox">
-                                                
-                                            
-                                                        <div class="input-field col s12">
-                                                                        <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-                                                                        <label for="first_name">First Name MUS</label>
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                        <input placeholder="Placeholder" id="last_name" type="text" class="validate">
-                                                                        <label for="last_name">Last Name MUs</label>
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                                <input placeholder="Placeholder" id="nickname" type="text" class="validate">
-                                                                                <label for="nickname">Nick MUs</label>
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                        <input placeholder="Placeholder" id="password" type="password" class="validate mus">
-                                                                        <label for="password">Password MUS</label>
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                                <input placeholder="Placeholder" id="password" type="password" class="validate mus">
-                                                                                <label for="password">Password confirm MUS</label>
-                                                                                <span class="helper-text mus"></span>
-                                                                        </div>
-                                                                <div class="input-field col s12">
-                                                                            <input placeholder="Placeholder" id="email" type="email" class="validate">
-                                                                            <label for="email">Email</label>
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                            <input placeholder="Placeholder" type="text" class="datepicker">
-                                                                            <label for="datepicker">DBirth</label>
-                                                        </div>
-                                                
-                                                </div>
-                                </div>
-                            </div>
-                            <div class="row flex flex-2 org">
-                                    <div class="col s4 col1">
-                                            <div class="card">
-                                                    <div class="card-image">
-                                                      <img src="{% static 'images/Gervant.png' %}">
-                                                      <span class="card-title">Card Title</span>
-                                                    </div>
-                                                    <div class="card-content">
-                                                      <p>I am a very simple card. I am good at containing small bits of information.
-                                                      I am convenient because I require little markup to use effectively.</p>
-                                                    </div>
-                                                    <div class="card-action">
-                                                      <a href="#">This is a link</a>
-                                                    </div>
-                                                  </div>
-                                    </div>
-                                    <div class="col s8 col2">
-                                            <div class="row textbox">
-                                                                <div class="input-field col s12">
-                                                                                <input placeholder="Placeholder" id="nickname" type="text" class="validate">
-                                                                                <label for="nickname">Organization name MUs</label>
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                        <input placeholder="Placeholder" id="password" type="password" class="validate org">
-                                                                        <label for="password">Password MUS</label>
-                                                                       
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                                <input placeholder="Placeholder" id="password" type="password" class="validate org">
-                                                                                <label for="password">Password confirm MUS</label>
-                                                                                <span class="helper-text org"></span>
-                                                                        </div>
-                                                                <div class="input-field col s12">
-                                                                            <input placeholder="Placeholder" id="email" type="email" class="validate">
-                                                                            <label for="email">Email</label>
-                                                                </div>
-                                                                <div class="input-field col s12">
-                                                                                <input placeholder="Placeholder" id="email" type="email" class="validate">
-                                                                                <label for="email">Email</label>
-                                                                </div>
-                                                    
-                                                    </div>
-                                                <a href="#" class="button">Learn More</a>
-                                                        
-                                                 
-                                    </div>
-                                </div>
+                <div class="row flex flex-2 mus">
+                        <div class="col col1 s3">
+                        </div>
+                        <div class="col col2 s6">
+                                <form method="POST">
+                                        {% csrf_token %}
+                                        {% for field in org_form %}
+                                        <div class="form-group">
+                                                {{field.label_tag}}
+
+                                                <div>{{field}}</div>
+                                                <div class="error">{{field.errors}}</div>
+                                        </div>
+                                        {% endfor %}
+                                        <div>
+                                        {% for field in musician_form %}
+                                        <div class="form-group">
+                                                {{field.label_tag}}
+                                        
+                                                <div>{{field}}</div>
+                                                <div class="error">{{field.errors}}</div>
+                                        </div>
+                                        <div class="row"></div>
+                                        {% endfor %}
+                                        <div class="row center"> 
+                                                <button type="submit", class='btn-large '>Я - музыкант</button>
+                                        </div> 
+                                </form>
+                        </div>
+                </div>
+                
+                
+                <div class="row flex flex-2 org">
+                        <div class="col col1 s3">
+                                
+                        </div>
+                        <div class="col col2 s6">
+                                <form method="POST">
+                                        {% csrf_token %}
+                                        {% for field in user_form %}
+                                        <div class="form-group">
+                                                {{field.label_tag}}
+
+                                                <div>{{field}}</div>
+                                                <div class="error">{{field.errors}}</div>
+                                        </div>
+                                        {% endfor %}
+                                        <div>
+                                        {% for field in company_form %}
+                                        <div class="form-group">
+                                                {{field.label_tag}}
+                                        
+                                                <div>{{field}}</div>
+                                                <div class="error">{{field.errors}}</div>
+                                        </div>
+                                        <div class="row"></div>
+                                        {% endfor %}
+                                        <div class="row center"> 
+                                                <button type="submit", class='btn-large '>Я - музыкант</button>
+                                        </div> 
+                                </form>
+                        </div>
+                </div>
+                
                                     
                             
                                    
-                            </div>
-                        </div>
-                </div>
-            </section>
+                           
+               
+        </section>
 
         
 
