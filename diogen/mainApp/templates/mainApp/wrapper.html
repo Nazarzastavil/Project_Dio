@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
 <head>
   {% load static %}
   
@@ -21,8 +21,8 @@
 
   
   {% block header %}
-  <body>
-      <nav class="white" role="navigation">
+  <body style="display: flex; flex-direction: column; height: 100%;">
+      <nav class="white" role="navigation" style="flex: 0 0 auto;">
           <div class="nav-wrapper container ">
               
               <a id="logo-container" href="/" class="brand-logo"> <i class="material-icons">accessible_forward</i> DIOGEN</a>
@@ -46,17 +46,18 @@
           </div>
       </nav>
   </body>
-  
+  <div class='content' style="flex: 1 0 auto;">
   {% endblock %}
 
   {% block page %}
+  
   {% endblock %}
 
   {% block footer %}
 
 
-
-  <footer class="page-footer teal"> 
+  </div>
+  <footer class="page-footer teal" style="flex: 0 0 auto;"> 
     <div class="container"> 
     <div class="row"> 
     <div class="col l6 s12"> 
