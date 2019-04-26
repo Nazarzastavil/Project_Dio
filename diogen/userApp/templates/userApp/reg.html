@@ -75,7 +75,6 @@
                                         
                                         <form method="POST">
                                                 
-                                                
                                                 {% csrf_token %}
                                                 <div>
                                                 {% for field in form %}
@@ -87,7 +86,11 @@
                                                 </div>
                                                 {% endfor %}
                                                 </div>
-                                                <input type="submit" value="Send" >
+                                                <div class="row center"></div>
+                                                <div class="row center">
+                                                        <input type="submit" value="Зарегистрироваться" class="btn-large" >
+                                                </div>
+                                                
                                               
                                                
                                         </form>

@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django import forms
 # Create your views here.
 
 def index(request):
-    return render(request, 'mainApp/start_page.html')
+    return redirect('login/')
+    #return render(request, 'registration/login.html')
 
 def registration(request):
 

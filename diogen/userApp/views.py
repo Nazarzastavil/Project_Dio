@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.shortcuts import render, get_object_or_404, render_to_response, redirect
 from .models import *
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
@@ -15,6 +15,7 @@ from userApp.forms import *
 def registration(request):
     if request.method == 'POST':
         form1=ProfileForm
+        userform=UserForm
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -34,16 +35,21 @@ def update_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, _('Your profile was successfully updated!'))
-            return redirect('settings:profile')
+            #messages.success(request, _('Your profile was successfully updated!'))
+            #return redirect('settings:profile')
+            return HttpResponse('success!')
         else:
             messages.error(request, _('Please correct the error below.'))
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
+    #TEMP
+    form1=ProfileForm
     return render(request, 'userApp/reg.html', {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
+        #TEMP
+        'form': form1
     })
 
 

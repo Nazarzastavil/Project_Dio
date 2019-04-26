@@ -12,7 +12,6 @@
 {{ form.media }}
 
 <body>
-    
     <section class="container text">
             <div class="inner">
                 <div class="row flex flex-2 deg">
@@ -21,11 +20,15 @@
                     </div>        
                                                 
                     <div class="col col2 s6">
+                           
                                 <form method='post'>
-                                        {% csrf_token %}
-                                        {{ form }}
-                                        <input type="submit" value="Submit"/>
+                                    {% csrf_token %}
+                                    {{ form }}
+                                    <div class="row center">
+                                    <div class="row center"><input type="submit" value="Submit" class="btn-large"/></div>
+                                </div>
                                 </form>
+                            
                                 <!--
                                 <form method="POST">
                                         
@@ -51,20 +54,8 @@
                                 <!--left banner-->
                     </div>  
                 </div>
-                        
-                      
-                            
-                                   
-                      
             </div>
         </section>
-
-        
-
-      
-              
-              
-
     <!--Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/govno.js' %}"></script>

@@ -7,12 +7,14 @@ from django.dispatch import receiver
 class PersonProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     #name=models.CharField(max_length=200, blank=False)
-    
-    birth_date=models.DateField(default='1999-01-01')
-    spec=models.IntegerField(default=0)
-    phone=models.CharField(max_length=20,default='test')
-    description=models.TextField(default='test')
+    adress=models.CharField(max_length=100,default=None)
+    birth_date=models.DateField(default=None)
+    #spec=models.IntegerField(default=0)
+    phone=models.CharField(max_length=20,default=None)
+    description=models.TextField(default=None)
     image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
+
+
 
 
 User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])

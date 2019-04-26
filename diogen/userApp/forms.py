@@ -11,14 +11,24 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = PersonProfile
-        fields = ('description', 'birth_date')
-
+        fields = ('birth_date', 'adress', 'phone', 'description','image')
+        labels = {
+            'birth_date': 'Дата рождения',
+            'adress': 'Укажите свой город',
+            'phone': 'Телефон',
+            'description': 'Расскажите пару слов о себе'
+        }
+        widgets = {
+            'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
+        }
 
 class PersonForm(forms.Form):
-    name=forms.CharField(required=True, max_length=200, label='Введите имя:', error_messages={'required': 'Please enter your name'})
+    
 
-    password=forms.CharField(widget = forms.PasswordInput, required=True)
-    confirm_password = forms.CharField(widget = forms.PasswordInput, required=True)
+    #name=forms.CharField(required=True, max_length=200, label='Введите имя:', error_messages={'required': 'Please enter your name'})
+
+    #password=forms.CharField(widget = forms.PasswordInput, required=True)
+    #confirm_password = forms.CharField(widget = forms.PasswordInput, required=True)
     date=forms.CharField(widget=forms.TextInput(attrs={'class':'datepicker'}), required=True)
     
     #spec=forms.IntegerField()
@@ -28,6 +38,8 @@ class PersonForm(forms.Form):
     image = forms.ImageField(initial ='/pic_folder/None/no_img.jpg')
 
 
+
+    '''
     def clean_password(self):
         cleaned_data = super(PersonForm, self).clean()
         password = cleaned_data.get("password")
@@ -37,4 +49,5 @@ class PersonForm(forms.Form):
             raise forms.ValidationError(
                 "password and confirm_password does not match"
             )
+    '''
 
