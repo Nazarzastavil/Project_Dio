@@ -55,37 +55,27 @@
 
         <section class="container text">
                 <div class="inner">
-                    <!-- 2 Columns -->
-                        <!-- ur card in prison now...
-
-                        <div class="row flex flex-2 deg">
-                                <div class="col col1 s2">
-                                        
-                                        <div class="card">
-                                                <div class="card-image">
-                                                <img src="{% static 'images/Gervant.png' %}">
-                                                <span class="card-title">Card Title</span>
-                                                </div>
-                                                <div class="card-content">
-                                                <p>I am a very simple card. I am good at containing small bits of information.
-                                                I am convenient because I require little markup to use effectively.</p>
-                                                </div>
-                                                <div class="card-action">
-                                                <a href="#">This is a link</a>
-                                        </div>
-                                        
-                                </div>
-                                
-                        </div>
-                        -->
                         <div class="row flex flex-2 deg">
                                 <div class="col col1 s3">
-                                        <!--left banner-->
+                                                
+                                                
+                                        <!--left banner
+                                        
+                                        <form method="post">
+                                                                {% csrf_token %}
+                                                                {{ user_form.as_p }}
+                                                                {{ profile_form.as_p }}
+                                                                <button type="submit">Save changes</button>
+                                                </form>
+                                        -->
                                 </div>        
                                                         
                             <div class="col col2 s6">
-
+                              
+                                        
                                         <form method="POST">
+                                                
+                                                
                                                 {% csrf_token %}
                                                 <div>
                                                 {% for field in form %}
@@ -98,7 +88,10 @@
                                                 {% endfor %}
                                                 </div>
                                                 <input type="submit" value="Send" >
+                                              
+                                               
                                         </form>
+                                          
         
                             </div>
                                 <div class="col col1 s2">

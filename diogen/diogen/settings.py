@@ -126,3 +126,10 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
  
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+AUTH_PROFILE_MODULE = 'accounts.PersonProfile'

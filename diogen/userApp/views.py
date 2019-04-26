@@ -1,14 +1,57 @@
 from django.shortcuts import render, get_object_or_404, render_to_response
-from .models import Person
+from .models import *
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
 from django.utils.timezone import utc
 
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.contrib.messages import constants as messages
+from django.contrib.auth.forms import UserCreationForm
+from userApp.forms import *
 
-#def registration(request):
-#    return render(request, 'userApp/reg.html')
+def registration(request):
+    if request.method == 'POST':
+        form1=ProfileForm
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'userApp/reg.html', {'form': form1})
+        else:
+            return HttpResponse('WRONG!!!')
+    else:
+        form = UserCreationForm()
+        return render(request, 'userApp/create_user.html', {'form': form})
+
+@login_required
+@transaction.atomic
+def update_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, _('Your profile was successfully updated!'))
+            return redirect('settings:profile')
+        else:
+            messages.error(request, _('Please correct the error below.'))
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'userApp/reg.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
+
+
+
+def feed(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+
 
 def allpersons(request):
     persons = Person.objects
@@ -18,8 +61,8 @@ def detail(request, person_id):
     persondetail = get_object_or_404(Person, pk=person_id)
     return render(request, 'userApp/detail.html', {'person':persondetail})
 
-from .forms import PersonForm
 
+'''
 def registration(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -48,3 +91,4 @@ def registration(request):
 
 def login(request):
     pass
+'''
