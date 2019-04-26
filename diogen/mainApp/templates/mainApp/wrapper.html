@@ -21,7 +21,7 @@
 
   
   {% block header %}
-  <body>
+  <body style="display: flex; flex-direction: column;">
       <nav class="white" role="navigation">
           <div class="nav-wrapper container ">
               
@@ -46,17 +46,18 @@
           </div>
       </nav>
   </body>
-  
+  <div class='content' style="flex: 1 0 auto;">
   {% endblock %}
 
   {% block page %}
+  
   {% endblock %}
 
   {% block footer %}
 
 
-
-  <footer class="page-footer teal" style="position:absolute; left: 0; bottom: 0; width: 100%;"> 
+  </div>
+  <footer class="page-footer teal" style="flex-shrink: 0;"> 
     <div class="container"> 
     <div class="row"> 
     <div class="col l6 s12"> 
