@@ -14,18 +14,26 @@ class UserForm(forms.ModelForm):
             'last_name':'Фамилия',
         }
         required={
-            'first_name':True,
+            'first_name':'True',
+            'last_name':'True',
         }
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = PersonProfile
-        fields = ('birth_date', 'adress', 'phone', 'description','image')
+        fields = ('birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company')
         labels = {
             'birth_date': 'Дата рождения',
             'adress': 'Укажите свой город',
             'phone': 'Телефон',
-            'description': 'Расскажите пару слов о себе'
+            'description': 'Расскажите пару слов о себе',
+
+            'nickname': 'Ваш творческий ник:',
+            'genres': 'Жанры Вашего творчества',
+            'instruments':'Инструменты которыми вы владете',
+            'soundcloud':'Ссылка на soundcloud (опционально)',
+            
+            'company':'Название вашей компании',
         }
         widgets = {
             'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
@@ -34,44 +42,44 @@ class ProfileForm(forms.ModelForm):
             'birth_date': ''
         }
 
-class MusicianForm(forms.ModelForm):
-    class Meta:
-        model = MusicianProfile
-        fields = ('nickname', 'genres', 'instruments', 'soundcloud', 'birth_date', 'adress', 'phone', 'description','image')
-        labels = {
-            'nickname': 'Ваш творческий ник:',
-            'genres': 'Жанры Вашего творчества',
-            'instruments':'Инструменты которыми вы владете',
-            'soundcloud':'Ссылка на soundcloud (опционально)',
-            'birth_date': 'Дата рождения',
-            'adress': 'Укажите свой город',
-            'phone': 'Телефон',
-            'description': 'Расскажите пару слов о себе',
-        }
-        widgets = {
-            'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
-        }
-        initial = {
-            'birth_date': ''
-        }
+# class MusicianForm(forms.ModelForm):
+#     class Meta:
+#         model = MusicianProfile
+#         fields = ('nickname', 'genres', 'instruments', 'soundcloud', 'birth_date', 'adress', 'phone', 'description','image')
+#         labels = {
+#             'nickname': 'Ваш творческий ник:',
+#             'genres': 'Жанры Вашего творчества',
+#             'instruments':'Инструменты которыми вы владете',
+#             'soundcloud':'Ссылка на soundcloud (опционально)',
+#             'birth_date': 'Дата рождения',
+#             'adress': 'Укажите свой город',
+#             'phone': 'Телефон',
+#             'description': 'Расскажите пару слов о себе',
+#         }
+#         widgets = {
+#             'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
+#         }
+#         initial = {
+#             'birth_date': ''
+#         }
         
-class CompanyForm(forms.ModelForm):
-    class Meta:
-        model = CompanyProfile
-        fields = ('company', 'adress', 'phone', 'description','image')
-        labels = {
-            'company':'Название вашей компании',
-            'birth_date': 'Дата рождения',
-            'adress': 'Укажите свой город',
-            'phone': 'Телефон',
-            'description': 'Расскажите пару слов о себе',
-        }
-        widgets = {
-            'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
-        }
-        initial = {
-            'birth_date': ''
-        }     
+# class CompanyForm(forms.ModelForm):
+#     class Meta:
+#         model = CompanyProfile
+#         fields = ('company', 'adress', 'phone', 'description','image')
+#         labels = {
+#             'company':'Название вашей компании',
+#             'birth_date': 'Дата рождения',
+#             'adress': 'Укажите свой город',
+#             'phone': 'Телефон',
+#             'description': 'Расскажите пару слов о себе',
+#         }
+#         widgets = {
+#             'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
+#         }
+#         initial = {
+#             'birth_date': ''
+#         }     
 
 
 '''

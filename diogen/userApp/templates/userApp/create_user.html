@@ -21,33 +21,15 @@
                                                 
                     <div class="col col2 s6">
                            
-                                <form method='post'>
-                                    {% csrf_token %}
-                                    {{ form }}
-                                    <div class="row center">
-                                    <div class="row center"><input type="submit" value="Submit" class="btn-large"/></div>
-                                </div>
-                                </form>
+                        <form method='post'>
+                            {% csrf_token %}
+                            {{ form }}
+                            <div class="row center">
+                            <div class="row center"><input type="submit" value="Register" class="btn-large"/></div>
+                        </div>
+                        </form>
                             
-                                <!--
-                                <form method="POST">
-                                        
-                                        
-                                        {% csrf_token %}
-                                        <div>
-                                        {% for field in form %}
-                                        <div class="form-group">
-                                                {{field.label_tag}}
-                                                <div>{{field}}</div>
-                                                <div class="error">{{field.errors}}</div>
-                                        </div>
-                                        {% endfor %}
-                                        </div>
-                                        <input type="submit" value="Send" >
-                                        
-                                        
-                                </form>
-                                    -->
+                             
 
                     </div>
                     <div class="col col1 s2">

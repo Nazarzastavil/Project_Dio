@@ -24,18 +24,18 @@
                                     <p>Если ты любишь музыку, ищешь новое и неизвестное, то добро пожаловать к нам!</p>
                                     
                                     </figcaption>
-                                    <a href="#deg"></a>
+                                    <a href=""></a>
                                 </figure>
                     </div> 
             
                     <div class="col s4 m4">
-                            <figure class="snip1273 mus">
+                                <figure class="snip1273 mus">
                                     <img src="https://blog.spoongraphics.co.uk/wp-content/uploads/2017/album-art/10.jpg" alt="sample21" />
                                     <figcaption>
                                             <h3 style = "color: #ffffff"> Творец</h3>
                                     <p>Если ты живешь музыкой, любишь и  создаешь музыку, то добро пожаловать в Мир таких же “вольных” творцов, как и ты!</p>
                                     </figcaption>
-                                    <a href="#mus"></a>
+                                    <a href=""></a>
                                 </figure>
                     </div>
             
@@ -46,10 +46,9 @@
                                     <h3 style = "color: #ffffff"> Держатель</h3>
                                     <p>Если вы нуждайтесь в тех, кто скрасит вечер в ваших владениях, заставит трепетать сердца слушателей, то мы поможем их найти! Добро пожаловать!</p>
                                     </figcaption>
-                                    <a href="#org"></a>
+                                    <a href=""></a>
                                 </figure>
                 </div>
-            
             </div>
         </div>
 
@@ -57,17 +56,7 @@
                 <div class="inner">
                         <div class="row flex flex-2 deg">
                                 <div class="col col1 s3">
-                                                
-                                                
-                                        <!--left banner
-                                        
-                                        <form method="post">
-                                                                {% csrf_token %}
-                                                                {{ user_form.as_p }}
-                                                                {{ profile_form.as_p }}
-                                                                <button type="submit">Save changes</button>
-                                                </form>
-                                        -->
+                      
                                 </div>        
                                                         
                             <div class="col col2 s6">
@@ -82,17 +71,25 @@
                                         </div>
                                         {% endfor %}
                                         <div>
-                                        {% for field in profile_form %}
                                         <div class="form-group">
-                                                {{field.label_tag}}
-                                        
-                                                <div>{{field}}</div>
-                                                <div class="error">{{field.errors}}</div>
+                                                {{profile_form.birth_date.label_tag}}
+                                                {{profile_form.birth_date}}
+                                                {{profile_form.adress.label_tag}}
+                                                {{profile_form.adress}}
+                                                {{profile_form.phone.label_tag}}
+                                                {{profile_form.phone}}
+                                                {{profile_form.description.label_tag}}
+                                                {{profile_form.description}}
+                                                {{profile_form.image.label_tag}}
+                                                {{profile_form.image}}
+                                                <div class="error">{{profile_form.errors}}</div>
+
+                                                 
                                         </div>
                                         <div class="row"></div>
-                                        {% endfor %}
+                                        
                                         <div class="row center"> 
-                                                <button type="submit", class='btn-large '>Я - любитель</button>
+                                                <button type="submit", class='btn-large red'>Я - любитель</button>
                                         </div> 
                                 </form>
                             </div>
@@ -105,13 +102,14 @@
                 
 
                 </div>
+                <div class="inner">
                 <div class="row flex flex-2 mus">
                         <div class="col col1 s3">
                         </div>
                         <div class="col col2 s6">
                                 <form method="POST">
                                         {% csrf_token %}
-                                        {% for field in org_form %}
+                                        {% for field in user_form %}
                                         <div class="form-group">
                                                 {{field.label_tag}}
 
@@ -119,24 +117,39 @@
                                                 <div class="error">{{field.errors}}</div>
                                         </div>
                                         {% endfor %}
-                                        <div>
-                                        {% for field in musician_form %}
+
                                         <div class="form-group">
-                                                {{field.label_tag}}
-                                        
-                                                <div>{{field}}</div>
-                                                <div class="error">{{field.errors}}</div>
+                                                {{profile_form.birth_date.label_tag}}
+                                                {{profile_form.birth_date}}
+                                                {{profile_form.adress.label_tag}}
+                                                {{profile_form.adress}}
+                                                {{profile_form.phone.label_tag}}
+                                                {{profile_form.phone}}
+                                                {{profile_form.description.label_tag}}
+                                                {{profile_form.description}}
+
+                                                {{profile_form.nickname.label_tag}}
+                                                {{profile_form.nickname}}
+                                                {{profile_form.genres.label_tag}}
+                                                {{profile_form.genres}}
+                                                {{profile_form.instruments.label_tag}}
+                                                {{profile_form.instruments}}
+                                                {{profile_form.soundcloud.label_tag}}
+                                                {{profile_form.soundcloud}}
+                                                
+                                                {{profile_form.image.label_tag}}
+                                                {{profile_form.image}}
+                                                <!-- <div class="error">{{profile_form.errors}}</div> -->
+                                                <div class="row"></div>
+                                                <div class="row center"> 
+                                                        <button type="submit", class='btn-large red'>Я - музыкант</button>
+                                                </div> 
                                         </div>
-                                        <div class="row"></div>
-                                        {% endfor %}
-                                        <div class="row center"> 
-                                                <button type="submit", class='btn-large '>Я - музыкант</button>
-                                        </div> 
                                 </form>
                         </div>
                 </div>
-                
-                
+                </div>
+                <div class="inner">
                 <div class="row flex flex-2 org">
                         <div class="col col1 s3">
                                 
@@ -152,23 +165,31 @@
                                                 <div class="error">{{field.errors}}</div>
                                         </div>
                                         {% endfor %}
-                                        <div>
-                                        {% for field in company_form %}
                                         <div class="form-group">
-                                                {{field.label_tag}}
-                                        
-                                                <div>{{field}}</div>
-                                                <div class="error">{{field.errors}}</div>
+                                                {{profile_form.adress.label_tag}}
+                                                {{profile_form.adress}}
+                                                {{profile_form.phone.label_tag}}
+                                                {{profile_form.phone}}
+                                                {{profile_form.description.label_tag}}
+                                                {{profile_form.description}}
+
+                                                {{profile_form.organisation.label_tag}}
+                                                {{profile_form.organisation}}
+                                                
+                                                {{profile_form.image.label_tag}}
+                                                {{profile_form.image}}
+
+                                                
+                                                <!-- <div class="error">{{profile_form.errors}}</div> -->
+                                                <div class="row"></div>
+                                                <div class="row center"> 
+                                                        <button type="submit", class='btn-large red'>Я - организация</button>
+                                                </div> 
                                         </div>
-                                        <div class="row"></div>
-                                        {% endfor %}
-                                        <div class="row center"> 
-                                                <button type="submit", class='btn-large '>Я - музыкант</button>
-                                        </div> 
                                 </form>
                         </div>
                 </div>
-                
+                </div>  
                                     
                             
                                    

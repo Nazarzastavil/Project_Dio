@@ -11,55 +11,86 @@ from django.db import transaction
 from django.contrib.messages import constants as messages
 from django.contrib.auth.forms import UserCreationForm
 from userApp.forms import *
-
+from django.contrib.auth import authenticate, login
 
 
 def registration(request):
     if request.method == 'POST':
         form1=ProfileForm
-        userform=UserForm
+        #userform=UserForm
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'userApp/reg.html', {'form': form1})
+            #messages.success(request, 'Account created successfully')
+
+            #TEMP: логин сразу после регистрации
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
+            login(request, new_user)
+            #user_form = UserForm(request.POST, instance=request.user)
+            #profile_form = ProfileForm(request.POST, instance=request.user.profile)
+            return redirect('upd/')
+            
+            # return render(request, 'userApp/reg.html', {
+            #     'user_form': user_form,
+            #     'profile_form': profile_form,
+            #     # 'musician_form': musician_form,
+            #     # 'company_form': company_form,
+            # })
         else:
+            pass
             #TEMP
-            return HttpResponse('WRONG!!!')
+            
+            return HttpResponse('nani!!!')
             #return render(request, 'userApp/reg.html', {'form': form1})
     else:
         form = UserCreationForm()
         return render(request, 'userApp/create_user.html', {'form': form})
 
 
+
 @transaction.atomic
+@login_required
 def update_profile(request):
+    user_form = UserForm(request.POST, instance=request.user)
+    profile_form = ProfileForm(request.POST, instance=request.user.profile)
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
-        musician_form = MusicianProfile(request.POST, instance=request.user.profile)
-        company_form = CompanyProfile(request.POST, instance=request.user.profile)
+        
+        # musician_form = MusicianProfile(request.POST, instance=request.user.profile)
+        # company_form = CompanyProfile(request.POST, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
             profile_form.save()
+            # musician_form.save()
+            # company_form.save()
+            
             #messages.success(request, _('Your profile was successfully updated!'))
             #return redirect('settings:profile')
-            return HttpResponse('success blyatj!')
+            #return HttpResponse('success!')
+            return redirect('/feed/')
+            #return render(request, 'userApp/reg.html', {
+        # 'user_form': user_form,
+        # 'profile_form': profile_form,
+        # })
+
         else:
-            messages.error(request, _('Please correct the error below.'))
+            
+            return render(request, 'userApp/reg.html', {
+            'user_form': user_form,
+            'profile_form': profile_form,
+            })
+        #    messages.error(request, _('Please correct the error below.'))
     else:
-        user_form = UserForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
-        musician_form=MusicianForm(instance=request.user.profile)
-        company_form = CompanyForm(instance=request.user.profile)
-    #TEMP
-    return render(request, 'userApp/reg.html', {
+        return render(request, 'userApp/reg.html', {
         'user_form': user_form,
         'profile_form': profile_form,
-        'musician_form': musician_form,
-        'company_form': company_form,
-    })
-
+        })
+    #return HttpResponse('test!')
+    #TEMP
+  
 
 
 def feed(LoginRequiredMixin, View):
