@@ -13,6 +13,8 @@ from django.contrib.auth.forms import UserCreationForm
 from userApp.forms import *
 from django.contrib.auth import authenticate, login
 
+def mainpage(request):
+    return redirect('login/')
 
 def registration(request):
     if request.method == 'POST':
@@ -92,10 +94,9 @@ def update_profile(request):
     #TEMP
   
 
-
-def feed(LoginRequiredMixin, View):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
+@login_required
+def feed(request):
+    return HttpResponse('ask Nazar for feed')
 
 
 def allpersons(request):
