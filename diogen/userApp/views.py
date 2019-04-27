@@ -96,7 +96,7 @@ def update_profile(request):
 
 @login_required
 def feed(request):
-    return HttpResponse('ask Nazar for feed')
+    return render(request, 'userApp/feed.html')
 
 
 def allpersons(request):
