@@ -3101,8 +3101,8 @@ td, th {
 }
 
 .collection .collection-item.avatar {
-  min-height: 84px;
-  padding-left: 72px;
+  min-height: 80px;
+  padding-left: 120px;
   position: relative;
 }
 
@@ -3126,7 +3126,8 @@ td, th {
 }
 
 .collection .collection-item.avatar .title {
-  font-size: 16px;
+  font-size: 20px;
+  /* padding-bottom: 100px; */
 }
 
 .collection .collection-item.avatar p {
@@ -3162,6 +3163,12 @@ td, th {
 .collection a.collection-item:not(.active):hover {
   background-color: #ddd;
 }
+
+.collection-item.avatar:hover {
+  background-color: #ddd;
+}
+
+
 
 .collection.with-header .collection-header {
   background-color: #fff;
@@ -5957,7 +5964,7 @@ body.keyboard-focused .dropdown-content li:focus {
   color: rgba(0, 0, 0, 0.6);
   line-height: 32px;
   padding: 0 12px;
-  border-radius: 16px;
+  /* border-radius: 16px; */
   background-color: #e4e4e4;
   margin-bottom: 5px;
   margin-right: 5px;
@@ -9081,4 +9088,8 @@ input[type=range]::-ms-thumb {
     text-align: center;
     margin-top: 1.2rem;
   }
+}
+
+ul.collection.col {
+  padding: 0px;
 }
