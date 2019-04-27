@@ -16,7 +16,7 @@
 }
 
 .form-autocomplete .form-autocomplete-input.is-focused {
-  /* border-color: #5755d9;  */
+  border-color: #5755d9; 
   box-shadow: 0 0 0 .1rem rgba(87, 85, 217, .2);
 }
 

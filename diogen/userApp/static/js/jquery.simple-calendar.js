@@ -3,14 +3,6 @@
 
 // Original source code from : https://github.com/brospars/simple-calendar
 // Calendar stylings from Spectre.css : https://github.com/picturepan2/spectre
-
-
-
-
-
-
-
-
 ; (function ($, window, document, undefined) {
 
     "use strict";
@@ -49,18 +41,12 @@
             var events = this.events;
 
             var calendar = $('<div class="calendar"></div>');
-            
-            
             // navbar 
             // var header = $('<header>' +
             //     '<h2 class="month"></h2>' +
             //     '<a class="btn btn-prev" href="#"><</a>' +
             //     '<a class="btn btn-next" href="#">></a>' +
             //     '</header>');
-            // @import url("{% static 'css/scpectre.css' %}");
-            // @import url("{% static 'css/scpectre-exp.css' %}");
-            // @import url("{% static 'css/scpectre-icons.css' %}");
-            
             var header = $('<div class="calendar-nav navbar">'+
                     '<button class= "btn btn-action btn-link btn-lg btn-prev">' +
                     '<i class="icon icon-arrow-left"></i>'+
