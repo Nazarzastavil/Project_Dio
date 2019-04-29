@@ -94,9 +94,9 @@ def allpersons(request):
     persons = PersonProfile.objects
     return render(request, 'userApp/allpersons.html', {'persons':persons})
  
-def detail(request, person_id):
+def profile(request, person_id):
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
-    return render(request, 'userApp/detail.html', {'person':persondetail})
+    return render(request, 'userApp/profile.html', {'profile':persondetail})
 
 
 '''

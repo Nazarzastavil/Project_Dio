@@ -11,7 +11,7 @@ urlpatterns = [
     #TEMP
     path('feed/', views.feed, name='feed'),
     path('reg/upd/', views.update_profile , name='update_profile'),
-    path('<int:person_id>/', views.detail, name="detail"),
+    path('<int:person_id>/', views.profile, name="profile"),
     
     
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

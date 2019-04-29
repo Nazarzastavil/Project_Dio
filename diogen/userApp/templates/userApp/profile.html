@@ -1,0 +1,24 @@
+{% extends "mainPage/wrapper.html" %}
+
+
+
+{% block page %}
+
+<!doctype html>
+<html>
+    <head>
+        <title> {{ profile.name }}</title>
+    </head>
+<body>
+        <h1> {{ profile.name }}</h1>
+            <p>{{ profile.registertime }}</p>
+
+        <center>
+            <img src = "{{ profile.image.url }}"  height=”300” width=”400”/>
+        </center>
+<br/>
+
+  </body>
+</html>
+
+{%endblock%}
