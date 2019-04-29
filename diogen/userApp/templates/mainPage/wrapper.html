@@ -34,7 +34,7 @@
               <li><a href="/admin/">Admin</a></li>
               <li><a href="/persons/">Persons test</a></li>
               {% if user.is_authenticated %}
-                <li><a class="grey-text" href="/reg/">User: {{ user.get_username }}</a></li>
+                <li><a class="grey-text" href="/reg/upd/">User: {{ user.get_username }}</a></li>
                 <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>   
               {% else %}
                 <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>   

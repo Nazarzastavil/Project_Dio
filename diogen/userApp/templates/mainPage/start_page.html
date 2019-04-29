@@ -18,7 +18,11 @@
           <h5 class="header col s12 light">welcome to DIO's universe</h5>
         </div>
         <div class="row center">
+          {% if user.is_authenticated %}
+          <a href="/feed" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Начать скроллить</a>
+          {% else %}
           <a href="/reg" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Регистрация</a>
+          {% endif %}
         </div>
         <div class="row center">
             <a class="btn-large modal-trigger ebala" href="#modal1">Вход</a>

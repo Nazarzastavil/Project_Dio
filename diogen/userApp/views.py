@@ -56,35 +56,25 @@ def registration(request):
 @login_required
 def update_profile(request):
     user_form = UserForm(request.POST, instance=request.user)
-    profile_form = ProfileForm(request.POST, instance=request.user.profile)
+    profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        #user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         
-        # musician_form = MusicianProfile(request.POST, instance=request.user.profile)
-        # company_form = CompanyProfile(request.POST, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
-            profile_form.save()
-            # musician_form.save()
-            # company_form.save()
-            
-            #messages.success(request, _('Your profile was successfully updated!'))
+            #profile = PersonProfile(image = request.FILES['image'])
+
+            profile = profile_form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            #user_form.save()
+            #profile_form.save()
+
             #return redirect('settings:profile')
             #return HttpResponse('success!')
             return redirect('/feed/')
-            #return render(request, 'userApp/reg.html', {
-        # 'user_form': user_form,
-        # 'profile_form': profile_form,
-        # })
 
-        else:
-            
-            return render(request, 'userApp/reg.html', {
-            'user_form': user_form,
-            'profile_form': profile_form,
-            })
-        #    messages.error(request, _('Please correct the error below.'))
     else:
         return render(request, 'userApp/reg.html', {
         'user_form': user_form,
@@ -96,15 +86,16 @@ def update_profile(request):
 
 @login_required
 def feed(request):
-    return render(request, 'userApp/feed.html')
+    persons = PersonProfile.objects
+    return render(request, 'userApp/feed.html',{'persons':persons})
 
 
 def allpersons(request):
-    persons = Person.objects
+    persons = PersonProfile.objects
     return render(request, 'userApp/allpersons.html', {'persons':persons})
  
 def detail(request, person_id):
-    persondetail = get_object_or_404(Person, pk=person_id)
+    persondetail = get_object_or_404(PersonProfile, pk=person_id)
     return render(request, 'userApp/detail.html', {'person':persondetail})
 
 

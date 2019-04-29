@@ -11,8 +11,8 @@ class PersonProfile(models.Model):
     
     phone=models.CharField(max_length=20,default='', blank=True)
     description=models.TextField(default='',blank=True)
-    image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
-  
+    
+    image = models.FileField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
     spec=models.IntegerField(default=0) #0 - deg, 1 - mus, 2 - org
 
     #humans only
@@ -25,7 +25,9 @@ class PersonProfile(models.Model):
     #org
     company=models.CharField(max_length=100,default='', blank=True)
 
-User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
+    User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
+
+
 
 
 
