@@ -12,6 +12,7 @@ from django.contrib.messages import constants as messages
 from django.contrib.auth.forms import UserCreationForm
 from userApp.forms import *
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 def mainpage(request):
     return redirect('login/')
@@ -68,7 +69,7 @@ def update_profile(request):
             profile = profile_form.save(commit=False)
             profile.user = request.user
             profile.save()
-            #user_form.save()
+            user_form.save()
             #profile_form.save()
 
             #return redirect('settings:profile')
@@ -96,7 +97,13 @@ def allpersons(request):
  
 def profile(request, person_id):
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
-    return render(request, 'userApp/profile.html', {'profile':persondetail})
+    #persondetail.email=''
+    userdetail = persondetail.user
+
+    return render(request, 'userApp/profile.html', 
+    {'profile':persondetail,
+    'userprofile':userdetail,
+    })
 
 
 '''
