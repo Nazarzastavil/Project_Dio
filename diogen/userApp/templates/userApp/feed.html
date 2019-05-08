@@ -5,75 +5,93 @@
 
 {% block page %}
 
-<link href="{% static 'css/tmp.css' %}" type="text/css" rel="stylesheet"/>
-<link href="{% static 'css/scpectre-exp.css' %}" type="text/css" rel="stylesheet"/>
-<link href="{% static 'css/scpectre-icons.css' %}" type="text/css" rel="stylesheet"/>
-
 
 <div class="row" style="margin: 10px;">
-  <div class="col s3"></div>
-  <div class="col s6">
-    <div class="row">
-      <div class="input-field col s12">
-        <input type="text" id="autocomplete-input" class="autocomplete">
-        <label for="autocomplete-input">Поиск</label>
+    <div class="col s3"></div>
+    <div class="col s6">
+      <div class="row">
+        <div class="input-field col s12 srh">
+          <input type="text" id="autocomplete-input" class="autocomplete">
+          <label for="autocomplete-input">Поиск</label>
+        </div>
       </div>
     </div>
+    <div class="col s3"></div>
   </div>
-  <div class="col s3"></div>
-</div>
-<div class="row coll">
+<div class="search">
   
+  <div class="row coll">
+    
 
-  <div class="col s3"></div>
-  <ul class="collection col s6">
-      
-      
-        <a href="#">
-          <li  class="collection-item collection-item avatar">
-            <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 50px; width: 50px;">
-            <span class="title">Alvin</span>
-            <p style="margin-top: 10px;"> 
-              <div class="chip">Флейта</div>
-              <div class="chip">Твой дед</div> <br>
-           </p>
-          </li>
-        </a>
-        <a href="#">
+    <div class="col s3"></div>
+    <ul class="collection col s6">
+        
+        
+          <a href="#">
             <li  class="collection-item collection-item avatar">
-              <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 50px; width: 50px;">
+              <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 65px; width: 65px;">
               <span class="title">Alvin</span>
               <p style="margin-top: 10px;"> 
                 <div class="chip">Флейта</div>
                 <div class="chip">Твой дед</div> <br>
-             </p>
+            </p>
             </li>
           </a>
-        <!-- <p>First Line <br>
-          Second Line
-        </p> -->
-        <!-- <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a> -->
-      
-      
-  </ul>
-  <div class="col s3"></div>
+          <a href="#">
+              <li  class="collection-item collection-item avatar">
+                <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 65px; width: 65px;">
+                <span class="title">Alvin</span>
+                <p style="margin-top: 10px;"> 
+                  <div class="chip">Флейта</div>
+                  <div class="chip">Твой дед</div> <br>
+              </p>
+              </li>
+            </a>
+          <!-- <p>First Line <br>
+            Second Line
+          </p> -->
+          <!-- <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a> -->
+        
+        
+    </ul>
+    <div class="col s3"></div>
+  </div>
 </div>
 <div class="row">
   <div class="col s2"></div>
-  <div class="col s2" id="calendar">
-  <div class="col s6  "></div>
+  <div class="col s6">
+    <h4>РАРАРАРРА</h4>
+  </div>
+  <div class="col s2">
+      <h4>РАРАРААРАР</h4>
+    <div id="calendar">
+  </div>
 </div>
 <script src="{% static 'jquery-2.1.4.min.js' %}"></script>
+
 <script src="{% static 'js/jquery.simple-calendar.js' %}"></script>
+<script> 
+    $(document).ready(function(){
+     $(".search").hide();
+    });
+    $(".srh").click( function() {
+      $(".search").show();
+    });
+
+</script>
+
 <script>$(document).ready(function(){
     $("#calendar").simpleCalendar({
         fixedStartDay: false,
         events: ['2019-03-04', '2019-03-08', '2019-03-12', '2019-03-15'],
-        eventsInfo: ['John\'s Birthday', 'Janet\'s Marriage','Graduation Day', 'Final Exams !'],
+        eventsInfo: ['John\'s Birthday', 'Janet\'s Marriage','Graduation 312Day', 'Final Exams !'],
         selectCallback: function(date){
-            console.log('date selected '+date);
+            console.log('date selected '+ date);
         }
     });
   });</script>
+<link href="{% static 'css/spectre.css' %}" rel="stylesheet"/>
+<link href="{% static 'css/spectre-exp.css' %}" type="text/css" rel="stylesheet"/>
+<link href="{% static 'css/spectre-icons.css' %}" type="text/css" rel="stylesheet"/>
 
 {% endblock %}
