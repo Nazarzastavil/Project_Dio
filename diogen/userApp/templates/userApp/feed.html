@@ -28,7 +28,7 @@
         
           <a href="#">
             <li  class="collection-item collection-item avatar">
-              <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 65px; width: 65px;">
+              <img src="{ % static 'images/Gervant.png' % }" alt="" class="circle" style="height: 65px; width: 65px;">
               <span class="title">Alvin</span>
               <p style="margin-top: 10px;"> 
                 <div class="chip">Флейта</div>
@@ -38,7 +38,7 @@
           </a>
           <a href="#">
               <li  class="collection-item collection-item avatar">
-                <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 65px; width: 65px;">
+                <img src="{ % static 'images/Gervant.png' % }" alt="" class="circle" style="height: 65px; width: 65px;">
                 <span class="title">Alvin</span>
                 <p style="margin-top: 10px;"> 
                   <div class="chip">Флейта</div>
@@ -67,9 +67,9 @@
   </div>
 </div>
 </div>
-<script src="{% static 'jquery-2.1.4.min.js' %}"></script>
+<script src="{ % static 'jquery-2.1.4.min.js' % }"></script>
 
-<script src="{% static 'js/jquery.simple-calendar.js' %}"></script>
+<script src="{ % static 'js/jquery.simple-calendar.js' % }"></script>
 <script> 
     $(document).ready(function(){
      $(".search").hide();
@@ -90,8 +90,8 @@
         }
     });
   });</script>
-<link href="{% static 'css/spectre.css' %}" rel="stylesheet"/>
-<link href="{% static 'css/spectre-exp.css' %}" type="text/css" rel="stylesheet"/>
-<link href="{% static 'css/spectre-icons.css' %}" type="text/css" rel="stylesheet"/>
+<link href="{ % static 'css/spectre.css' % }" rel="stylesheet"/>
+<link href="{ % static 'css/spectre-exp.css' % }" type="text/css" rel="stylesheet"/>
+<link href="{ % static 'css/spectre-icons.css' % }" type="text/css" rel="stylesheet"/>
 
 {% endblock %}
