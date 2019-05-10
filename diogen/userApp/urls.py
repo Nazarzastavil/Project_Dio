@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic import ListView, DetailView
 from . import views 
 from django.conf.urls.static import static
@@ -9,9 +9,11 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('reg/', views.registration , name='registration'), 
     #TEMP
-    path('feed/', views.feed, name='feed'),
+    #re_path(r'^feed/([\w-]+)/$', views.MusiciansList.as_view()),
+    path('feed/', views.MusiciansList.as_view(), name='MusiciansList'),
     path('reg/upd/', views.update_profile , name='update_profile'),
     path('<int:person_id>/', views.profile, name="profile"),
+
     
     
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

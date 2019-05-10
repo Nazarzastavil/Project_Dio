@@ -27,7 +27,20 @@ class PersonProfile(models.Model):
 
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
 
+#сигналы
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        PersonProfile.objects.create(user=instance)
+        # MusicianProfile.objects.create(user=instance)
+        # CompanyProfile.objects.create(user=instance)
+        
 
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+    # instance.MusicianProfile.save()
+    # instance.CompanyProfile.save()
 
 
 
@@ -63,18 +76,3 @@ class PersonProfile(models.Model):
 
 
 
-
-#сигналы
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        PersonProfile.objects.create(user=instance)
-        # MusicianProfile.objects.create(user=instance)
-        # CompanyProfile.objects.create(user=instance)
-        
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-    # instance.MusicianProfile.save()
-    # instance.CompanyProfile.save()

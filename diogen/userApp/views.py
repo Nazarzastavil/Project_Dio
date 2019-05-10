@@ -13,6 +13,9 @@ from django.contrib.auth.forms import UserCreationForm
 from userApp.forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.views.generic import ListView
+from django.db.models import *
+import operator
 
 def mainpage(request):
     return redirect('login/')
@@ -88,12 +91,39 @@ def update_profile(request):
 # @login_required
 def feed(request):
     persons = PersonProfile.objects
+
+
     return render(request, 'userApp/feed.html', {'persons':persons})
 
+class MusiciansList(ListView):
 
-def allpersons(request):
-    persons = PersonProfile.objects
-    return render(request, 'userApp/allpersons.html', {'persons':persons})
+    model = PersonProfile
+    #paginate_by = 10  # if pagination is desired
+    context_object_name = 'musician_list'
+    template_name = 'userApp/feed.html'
+
+    def get_queryset(self):
+        result = super(MusiciansList, self).get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            result = result.filter(Q(nickname__icontains=query))
+            
+
+        return result
+
+    # def get_queryset(self):
+        
+    #     if self.request.GET.get('query') !=None:
+    #         query=self.request.GET.get('query')
+    #         return HttpResponse(query)
+    #         return PersonProfile.objects.filter(Q(nickname=query))
+    #     else:
+    #         return PersonProfile.objects.all()
+            
+
+# def allpersons(request):
+#     persons = PersonProfile.objects
+#     return render(request, 'userApp/allpersons.html', {'persons':persons})
  
 def profile(request, person_id):
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
