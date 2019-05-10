@@ -85,7 +85,7 @@ def update_profile(request):
     #TEMP
   
 
-@login_required
+# @login_required
 def feed(request):
     persons = PersonProfile.objects
     return render(request, 'userApp/feed.html', {'persons':persons})
