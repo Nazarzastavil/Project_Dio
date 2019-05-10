@@ -88,7 +88,7 @@ def update_profile(request):
 @login_required
 def feed(request):
     persons = PersonProfile.objects
-    return render(request, 'userApp/feed.html',{'persons':persons})
+    return render(request, 'userApp/feed.html', {'persons':persons})
 
 
 def allpersons(request):
