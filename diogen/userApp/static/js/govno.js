@@ -10,8 +10,8 @@ $(".hover").mouseleave(
 
 
 $(document).ready(function(){
-  // $(".flex.flex-2").hide();
-  // $(".flex.flex-2.deg").show();
+  $(".flex.flex-2").hide();
+  $(".flex.flex-2.deg").show();
   $('.datepicker').datepicker({
   format: 'yyyy-mm-dd',
   autoClose: true,
