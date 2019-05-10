@@ -4,43 +4,8 @@
 
 {% block page %}
 
-<form id="searchform" action="{% url 'MusiciansList' %}" method="get" accept-charset="utf-8">
-
-  <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
-</form>
 
 
-MUSICIANLIST
-{% for item in musician_list  %}
-  <li>{{ item.user.password }}</li>
-  
-{% endfor %}
-blya
-{% for person in  persons.all %}
-{% if person.nickname != '' %}
-<a href="{% url 'profile' person.id %}">  
-<li  class="collection-item collection-item avatar">
-  
-    <img src = "{{ person.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
-    <span class="title">{{ person.nickname}}</span>
-
-    {% with instrumentlist=person.instruments.split %}
-    <p style="margin-top: 10px;"> 
-    {% for instrument in  instrumentlist %}
-      <div class="chip">
-        {{instrument}}
-      </div>    
-    {% endfor %}
-    {% endwith %}
-    </p>
-    <p style="margin-top: 10px;"> 
-      
-     
-    </p>
-    {% endif %}
-</li>
-</a>
-{% endfor %}
 
 <div class="row" style="margin: 10px;">
     <div class="col s3"></div>
@@ -49,46 +14,52 @@ blya
 
             <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
         </form>
+        
 
-      <div class="row">
+      <!-- <div class="row">
         
         <div class="input-field col s12 srh">
           <input type="text" id="autocomplete-input" class="autocomplete" name="query">
           <label for="autocomplete-input">Поиск</label>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="col s3"></div>
   </div>
-<div class="search">
-  
+<!-- <div class="search"> -->
+<div>
   <div class="row coll">
     
 
       <div class="col s3"></div>
       <ul class="collection col s6">
+
+        {% for person in  musician_list %}
+        {% if person.nickname != '' %}
+        <a href="{% url 'profile' person.id %}">  
+        <li  class="collection-item collection-item avatar">
+          
+            <img src = "{{ person.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
+            <span class="title">{{ person.nickname}}</span>
         
-        
-          <a href="#">
-            <li  class="collection-item collection-item avatar">
-              <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 65px; width: 65px;">
-              <span class="title">Alvin</span>
-              <p style="margin-top: 10px;"> 
-                <div class="chip">Флейта</div>
-                <div class="chip">Твой дед</div> <br>
+            {% with instrumentlist=person.instruments.split %}
+            <p style="margin-top: 10px;"> 
+            {% for instrument in  instrumentlist %}
+              <div class="chip">
+                {{instrument}}
+              </div>    
+            {% endfor %}
+            {% endwith %}
             </p>
-            </li>
-          </a>
-          <a href="#">
-              <li  class="collection-item collection-item avatar">
-                <img src="{% static 'images/Gervant.png' %}" alt="" class="circle" style="height: 65px; width: 65px;">
-                <span class="title">Alvin</span>
-                <p style="margin-top: 10px;"> 
-                  <div class="chip">Флейта</div>
-                  <div class="chip">Твой дед</div> <br>
-              </p>
-              </li>
-            </a>
+            <p style="margin-top: 10px;"> 
+              
+             
+            </p>
+            {% endif %}
+        </li>
+        </a>
+        {% endfor %}
+   
           <!-- <p>First Line <br>
             Second Line
           </p> -->
