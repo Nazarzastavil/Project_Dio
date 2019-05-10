@@ -3,6 +3,22 @@
 
 // Original source code from : https://github.com/brospars/simple-calendar
 // Calendar stylings from Spectre.css : https://github.com/picturepan2/spectre
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="scss"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+
+
 ; (function ($, window, document, undefined) {
 
     "use strict";
@@ -10,8 +26,9 @@
     // Create the defaults once
     var pluginName = "simpleCalendar",
         defaults = {
-            months: ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'], //string of months starting from january
-            days: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], //string of days starting from sunday
+            months: ['Январь','Февраль','Март','Апрель','Май','Июнь', 
+            'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'], //string of months starting from january
+            days: ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'], //string of days starting from sunday
             minDate: "YYYY-MM-DD", // minimum date
             maxDate: "YYYY-MM-DD", // maximum date
             insertEvent: true, // can insert events
