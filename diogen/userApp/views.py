@@ -11,10 +11,11 @@ from django.db import transaction
 from django.contrib.messages import constants as messages
 from django.contrib.auth.forms import UserCreationForm
 from userApp.forms import *
+from django.db.models import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.views.generic import ListView
-from django.db.models import *
+
 import operator
 
 def mainpage(request):
@@ -31,11 +32,9 @@ def registration(request):
 
             #TEMP: логин сразу после регистрации
             new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],
-                                    )
+                                    password=form.cleaned_data['password1'],)
             login(request, new_user)
-            #user_form = UserForm(request.POST, instance=request.user)
-            #profile_form = ProfileForm(request.POST, instance=request.user.profile)
+
             return redirect('upd/')
             
             # return render(request, 'userApp/reg.html', {
@@ -88,13 +87,6 @@ def update_profile(request):
     #TEMP
   
 
-# @login_required
-def feed(request):
-    persons = PersonProfile.objects
-
-
-    return render(request, 'userApp/feed.html', {'persons':persons})
-
 class MusiciansList(ListView):
 
     model = PersonProfile
@@ -105,29 +97,28 @@ class MusiciansList(ListView):
     def get_queryset(self):
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
-        if query:
-            result = result.filter(Q(nickname__icontains=query))
-            
+        instrs = self.request.GET.get('instrs')
+        genres = self.request.GET.get('genres')
+
+        if (not query):
+            query=''
+        if(not instrs):
+            instrs=''
+        if(not genres):
+            genres=''
+        
+        criterion1 = Q(nickname__contains=query)
+        criterion2 = Q(instruments__contains=instrs)
+        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs))
+        #result = result.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instruments)
 
         return result
 
-    # def get_queryset(self):
         
-    #     if self.request.GET.get('query') !=None:
-    #         query=self.request.GET.get('query')
-    #         return HttpResponse(query)
-    #         return PersonProfile.objects.filter(Q(nickname=query))
-    #     else:
-    #         return PersonProfile.objects.all()
-            
 
-# def allpersons(request):
-#     persons = PersonProfile.objects
-#     return render(request, 'userApp/allpersons.html', {'persons':persons})
- 
+
 def profile(request, person_id):
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
-    #persondetail.email=''
     userdetail = persondetail.user
 
     return render(request, 'userApp/profile.html', 

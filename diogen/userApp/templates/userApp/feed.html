@@ -15,11 +15,9 @@
     <div class="collection">
       <a href="#!" class="collection-item">Путин есть детей -> Тюмень, Ржавый дед</a>
       <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item">Alvin</a>
+      <a href="#!" class="collection-item">Alvin</a>  
       <a href="#!" class="collection-item">Alvin</a>
       <a href="#!" class="collection-item active">Еще больше</a>
-
     </div>
   </div>
   <div class="col s3 l3"></div>
@@ -28,35 +26,60 @@
 
 
 
+
 <div class="row" style="margin: 10px;">
+
     <div class="col s2 l3"></div>
+    <form id="searchform" action="{% url 'MusiciansList' %}" method="get" accept-charset="utf-8">
     <div class="col s5 l5">
-        <form id="searchform" action="{% url 'MusiciansList' %}" method="get" accept-charset="utf-8">
 
-            <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Поиск людей">
-        </form>
-        
-
-      <!-- <div class="row">
-        
-        <div class="input-field col s12 srh">
-          <input type="text" id="autocomplete-input" class="autocomplete" name="query">
+      <div class="input-field col s12">
+          <input type="text" id="autocomplete-input" class="autocomplete" name="q">
           <label for="autocomplete-input">Поиск</label>
+      </div>
+    
+    
+    
+      <div class="input-field col s6">
+          <input type="text" id="autocomplete-input" class="autocomplete" name="instrs">
+          <label for="autocomplete-input">Инструменты</label>
+      </div>
+    
+
+  
+        <div class="input-field col s6">
+            <input type="text" id="autocomplete-input" class="autocomplete" name="genres">
+            <label for="autocomplete-input">Жанры</label>
         </div>
-      </div> -->
+        
+      <div class="row center"> 
+        
+      </div> 
+
     </div>
     <div class="col s3 l1">
+      <button type="submit", class='btn-small red' style="margin-top: 30px;">Поиск</button>
+      <div style="margin-top: 38px;"></div>
       <div class="input-field filter">
         <select>
-          <!-- <option value="" disabled selected>Параметр</option> -->
-          <option value="nick" selected>Никнейм</option>
-          <option value="genre">Жанр</option>
-          <option value="town">Город</option>
+          <option value="nick" selected>Музыкант</option>
+          <option value="town">Музыкальная группа</option>
+          <option value="town">Мероприятие</option>
+          <option value="genre">Организация</option>
         </select>
       </div>
+        
+        
+      <div class="col s2 l3"></div>
+      
     </div>
-    <div class="col s2 l3"></div>
-  </div>
+  </form>
+</div>
+<div class="row">
+
+  
+</div>
+
 <!-- <div class="search"> -->
 <div>
   <div class="row coll">
@@ -83,7 +106,6 @@
             {% endwith %}
             </p>
             <p style="margin-top: 10px;"> 
-              
              
             </p>
             {% endif %}
@@ -95,8 +117,6 @@
             Second Line
           </p> -->
           <!-- <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a> -->
-        
-        
     
     <div class="col s3"></div>
   </div>
