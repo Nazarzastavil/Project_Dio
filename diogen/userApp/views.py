@@ -95,8 +95,14 @@ def feed(request):
 
     return render(request, 'userApp/feed.html', {'persons':persons})
 
-class MusiciansList(ListView):
+def newevent(request):
+    events = Event()
+    return render(request, 'userApp/newevent.html', {'events':events})
 
+
+
+
+class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired
     context_object_name = 'musician_list'
@@ -110,6 +116,7 @@ class MusiciansList(ListView):
             
 
         return result
+
 
     # def get_queryset(self):
         

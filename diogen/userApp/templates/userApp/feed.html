@@ -63,8 +63,8 @@
     
 
       <div class="col s3"></div>
-      <ul class="collection col s6">
-
+      <ul class="collection col s6 sbox">
+        {% csrf_token %}                                
         {% for person in  musician_list %}
         {% if person.nickname != '' %}
         <a href="{% url 'profile' person.id %}">  
@@ -106,6 +106,26 @@
 <!-- <script src="{% static 'jquery-2.1.4.min.js' %}"></script> -->
 
 <script src="{% static 'js/jquery.simple-calendar.js' %}"></script>
+
+<script>
+  $(".searchfield").keyup(function(e) {
+    $.ajax({
+      type: "POST", 
+      url: "search/",
+      data: {
+        csrfmiddlewaretoken: getCookie('csrftoken'),
+        'param': $("#searchbox").val()
+      },
+      success: function() {
+        alert('123');  
+      }
+    });
+  
+  
+  });
+</script>
+
+
 <script> 
     $(document).ready(function(){
      $(".search").hide();

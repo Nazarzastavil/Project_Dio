@@ -13,7 +13,8 @@ urlpatterns = [
     path('feed/', views.MusiciansList.as_view(), name='MusiciansList'),
     path('reg/upd/', views.update_profile , name='update_profile'),
     path('<int:person_id>/', views.profile, name="profile"),
-
+    path('newevent/', views.newevent, name="newevent"),
+    path('feed/search/', views.MusiciansList.as_view(), name="search")
     
     
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

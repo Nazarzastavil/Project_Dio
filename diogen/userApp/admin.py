@@ -4,5 +4,7 @@ from userApp.models import *
 
 #admin.site.register(Person, PersonModelAdmin)
 admin.site.register(PersonProfile)
+
+admin.site.register(EventProfile)
 # admin.site.register(MusicianProfile)
 # admin.site.register(CompanyProfile)

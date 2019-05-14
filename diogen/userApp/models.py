@@ -27,6 +27,13 @@ class PersonProfile(models.Model):
 
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
 
+class EventProfile(models.Model):
+    address = models.CharField(max_length=100,default='', blank=True)
+    date = models.CharField(max_length=100, default='', blank=True)
+    group = models.CharField(max_length=100, default='', blank=True)
+    company = models.CharField(max_length=100, default='', blank=True)
+    description = models.TextField(default='',blank=True)  
+
 #сигналы
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
