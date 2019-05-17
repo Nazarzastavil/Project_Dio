@@ -1,0 +1,35 @@
+{% extends "mainPage/wrapper.html" %}
+
+{% load static %}
+
+
+{% block page %}
+    <div class="row">
+
+    <div class="col s3 m3 l3"></div>
+    <div class="col s6 m6 l6">
+        <h3>NEW EVENT</h3>
+        {% csrf_token %}
+        <div class="form-group">
+        {% for field in events %}
+                
+                {{field.label_tag}}
+
+                <div>{{field}}</div>
+                <div class="error">{{field.errors}}</div>        
+        
+        {% endfor %}
+        
+        <button type="submit", class='btn-large red'>Создать</button>
+        </div>
+    </div>
+    <div class="col s3 m3 l3"></div>
+    </div>
+
+    <!-- <script>
+        $('#desc').val('New Text');
+        M.textareaAutoResize($('#desc'));
+    </script>
+     -->
+    
+{% endblock %}

@@ -12,13 +12,19 @@
   <div class="col s2 l1"></div>
   <div class="col s12 l5">
     <h5>РАРАРАРРА</h5>
-    <div class="collection">
-      <a href="#!" class="collection-item">Путин есть детей -> Тюмень, Ржавый дед</a>
-      <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item">Alvin</a>  
-      <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item active">Еще больше</a>
-    </div>
+    
+    <ul class="collapsible">
+    <li class="">
+      <div class="collapsible-header" tabindex="0"><i class="material-icons">filter_drama</i>First<span class="new badge">4</span></div>
+      <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li class="active">
+      <div class="collapsible-header" tabindex="0"><i class="material-icons">place</i>Second<span class="badge">1</span></div>
+      <div class="collapsible-body" style="display: block;"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+      
+    
   </div>
   <div class="col s3 l3"></div>
 
@@ -86,8 +92,8 @@
     
 
       <div class="col s3"></div>
-      <ul class="collection col s6">
-
+      <ul class="collection col s6 sbox">
+        {% csrf_token %}                                
         {% for person in  musician_list %}
         {% if person.nickname != '' %}
         <a href="{% url 'profile' person.id %}">  
@@ -126,6 +132,30 @@
 <!-- <script src="{% static 'jquery-2.1.4.min.js' %}"></script> -->
 
 <script src="{% static 'js/jquery.simple-calendar.js' %}"></script>
+
+<script>
+    $(document).ready(function(){
+      $('.collapsible').collapsible();
+    });
+
+  $(".searchfield").keyup(function(e) {
+    $.ajax({
+      type: "POST", 
+      url: "search/",
+      data: {
+        csrfmiddlewaretoken: getCookie('csrftoken'),
+        'param': $("#searchbox").val()
+      },
+      success: function() {
+        alert('123');  
+      }
+    });
+  
+  
+  });
+</script>
+
+
 <script> 
     $(document).ready(function(){
      $(".search").hide();

@@ -37,9 +37,30 @@ class ProfileForm(forms.ModelForm):
         }
         widgets = {
             'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
+            'description': forms.Textarea(attrs={'class':'materialize-textarea'})
         }
         initial = {
             'birth_date': ''
+        }
+
+class Event(forms.ModelForm):
+    class Meta:
+        model = EventProfile
+        fields = ('address', 'description', 'group', 'company', 'date')
+        labels = {
+            'date': 'Время проведения',
+            'address': 'Место проведения',
+            'group': 'Выступает',
+            'company': 'Проводит',
+            'description': 'Описание'
+        }
+        widgets = {
+            'date': forms.TextInput(attrs={'class':'datepicker'}),
+            'description': forms.Textarea(attrs={'class':'materialize-textarea', 'id':'desc'}),
+            'address': forms.TextInput(attrs={'disabled':''})
+        }
+        initial = {
+            'date': ''
         }
 
 # class MusicianForm(forms.ModelForm):

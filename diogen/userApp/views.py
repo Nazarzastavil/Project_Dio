@@ -81,8 +81,21 @@ def update_profile(request):
     #TEMP
   
 
-class MusiciansList(ListView):
+# @login_required
+def feed(request):
+    persons = PersonProfile.objects
 
+
+    return render(request, 'userApp/feed.html', {'persons':persons})
+
+def newevent(request):
+    events = Event()
+    return render(request, 'userApp/newevent.html', {'events':events})
+
+
+
+
+class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired
     context_object_name = 'musician_list'
