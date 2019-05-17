@@ -37,12 +37,6 @@ def registration(request):
 
             return redirect('upd/')
             
-            # return render(request, 'userApp/reg.html', {
-            #     'user_form': user_form,
-            #     'profile_form': profile_form,
-            #     # 'musician_form': musician_form,
-            #     # 'company_form': company_form,
-            # })
         else:
             pass
             #TEMP
@@ -107,9 +101,7 @@ class MusiciansList(ListView):
         if(not genres):
             genres=''
         
-        criterion1 = Q(nickname__contains=query)
-        criterion2 = Q(instruments__contains=instrs)
-        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs))
+        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) & Q(genres__icontains=genres))
         #result = result.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instruments)
 
         return result
