@@ -113,9 +113,13 @@ class MusiciansList(ListView):
         query = self.request.GET.get('q')
         if query:
             result = result.filter(Q(nickname__icontains=query))
-            
-
         return result
+
+    def post(self, request, *args, **kwargs):
+        #print('derqwr')
+        context = self.get_queryset()
+        print(self.request.GET.get('q'))
+        return HttpResponse(context)
 
 
     # def get_queryset(self):
