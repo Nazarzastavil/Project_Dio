@@ -1,30 +1,38 @@
+  
 {% extends "mainPage/wrapper.html" %}
+ 
 
 {% load static %}
+
+{% with name="World" greeting="Hello" %}  
 
 {% block page %}
 <div class="row">
   <div class="col s2 l2"></div>
   <div class="col s8 l2">
-    <h5>РАРАРААРАР</h5>
+      <div>{{ greeting }} {{name}}1</div>
   <div id="calendar"></div>
   </div>
   <div class="col s2 l1"></div>
   <div class="col s12 l5">
     <h5>РАРАРАРРА</h5>
-    
-    <ul class="collapsible">
-    <li class="">
-      <div class="collapsible-header" tabindex="0"><i class="material-icons">filter_drama</i>First<span class="new badge">4</span></div>
-      <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
-    </li>
-    <li class="active">
-      <div class="collapsible-header" tabindex="0"><i class="material-icons">place</i>Second<span class="badge">1</span></div>
-      <div class="collapsible-body" style="display: block;"><p>Lorem ipsum dolor sit amet.</p></div>
-    </li>
-  </ul>
+    <div class="list" style="display: flex; flex-direction: column; height: 237px; overflow: auto; border: .05rem solid #dadee4;">
+      <ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
+      <li class="">
+        <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
+        <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
+      </li>
+      <li class="active">
+        <div class="collapsible-header" tabindex="0">Second<span class="badge">1</span></div>
+        <div class="collapsible-body" style="display: block;"><p>Lorem ipsum dolor sit amet.</p></div>
+      </li>
+      <li class="">
+          <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
+          <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+    </ul>
       
-    
+    </div>
   </div>
   <div class="col s3 l3"></div>
 
@@ -93,7 +101,7 @@
 
       <div class="col s3"></div>
       <ul class="collection col s6 sbox">
-        {% csrf_token %}                                
+        <!-- {% csrf_token %}                                 -->
         {% for person in  musician_list %}
         {% if person.nickname != '' %}
         <a href="{% url 'profile' person.id %}">  
@@ -140,19 +148,30 @@
 
   $(".searchfield").keyup(function(e) {
     $.ajax({
-      type: "POST", 
-      url: "search/",
+      type: "GET", 
+      url: "",
       data: {
-        csrfmiddlewaretoken: getCookie('csrftoken'),
-        'param': $("#searchbox").val()
+        //csrfmiddlewaretoken: getCookie('csrftoken'),
+        'q': $(".searchfield").val()
       },
-      success: function() {
-        alert('123');  
+      success: function(data) {
+        console.log($(data).find(".sbox").remove(".sbox").html());
+        $(".sbox").html(($(data).find(".sbox").remove(".sbox").html()))
+        //$(document).html(data)
       }
     });
   
   
   });
+
+
+  function getCookie(name) {
+
+    var matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ))
+    return matches ? decodeURIComponent(matches[1]) : undefined
+}
 </script>
 
 
@@ -185,3 +204,4 @@
 <link href="{% static 'css/spectre-icons.css' %}" type="text/css" rel="stylesheet"/>
 
 {% endblock %}
+{% endwith %}
