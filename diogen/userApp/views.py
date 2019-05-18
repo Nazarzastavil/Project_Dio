@@ -78,10 +78,10 @@ def update_profile(request):
         })
     #return HttpResponse('test!')
 
-@login_required
-def newevent(request):
-    events = Event()
-    return render(request, 'userApp/newevent.html', {'events':events})
+# @login_required
+# def newevent(request):
+#     events = EventForm()
+#     return render(request, 'userApp/newevent.html', {'events':events})
 
 @login_required
 def newevent(request):
@@ -100,9 +100,9 @@ def newevent(request):
             return redirect('/feed/')
 
     else:
-        return render(request, 'userApp/reg.html', {'events':events})
+        return render(request, 'userApp/reg.html', {'events':eventform})
 
-@login_required
+
 class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired

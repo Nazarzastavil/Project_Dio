@@ -33,7 +33,7 @@ class EventProfile(models.Model):
     group = models.CharField(max_length=100, default='', blank=True)
     place = models.CharField(max_length=100, default='', blank=True) # У организации несколько мест может быть
     description = models.TextField(default='',blank=True) 
-    company = models.ManyToOneRel(company,blank=False)
+    company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE)
 
 #сигналы
 @receiver(post_save, sender=User)
