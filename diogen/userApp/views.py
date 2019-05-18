@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, render_to_response, redirect
+from django.shortcuts import *
 from .models import *
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
@@ -85,23 +85,55 @@ def update_profile(request):
 
 @login_required
 def newevent(request):
-    eventform = EventForm()
-    event = EventProfile.objects.get_or_create(company=request.u)
+   
+    # profile = PersonProfile.objects.get(pk=1)
+    # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    
+    a = EventProfile()
+    eventform = EventForm(request.POST)
+
     if request.method == 'POST':
         #user_form = UserForm(request.POST, instance=request.user)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if eventform.is_valid():
+            #user_defined_code = eventform.cleaned_data.get('user_defined_code')
+            #user_form = UserForm(request.POST, instance=request.user)
+            #profile_form = ProfileForm(request.POST, instance=request.user.profile)
+            
+            p_profile = get_object_or_404(PersonProfile, user=request.user)
+            p_profile.save()
+            doc = eventform.save(commit=False)
+            doc.company = p_profile
+            doc.save()
 
-            profile = profile_form.save(commit=False)
-            profile.company = request.user
-            profile.save()
-
-
+            #new_event=eventform.save()
+    
+            #event = EventProfile.save(commit=False)
             return redirect('/feed/')
+        
 
     else:
-        return render(request, 'userApp/reg.html', {'events':eventform})
+        return render(request, 'userApp/newevent.html', {'events':eventform})
 
+def newevent_old(request):
+    form=EventForm(request.POST)
+    if request.method=='post':
+        form=EventForm(request.POST)
+        if form.is_valid():
+            user_defined_code = form.cleaned_data.get('user_defined_code')
+            doc_code = PersonProfile(company=user_defined_code)
+            doc_code.save()
+            doc = form.save(commit=False)
+            doc.code = doc_code
+            doc.save()
+            
+            return HttpResponse('success')
+    else:
+        form=EventForm()
+
+    context = { 'form':form, }
+
+    return render(request, 'userApp/newevent.html', context)
 
 class MusiciansList(ListView):
     model = PersonProfile

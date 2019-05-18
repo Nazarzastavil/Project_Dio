@@ -40,6 +40,12 @@
               {% else %}
                 <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>   
               {% endif %} 
+
+              {% if user.is_authenticated %}
+              <li><a href="/newevent/">Новый ивент</a></li>   
+              
+             
+              {% endif %} 
               </ul>
       
               <ul id="nav-mobile" class="sidenav">

@@ -46,22 +46,28 @@ class ProfileForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = EventProfile
-        fields = ('address', 'description', 'group', 'company', 'date')
+        fields = ('address', 'description', 'group', 'date')
         labels = {
             'date': 'Время проведения',
             'address': 'Место проведения',
             'group': 'Выступает',
-            'place': 'Проводит',
+            #'company': 'Проводит',
             'description': 'Описание'
         }
         widgets = {
             'date': forms.TextInput(attrs={'class':'datepicker'}),
             'description': forms.Textarea(attrs={'class':'materialize-textarea', 'id':'desc'}),
-            'address': forms.TextInput(attrs={'disabled':''})
+            'company': forms.Select(attrs={'style':'display: flex'}),
+            'address': forms.TextInput(attrs={}),
+            
         }
         initial = {
             'date': ''
         }
+
+    # def __init__(self, *args, **kwargs):
+    #     super(EventForm, self).__init__(*args, **kwargs)
+    #     self.fields['company'].queryset = PersonProfile.objects.all()
 
 # class MusicianForm(forms.ModelForm):
 #     class Meta:

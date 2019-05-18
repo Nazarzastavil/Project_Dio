@@ -27,13 +27,17 @@ class PersonProfile(models.Model):
 
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
 
+class Participation(models.Model):
+    userProfile = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
+    event = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
+
 class EventProfile(models.Model):
-    address = models.CharField(max_length=100,default='', blank=True)
-    date = models.CharField(max_length=100, default='', blank=True)
-    group = models.CharField(max_length=100, default='', blank=True)
-    place = models.CharField(max_length=100, default='', blank=True) # У организации несколько мест может быть
+    address = models.CharField(max_length=100,default='', blank=False)
+    date = models.CharField(max_length=100, default='', blank=False)
+    group = models.CharField(max_length=100, default='', blank=False)
+    #place = models.CharField(max_length=100, default='', blank=False) # У организации несколько мест может быть
     description = models.TextField(default='',blank=True) 
-    company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE)
+    company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
 
 #сигналы
 @receiver(post_save, sender=User)
