@@ -101,6 +101,9 @@ def newevent(request):
 
 
 
+    else:
+        return render(request, 'userApp/reg.html', {'events':eventform})
+
 
 class MusiciansList(ListView):
     model = PersonProfile
@@ -111,18 +114,21 @@ class MusiciansList(ListView):
     def get_queryset(self):
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
-        if query:
-            result = result.filter(Q(nickname__icontains=query))
+        instrs = self.request.GET.get('instrs')
+        genres = self.request.GET.get('genres')
+
+        if (not query):
+            query=''
+        if(not instrs):
+            instrs=''
+        if(not genres):
+            genres=''
+        
+        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) & Q(genres__icontains=genres))
+        #result = result.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instruments)
+
         return result
 
-    def post(self, request, *args, **kwargs):
-        #print('derqwr')
-        context = self.get_queryset()
-        print(self.request.GET.get('q'))
-        return HttpResponse(context)
-
-
-    # def get_queryset(self):
         
     #     if self.request.GET.get('query') !=None:
     #         query=self.request.GET.get('query')
