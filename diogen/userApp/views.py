@@ -99,12 +99,6 @@ def newevent(request):
     events = Event()
     return render(request, 'userApp/newevent.html', {'events':events})
 
-
-
-    else:
-        return render(request, 'userApp/reg.html', {'events':eventform})
-
-
 class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired
@@ -112,6 +106,7 @@ class MusiciansList(ListView):
     template_name = 'userApp/feed.html'
 
     def get_queryset(self):
+        print('da')
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
         instrs = self.request.GET.get('instrs')
