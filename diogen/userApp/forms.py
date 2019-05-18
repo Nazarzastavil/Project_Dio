@@ -43,7 +43,7 @@ class ProfileForm(forms.ModelForm):
             'birth_date': ''
         }
 
-class Event(forms.ModelForm):
+class EventForm(forms.ModelForm):
     class Meta:
         model = EventProfile
         fields = ('address', 'description', 'group', 'company', 'date')
@@ -51,7 +51,7 @@ class Event(forms.ModelForm):
             'date': 'Время проведения',
             'address': 'Место проведения',
             'group': 'Выступает',
-            'company': 'Проводит',
+            'place': 'Проводит',
             'description': 'Описание'
         }
         widgets = {
