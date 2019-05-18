@@ -31,8 +31,7 @@ def registration(request):
             #messages.success(request, 'Account created successfully')
 
             #TEMP: логин сразу после регистрации
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],)
+            new_user = authenticate(username=form.cleaned_data['username'],password=form.cleaned_data['password1'],)
             login(request, new_user)
 
             return redirect('upd/')
@@ -78,23 +77,32 @@ def update_profile(request):
         'profile_form': profile_form,
         })
     #return HttpResponse('test!')
-    #TEMP
-  
 
-# @login_required
-def feed(request):
-    persons = PersonProfile.objects
-
-
-    return render(request, 'userApp/feed.html', {'persons':persons})
-
+@login_required
 def newevent(request):
     events = Event()
     return render(request, 'userApp/newevent.html', {'events':events})
 
+@login_required
+def newevent(request):
+    eventform = EventForm()
+    event = EventProfile.objects.get_or_create(company=request.u)
+    if request.method == 'POST':
+        #user_form = UserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid() and profile_form.is_valid():
+
+            profile = profile_form.save(commit=False)
+            profile.company = request.user
+            profile.save()
 
 
+            return redirect('/feed/')
 
+    else:
+        return render(request, 'userApp/reg.html', {'events':events})
+
+@login_required
 class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired
