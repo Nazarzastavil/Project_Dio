@@ -76,7 +76,7 @@
 
       <div class="col s3"></div>
       <ul class="collection col s6 sbox">
-        {% csrf_token %}                                
+        <!-- {% csrf_token %}                                 -->
         {% for person in  musician_list %}
         {% if person.nickname != '' %}
         <a href="{% url 'profile' person.id %}">  
@@ -133,8 +133,9 @@
         'q': $(".searchfield").val()
       },
       success: function(data) {
-        //console.log(data);
-        $(document).html(data)
+        console.log($(data).find(".sbox").remove(".sbox").html());
+        $(".sbox").html(($(data).find(".sbox").remove(".sbox").html()))
+        //$(document).html(data)
       }
     });
   
