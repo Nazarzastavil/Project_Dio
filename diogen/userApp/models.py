@@ -31,9 +31,8 @@ class EventProfile(models.Model):
     address = models.CharField(max_length=100,default='', blank=True)
     date = models.CharField(max_length=100, default='', blank=True)
     group = models.CharField(max_length=100, default='', blank=True)
-    place = models.CharField(max_length=100, default='', blank=True) # У организации несколько мест может быть
-    description = models.TextField(default='',blank=True) 
-    company = models.ManyToOneRel(company,blank=False)
+    company = models.CharField(max_length=100, default='', blank=True)
+    description = models.TextField(default='',blank=True)  
 
 #сигналы
 @receiver(post_save, sender=User)

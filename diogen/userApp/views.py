@@ -11,11 +11,10 @@ from django.db import transaction
 from django.contrib.messages import constants as messages
 from django.contrib.auth.forms import UserCreationForm
 from userApp.forms import *
-from django.db.models import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.views.generic import ListView
-
+from django.db.models import *
 import operator
 
 def mainpage(request):
@@ -31,11 +30,20 @@ def registration(request):
             #messages.success(request, 'Account created successfully')
 
             #TEMP: логин сразу после регистрации
-            new_user = authenticate(username=form.cleaned_data['username'],password=form.cleaned_data['password1'],)
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
             login(request, new_user)
-
+            #user_form = UserForm(request.POST, instance=request.user)
+            #profile_form = ProfileForm(request.POST, instance=request.user.profile)
             return redirect('upd/')
             
+            # return render(request, 'userApp/reg.html', {
+            #     'user_form': user_form,
+            #     'profile_form': profile_form,
+            #     # 'musician_form': musician_form,
+            #     # 'company_form': company_form,
+            # })
         else:
             pass
             #TEMP
@@ -77,32 +85,23 @@ def update_profile(request):
         'profile_form': profile_form,
         })
     #return HttpResponse('test!')
+    #TEMP
+  
 
-@login_required
+# @login_required
+def feed(request):
+    persons = PersonProfile.objects
+
+
+    return render(request, 'userApp/feed.html', {'persons':persons})
+
 def newevent(request):
     events = Event()
     return render(request, 'userApp/newevent.html', {'events':events})
 
-@login_required
-def newevent(request):
-    eventform = EventForm()
-    event = EventProfile.objects.get_or_create(company=request.u)
-    if request.method == 'POST':
-        #user_form = UserForm(request.POST, instance=request.user)
-
-        if user_form.is_valid() and profile_form.is_valid():
-
-            profile = profile_form.save(commit=False)
-            profile.company = request.user
-            profile.save()
 
 
-            return redirect('/feed/')
 
-    else:
-        return render(request, 'userApp/reg.html', {'events':events})
-
-@login_required
 class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired
@@ -112,26 +111,34 @@ class MusiciansList(ListView):
     def get_queryset(self):
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
-        instrs = self.request.GET.get('instrs')
-        genres = self.request.GET.get('genres')
-
-        if (not query):
-            query=''
-        if(not instrs):
-            instrs=''
-        if(not genres):
-            genres=''
-        
-        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) & Q(genres__icontains=genres))
-        #result = result.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instruments)
-
+        if query:
+            result = result.filter(Q(nickname__icontains=query))
         return result
 
+    def post(self, request, *args, **kwargs):
+        #print('derqwr')
+        context = self.get_queryset()
+        print(self.request.GET.get('q'))
+        return HttpResponse(context)
+
+
+    # def get_queryset(self):
         
+    #     if self.request.GET.get('query') !=None:
+    #         query=self.request.GET.get('query')
+    #         return HttpResponse(query)
+    #         return PersonProfile.objects.filter(Q(nickname=query))
+    #     else:
+    #         return PersonProfile.objects.all()
+            
 
-
+# def allpersons(request):
+#     persons = PersonProfile.objects
+#     return render(request, 'userApp/allpersons.html', {'persons':persons})
+ 
 def profile(request, person_id):
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
+    #persondetail.email=''
     userdetail = persondetail.user
 
     return render(request, 'userApp/profile.html', 
