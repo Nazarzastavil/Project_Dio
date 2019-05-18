@@ -87,9 +87,7 @@
                                                 {{profile_form.description}}
                                                 {{profile_form.image.label_tag}}
                                                 {{profile_form.image}}
-                                                <!-- <div style="max-width: 100%; max-height: 100%"> -->
-                                                <img class="preview"  src="#" style="max-height: 500px; max-width: 500px;" alt="none" />
-                                                <!-- </dsiv> -->
+                                                <div class="preview"></div>
                                                 <div class="error">{{profile_form.errors}}</div>
 
                                                  
@@ -148,9 +146,9 @@
                                                 
                                                 {{profile_form.image.label_tag}}
                                                 {{profile_form.image}}
-                                                <img class="preview"  src="#" style="max-height: 500px; max-width: 500px;" alt="none" />
+                                                <!-- <img class="preview"  src="#" style="max-height: 500px; max-width: 500px;" alt="none" /> -->
                                                         <!-- <p>No files currently selected for upload</p> -->
-                                                <div>
+                                                <!-- <div> -->
                                                 <!-- <div class="error">{{profile_form.errors}}</div> -->
                                                 <div class="row"></div>
                                                 <div class="row center"> 
@@ -190,7 +188,7 @@
                                                 
                                                 {{profile_form.image.label_tag}}
                                                 {{profile_form.image}}
-                                                <img class="preview"  src="#" style="max-height: 500px; max-width: 500px;" alt="none" />
+                                                <!-- <img class="preview"  src="#" style="max-height: 500px; max-width: 500px;" alt="none" /> -->
 
                                                 
                                                 <!-- <div class="error">{{profile_form.errors}}</div> -->
@@ -219,37 +217,40 @@
     <!--Scripts-->
     <script src="{% static 'js/govno.js' %}"></script>
     <script src="{% static 'js/croppie.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <script>
-        $(".preview").hide();
+    var basic = $('.preview').croppie({
+        viewport: { width: 250, height: 250 },
+        boundary: { width: 300, height: 300 },
+        showZoomer: false,
+        url: 'http://lorempixel.com/500/400/'
+        });
 
-      function readURL() {
-        var $input = $(this);
-        if (this.files && this.files[0]) {
-           var reader = new FileReader();
-           reader.onload = function(e) {
-                $input.next('.preview').attr('src', e.target.result);
-                // $(".preview").show();
-                // $(".preview").hide();
-                // $('.preview').croppie();
-                $uploadCrop = $('.preview').croppie({
-                        enableExif: true,
-                        viewport: {
-                                width: 200,
-                                height: 200,
-                                type: 'circle'
-                        },
-                        boundary: {
-                                width: 300,
-                                height: 300
-                        }
-                });
-           }
-        reader.readAsDataURL(this.files[0]);
+
+    function readFile(input) {
+        if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                        $('.preview').croppie('bind', {
+                        url: e.target.result
+                        });
+                        // $('.actionDone').toggle();
+                        // $('.actionUpload').toggle();
+                }
+
+        reader.readAsDataURL(input.files[0]);
         }
         }
-        $(".avatar").change(readURL);
+        $('.avatar').on('change', function () { readFile(this); });
+        // $('.actionUpload input').on('change', function () { readFile(this); });
+        // $('.actionDone').on('click', function(){
+        // $('.actionDone').toggle();
+        // $('.actionUpload').toggle();
 
+        // basic.croppie('result', 'html').then(function(html) {
+    // html is div (overflow hidden)
+    // with img positioned inside.
+        // });
 
 
 
