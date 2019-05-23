@@ -25,15 +25,29 @@ class PersonProfile(models.Model):
     #org
     company=models.CharField(max_length=100,default='', blank=True)
 
+    followes = models.ManyToManyField('self', related_name='follows', symmetrical=False)
+
+
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
 
+
+
+
 class EventProfile(models.Model):
-    address = models.CharField(max_length=100,default='', blank=True)
-    date = models.CharField(max_length=100, default='', blank=True)
-    group = models.CharField(max_length=100, default='', blank=True)
-    place = models.CharField(max_length=100, default='', blank=True) # У организации несколько мест может быть
+    name = models.CharField(max_length=100,default='', blank=False)
+    address = models.CharField(max_length=100,default='', blank=False)
+    date = models.CharField(max_length=100, default='', blank=False)
+    group = models.CharField(max_length=100, default='', blank=False)
+    #place = models.CharField(max_length=100, default='', blank=False) # У организации несколько мест может быть
     description = models.TextField(default='',blank=True) 
-    company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE)
+    company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
+
+
+
+class Participation(models.Model):
+    userProfile = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
+    is_mus=models.BooleanField(blank=False, default=False) #Участвует в мероприятии как музыкант или нет
+    event = models.ForeignKey(EventProfile, on_delete=models.CASCADE, blank=False)
 
 #сигналы
 @receiver(post_save, sender=User)

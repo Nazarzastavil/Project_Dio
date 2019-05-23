@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, render_to_response, redirect
+from django.shortcuts import *
 from .models import *
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
@@ -88,12 +88,28 @@ def update_profile(request):
     #TEMP
   
 
-# @login_required
-def feed(request):
-    persons = PersonProfile.objects
+@login_required
+def newevent(request):
+   
+    # profile = PersonProfile.objects.get(pk=1)
+    # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    
+    a = EventProfile()
+    eventform = EventForm(request.POST)
 
+    if request.method == 'POST':
+        #user_form = UserForm(request.POST, instance=request.user)
 
-    return render(request, 'userApp/feed.html', {'persons':persons})
+        if eventform.is_valid():
+           
+            p_profile = get_object_or_404(PersonProfile, user=request.user)
+            p_profile.save()
+            doc = eventform.save(commit=False)
+            doc.company = p_profile
+            doc.save()
+            return redirect('/feed/')
+    else:
+        return render(request, 'userApp/newevent.html', {'events':eventform})
 
 def newevent(request):
     events = Event()
@@ -102,7 +118,7 @@ def newevent(request):
 class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired
-    context_object_name = 'musician_list'
+    context_object_name = 'context'
     template_name = 'userApp/feed.html'
 
     def get_queryset(self):
@@ -118,20 +134,38 @@ class MusiciansList(ListView):
             instrs=''
         if(not genres):
             genres=''
-        
-        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) & Q(genres__icontains=genres))
-        #result = result.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instruments)
 
+        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
+            & Q(genres__icontains=genres))
         return result
 
-        
-    #     if self.request.GET.get('query') !=None:
-    #         query=self.request.GET.get('query')
-    #         return HttpResponse(query)
-    #         return PersonProfile.objects.filter(Q(nickname=query))
-    #     else:
-    #         return PersonProfile.objects.all()
-            
+    def get_context_data(self, **kwargs):
+        context = super(MusiciansList, self).get_context_data(**kwargs)
+        context.update({
+            'event_list': EventProfile.objects.all().order_by('date'),
+            'musician_list': PersonProfile.objects.all(), 
+            'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user))
+        })
+        return context
+
+def EventFollow(request, event_id):
+    if request.method == 'POST':
+        if(Participation.objects.filter(event=event_id).count()==0):
+            p = Participation()
+            p.userProfile = get_object_or_404(PersonProfile, user=request.user)
+            p.is_mus=False
+            p.event=get_object_or_404(EventProfile, id=event_id)
+            p.save()
+        else:
+            p = get_object_or_404(Participation, event=event_id)
+            p.delete()
+    return(redirect('/feed/'))
+
+
+def EditPersonProfile(UpdateView):
+    model = PersonProfile
+    fields = ['name']
+    template_name_suffix = '_update_form'
 
 # def allpersons(request):
 #     persons = PersonProfile.objects

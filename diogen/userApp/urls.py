@@ -11,6 +11,8 @@ urlpatterns = [
     #TEMP
     #re_path(r'^feed/([\w-]+)/$', views.MusiciansList.as_view()),
     path('feed/', views.MusiciansList.as_view(), name='MusiciansList'),
+    # path('feed/', views.EventFollow, name='EventFollow'),
+    re_path(r'feed/(\d+)$',views.EventFollow, name = 'EventFollow'),
     path('reg/upd/', views.update_profile , name='update_profile'),
     path('<int:person_id>/', views.profile, name="profile"),
     path('newevent/', views.newevent, name="newevent"),

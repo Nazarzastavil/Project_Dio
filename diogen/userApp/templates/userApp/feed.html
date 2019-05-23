@@ -16,17 +16,41 @@
   <div class="col s2 l1"></div>
   <div class="col s12 l5">
     <h5>РАРАРАРРА</h5>
+
+  
+    
     <div class="list" style="display: flex; flex-direction: column; height: 237px; overflow: auto; border: .05rem solid #dadee4;">
       <ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
-      <li class="">
-        <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
-        <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
-      </li>
-      <li class="active">
-        <div class="collapsible-header" tabindex="0">Second<span class="badge">1</span></div>
-        <div class="collapsible-body" style="display: block;"><p>Lorem ipsum dolor sit amet.</p></div>
-      </li>
-      <li class="">
+
+        {% for event in  event_list %}
+        <li class="active">
+          <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
+            <div class="collapsible-header" tabindex="0"> {{event.name}} <span class="badge">{{event.date}} </span></div>
+            <div class="collapsible-body" style="display: block;">
+              <p> Описание: {{event.description}}</p>
+              <p> Адрес проведения: {{event.address}}</p>
+              <p> Выступают: {{event.group}}</p>
+              <p> Проводит: {{event.company.company}}</p>
+
+              <div class="div govna dlya tebya">
+               {% for follow in event_follows %}
+                {% if event.id == follow.event.id %}
+                  Podpisan
+                {% endif %}
+              {% endfor %}
+            </div>
+              <form id="" action={% url 'EventFollow' event.id %}   method="post" accept-charset="utf-8">
+                {% csrf_token %}          
+                <button type="submit", class='btn-small red' style="margin-top: 30px;">Follow</button>
+              </form>
+             
+            </div>
+            
+        </li>
+        {% endfor %}
+        
+
+        <li>
           <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
           <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
         </li>
