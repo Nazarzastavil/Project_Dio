@@ -78,11 +78,6 @@ def update_profile(request):
         })
     #return HttpResponse('test!')
 
-# @login_required
-# def newevent(request):
-#     events = EventForm()
-#     return render(request, 'userApp/newevent.html', {'events':events})
-
 @login_required
 def newevent(request):
    
@@ -96,49 +91,21 @@ def newevent(request):
         #user_form = UserForm(request.POST, instance=request.user)
 
         if eventform.is_valid():
-            #user_defined_code = eventform.cleaned_data.get('user_defined_code')
-            #user_form = UserForm(request.POST, instance=request.user)
-            #profile_form = ProfileForm(request.POST, instance=request.user.profile)
-            
+           
             p_profile = get_object_or_404(PersonProfile, user=request.user)
             p_profile.save()
             doc = eventform.save(commit=False)
             doc.company = p_profile
             doc.save()
-
-            #new_event=eventform.save()
-    
-            #event = EventProfile.save(commit=False)
             return redirect('/feed/')
-        
-
     else:
         return render(request, 'userApp/newevent.html', {'events':eventform})
 
-def newevent_old(request):
-    form=EventForm(request.POST)
-    if request.method=='post':
-        form=EventForm(request.POST)
-        if form.is_valid():
-            user_defined_code = form.cleaned_data.get('user_defined_code')
-            doc_code = PersonProfile(company=user_defined_code)
-            doc_code.save()
-            doc = form.save(commit=False)
-            doc.code = doc_code
-            doc.save()
-            
-            return HttpResponse('success')
-    else:
-        form=EventForm()
-
-    context = { 'form':form, }
-
-    return render(request, 'userApp/newevent.html', context)
 
 class MusiciansList(ListView):
     model = PersonProfile
     #paginate_by = 10  # if pagination is desired
-    context_object_name = 'musician_list'
+    context_object_name = 'context'
     template_name = 'userApp/feed.html'
 
     def get_queryset(self):
@@ -153,13 +120,38 @@ class MusiciansList(ListView):
             instrs=''
         if(not genres):
             genres=''
-        
-        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) & Q(genres__icontains=genres))
-        #result = result.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instruments)
 
+        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
+            & Q(genres__icontains=genres))
         return result
 
-        
+    def get_context_data(self, **kwargs):
+        context = super(MusiciansList, self).get_context_data(**kwargs)
+        context.update({
+            'event_list': EventProfile.objects.all().order_by('date'),
+            'musician_list': PersonProfile.objects.all(), 
+            'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user))
+        })
+        return context
+
+def EventFollow(request, event_id):
+    if request.method == 'POST':
+        if(Participation.objects.filter(event=event_id).count()==0):
+            p = Participation()
+            p.userProfile = get_object_or_404(PersonProfile, user=request.user)
+            p.is_mus=False
+            p.event=get_object_or_404(EventProfile, id=event_id)
+            p.save()
+        else:
+            p = get_object_or_404(Participation, event=event_id)
+            p.delete()
+    return(redirect('/feed/'))
+
+
+def EditPersonProfile(UpdateView):
+    model = PersonProfile
+    fields = ['name']
+    template_name_suffix = '_update_form'
 
 
 def profile(request, person_id):

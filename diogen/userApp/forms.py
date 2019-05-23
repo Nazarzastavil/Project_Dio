@@ -46,8 +46,9 @@ class ProfileForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = EventProfile
-        fields = ('address', 'description', 'group', 'date')
+        fields = ('name', 'address', 'description', 'group', 'date')
         labels = {
+            'name': 'Наименование события',
             'date': 'Время проведения',
             'address': 'Место проведения',
             'group': 'Выступает',
