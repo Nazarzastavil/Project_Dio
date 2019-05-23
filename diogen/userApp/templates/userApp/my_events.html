@@ -1,0 +1,46 @@
+{% extends "mainPage/wrapper.html" %}
+
+{% load static %}
+
+
+{% block page %}
+    <div class="row">
+
+    <div class="col s3 m3 l3"></div>
+    <div class="col s6 m6 l6">
+        
+        
+
+        <h3>Ваши мероприятия:</h3>
+
+        <ul class="collection col s6 sbox">
+            {% for event in  myevent_list %}
+          
+                <a href="{% url 'profile' person.id %}">  
+                    <li  class="collection-item collection-item avatar">
+                        
+                        <!-- <img src = "{{ person.image.url }}" class="circle" style="height: 50px; width: 50px;"/> -->
+                        <span class="title">{{ person.nickname}}</span>
+                    
+                        
+                        
+                        <p style="margin-top: 10px;"> 
+                            
+                        </p>
+                        
+                    </li>
+                </a>
+            {% endfor %}
+        
+        </ul>
+    </div>
+    <div class="col s3 m3 l3"></div>
+    </div>
+
+    <!-- <script>
+        $('#desc').val('New Text');
+        M.textareaAutoResize($('#desc'));
+    </script>
+     -->
+    
+{% endblock %}

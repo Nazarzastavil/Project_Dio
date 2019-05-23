@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from django.urls import reverse
 
 class PersonProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False)
@@ -33,6 +34,8 @@ class PersonProfile(models.Model):
 
 
 
+
+
 class EventProfile(models.Model):
     name = models.CharField(max_length=100,default='', blank=False)
     address = models.CharField(max_length=100,default='', blank=False)
@@ -42,6 +45,8 @@ class EventProfile(models.Model):
     description = models.TextField(default='',blank=True) 
     company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
 
+    def get_absolute_url(self):
+        return reverse('event-detail', kwargs={'pk': self.pk})
 
 
 class Participation(models.Model):

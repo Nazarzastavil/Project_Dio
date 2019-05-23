@@ -1,7 +1,7 @@
 from django.shortcuts import *
 from .models import *
 from django.http import HttpResponseRedirect,HttpResponse
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
 from django.utils.timezone import utc
@@ -14,7 +14,8 @@ from userApp.forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.views.generic import ListView
-from django.db.models import *
+ 
+
 import operator
 
 def mainpage(request):
@@ -121,8 +122,11 @@ class MusiciansList(ListView):
     context_object_name = 'context'
     template_name = 'userApp/feed.html'
 
-    def get_queryset(self):
-        # print('da')
+    # def get_queryset(self):
+        
+    #     return result
+
+    def get_context_data(self, **kwargs):
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
         
@@ -138,13 +142,11 @@ class MusiciansList(ListView):
 
         result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
             & Q(genres__icontains=genres))
-        return result
 
-    def get_context_data(self, **kwargs):
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({
             'event_list': EventProfile.objects.all().order_by('date'),
-            'musician_list': PersonProfile.objects.all(), 
+            'musician_list': result, 
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user))
         })
         return context
@@ -167,6 +169,7 @@ def EditPersonProfile(UpdateView):
     model = PersonProfile
     fields = ['name']
     template_name_suffix = '_update_form'
+    
 
 # def allpersons(request):
 #     persons = PersonProfile.objects
@@ -183,7 +186,26 @@ def profile(request, person_id):
     })
 
 
-'''
+class EventCreate(CreateView):
+    model = EventProfile
+    fields = ['name']
+   
+
+class EventUpdate(UpdateView):
+    model = EventProfile
+    fields = ['name']
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return redirect('/feed/')
+
+    
+class EventDelete(DeleteView):
+    model = EventProfile
+    success_url = reverse_lazy('event-list')
+
+''' 
 def registration(request):
     if request.method == "POST":
         name = request.POST.get("name")
