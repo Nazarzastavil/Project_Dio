@@ -167,6 +167,8 @@ def profile(request, person_id):
     'userprofile':userdetail,
     })
 
+def myevents(request, person_id):
+
 
 class EventCreate(CreateView):
     model = EventProfile

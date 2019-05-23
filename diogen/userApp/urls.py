@@ -15,7 +15,7 @@ urlpatterns = [
     path('newevent/', views.newevent, name="newevent"),
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
 
-    path('myevents/', views.myevents, name="myevents")
+    # path('myevents/', views.myevents, name="myevents")
 
     # path('event/add/', views.EventCreate.as_view(), name='event-add'),
     # path('feed/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
