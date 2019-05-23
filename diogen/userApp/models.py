@@ -31,8 +31,7 @@ class PersonProfile(models.Model):
 
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
 
-    def get_absolute_url(self):
-        return reverse('person-detail', kwargs={'pk': self.pk})
+
 
 
 
@@ -46,6 +45,8 @@ class EventProfile(models.Model):
     description = models.TextField(default='',blank=True) 
     company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
 
+    def get_absolute_url(self):
+        return reverse('event-detail', kwargs={'pk': self.pk})
 
 
 class Participation(models.Model):

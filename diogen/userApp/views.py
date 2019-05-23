@@ -168,17 +168,24 @@ def profile(request, person_id):
     })
 
 
-class PersonCreate(CreateView):
-    model = PersonProfile
+class EventCreate(CreateView):
+    model = EventProfile
+    fields = ['name']
+   
+
+class EventUpdate(UpdateView):
+    model = EventProfile
     fields = ['name']
 
-class PersonUpdate(UpdateView):
-    model = PersonProfile
-    fields = ['name']
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return redirect('/feed/')
 
-class PersonDelete(DeleteView):
-    model = PersonProfile
-    success_url = reverse_lazy('person-list')
+    
+class EventDelete(DeleteView):
+    model = EventProfile
+    success_url = reverse_lazy('event-list')
 
 ''' 
 def registration(request):

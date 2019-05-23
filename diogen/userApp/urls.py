@@ -8,8 +8,6 @@ urlpatterns = [
     path('', views.mainpage , name='mainpage'),
     path('', include('django.contrib.auth.urls')),
     path('reg/', views.registration , name='registration'), 
-    #TEMP
-    #re_path(r'^feed/([\w-]+)/$', views.MusiciansList.as_view()),
     path('feed/', views.MusiciansList.as_view(), name='MusiciansList'),
     re_path(r'feed/(\d+)$',views.EventFollow, name = 'EventFollow'),
     path('reg/upd/', views.update_profile , name='update_profile'),
@@ -17,7 +15,15 @@ urlpatterns = [
     path('newevent/', views.newevent, name="newevent"),
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
 
-    path('update/', views.EditPersonProfile, name="EditPersonProfile"),
+    path('myevents/', views.myevents, name="myevents")
+
+    # path('event/add/', views.EventCreate.as_view(), name='event-add'),
+    # path('feed/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
+
+    # re_path(r'feed/(\d+)$',views.EventUpdate.as_view(), name = 'EventUpdate'),
+    
+    # path('event/<int:pk>/delete/', views.EventDelete.as_view(), name='event-delete'),
+
 
     
     
