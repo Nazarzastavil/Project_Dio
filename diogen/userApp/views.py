@@ -122,9 +122,10 @@ class MusiciansList(ListView):
     template_name = 'userApp/feed.html'
 
     def get_queryset(self):
-        print('da')
+        # print('da')
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
+        
         instrs = self.request.GET.get('instrs')
         genres = self.request.GET.get('genres')
 
