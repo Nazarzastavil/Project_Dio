@@ -10,7 +10,7 @@
 <link href="{% static 'css/regchoice.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 <link href="{% static 'css/regchoice.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
-<link rel="stylesheet" href="{% static 'css/cropper.css' %}" />
+<link rel="stylesheet" href="http://foliotek.github.io/Croppie/croppie.css" />
 
 {{ form.media }}
 
@@ -88,6 +88,7 @@
                                                 {{profile_form.image.label_tag}}
                                                 {{profile_form.image}}
                                                 <div class="preview"></div>
+                                                
                                                 <div class="error">{{profile_form.errors}}</div>
 
                                                  
@@ -99,6 +100,7 @@
                                                 <button type="submit", class='btn-large red'>Я - любитель</button>
                                         </div> 
                                 </form>
+                                <div class="cropper-result"></div>
                             </div>
                                 <div class="col col1 s2">
                                         <!--left banner-->
@@ -219,10 +221,10 @@
     <script src="{% static 'js/croppie.js' %}"></script>
     <script>
     var basic = $('.preview').croppie({
-        viewport: { width: 250, height: 250 },
+        viewport: { width: 250, height: 250, type: 'circle'},
         boundary: { width: 300, height: 300 },
-        showZoomer: false,
-        url: 'http://lorempixel.com/500/400/'
+        showZoomer: true,
+        
         });
 
 
@@ -231,6 +233,7 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
+                        $('.preview').show();
                         $('.preview').croppie('bind', {
                         url: e.target.result
                         });
@@ -241,7 +244,10 @@
         reader.readAsDataURL(input.files[0]);
         }
         }
+        $(document).ready(function() {$('.preview').hide();});
         $('.avatar').on('change', function () { readFile(this); });
+        $('.cropper-result').html(basic.croppie('result', 'html', { width: 150, height: 250}).then(function(html) {$ ('.cropper-result').html(html);}));
+        //$('.avatar').on('click', function() {console.log('da'); $('.da').html(basic.result('blob'));}); 
         // $('.actionUpload input').on('change', function () { readFile(this); });
         // $('.actionDone').on('click', function(){
         // $('.actionDone').toggle();

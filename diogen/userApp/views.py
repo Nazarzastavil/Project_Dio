@@ -14,7 +14,7 @@ from userApp.forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.views.generic import ListView
- 
+from django.db.models import * 
 
 import operator
 
@@ -186,7 +186,7 @@ def profile(request, person_id):
     })
 
 def myevents(request, person_id):
-
+    pass
 
 class EventCreate(CreateView):
     model = EventProfile
