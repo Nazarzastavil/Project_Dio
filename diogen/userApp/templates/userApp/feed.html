@@ -48,7 +48,6 @@
               
 
               
-              <!-- <form id=""  action={% url 'EventFollow' %} method="post"  accept-charset="utf-8"> -->
                 {% csrf_token %}          
                 <button type="submit" id={{ event.id }} class='btn-small red btn-follow' style="margin-top: 30px;">Follow</button>
               <!-- </form> -->
@@ -107,11 +106,7 @@
                     {% csrf_token %}          
                     <button type="submit" class={{ event.id }} class='btn-small red' style="margin-top: 30px;">Follow</button>
                   </div>
-                  <!-- <form id=""    method="post" accept-charset="utf-8"> -->
-                    
-                  <!-- </form> -->
-    
-                  <!-- action={% url 'EventFollow' event.id %} -->
+                 
                  
                 </div>
                 

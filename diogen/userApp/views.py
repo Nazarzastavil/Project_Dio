@@ -136,8 +136,8 @@ class MusiciansList(ListView):
         print([i.pk for i in context['selected_events']]) 
         return context 
 
-def EventFollow(request):
-    print(request.POST["id"])
+def EventFollowList(request):
+    print(request.POST["id"]) 
     event_id = request.POST["id"]
     response_data = {}
     response_data["id"] = event_id
@@ -153,10 +153,27 @@ def EventFollow(request):
             response_data["followed"] = True
         else:
             p = get_object_or_404(Participation, event=event_id)
-            p.delete()
+            p.delete() 
             response_data["followed"] = False
     return JsonResponse(response_data)
 
+
+def EventFollow(request, event_id):
+    if request.method == 'POST':
+        
+        if(Participation.objects.filter(event=event_id).count()==0):
+            p = Participation()
+            p.userProfile = get_object_or_404(PersonProfile, user=request.user)
+            p.is_mus=False
+            p.event=get_object_or_404(EventProfile, id=event_id)
+            p.save()
+            
+            response_data["followed"] = True
+        else:
+            p = get_object_or_404(Participation, event=event_id)
+            p.delete()
+            response_data["followed"] = False
+    return redirect('/feed/')
 
 
 def profile(request, person_id): #detail view of profile
