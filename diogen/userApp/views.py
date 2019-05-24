@@ -1,6 +1,6 @@
 from django.shortcuts import *
 from .models import *
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect,HttpResponse,JsonResponse,HttpRequest
 from django.urls import reverse,reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
@@ -17,6 +17,7 @@ from django.views.generic import ListView
 from django.db.models import * 
 
 import operator
+import json
 
 def mainpage(request):
 
@@ -110,7 +111,7 @@ class MusiciansList(ListView):
         
         instrs = self.request.GET.get('instrs')
         genres = self.request.GET.get('genres')
-
+        date = self.request.GET.get('date')
         if (not query):
             query=''
         if(not instrs):
@@ -122,26 +123,39 @@ class MusiciansList(ListView):
             & Q(genres__icontains=genres))
  
         context = super(MusiciansList, self).get_context_data(**kwargs)
-        context.update({
-            'event_list': EventProfile.objects.all().order_by('date'),
+        context.update({  
+            'event_list': EventProfile.objects.all().order_by('date'), 
             'musician_list': result, 
-            'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user))
+            'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
+            #'current_events': EventProfile.objects.filter(pk=[i.id for i in context['event_follows']], date=date)
         })
-        #print([i.event(name) for i in context['event_follows']])
-        return context
+        context.update({
+             
+            'selected_events': EventProfile.objects.filter(pk__in=[i.event.id for i in context['event_follows']], date=date)
+        })
+        print([i.pk for i in context['selected_events']]) 
+        return context 
 
-def EventFollow(request, event_id):
+def EventFollow(request):
+    print(request.POST["id"])
+    event_id = request.POST["id"]
+    response_data = {}
+    response_data["id"] = event_id
     if request.method == 'POST':
+        
         if(Participation.objects.filter(event=event_id).count()==0):
             p = Participation()
             p.userProfile = get_object_or_404(PersonProfile, user=request.user)
             p.is_mus=False
             p.event=get_object_or_404(EventProfile, id=event_id)
             p.save()
+            
+            response_data["followed"] = True
         else:
             p = get_object_or_404(Participation, event=event_id)
             p.delete()
-    return(redirect('/feed/'))
+            response_data["followed"] = False
+    return JsonResponse(response_data)
 
 
 
