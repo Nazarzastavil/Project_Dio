@@ -132,7 +132,7 @@
         {% if person.nickname != '' %}
         <a href="{% url 'profile' person.id %}">  
         <li  class="collection-item collection-item avatar">
-          
+            
             <img src = "{{ person.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
             <span class="title">{{ person.nickname}}</span>
         

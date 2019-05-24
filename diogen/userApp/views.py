@@ -20,6 +20,7 @@ from django.views.generic import ListView
 import operator
 
 def mainpage(request):
+
     return redirect('login/')
 
 def registration(request):
@@ -41,11 +42,11 @@ def registration(request):
             pass
             #TEMP
             
-            return HttpResponse('nani!!!')
-            #return render(request, 'userApp/reg.html', {'form': form1})
-    else:
-        form = UserCreationForm()
-        return render(request, 'userApp/create_user.html', {'form': form})
+            # return HttpResponse('nani!!!')
+            # return render(request, 'userApp/reg.html', {'form': form1})
+  
+    form = UserCreationForm()
+    return render(request, 'userApp/create_user.html', {'form': form})
 
 
 
@@ -66,8 +67,7 @@ def update_profile(request):
             profile.user = request.user
             profile.save()
             user_form.save()
-            #profile_form.save()
-
+ 
             #return redirect('settings:profile')
             #return HttpResponse('success!')
             return redirect('/feed/')
@@ -79,28 +79,6 @@ def update_profile(request):
         })
     #return HttpResponse('test!')
 
-@login_required
-def newevent(request):
-   
-    # profile = PersonProfile.objects.get(pk=1)
-    # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-    
-    a = EventProfile()
-    eventform = EventForm(request.POST)
-
-    if request.method == 'POST':
-        #user_form = UserForm(request.POST, instance=request.user)
-
-        if eventform.is_valid():
-           
-            p_profile = get_object_or_404(PersonProfile, user=request.user)
-            p_profile.save()
-            doc = eventform.save(commit=False)
-            doc.company = p_profile
-            doc.save()
-            return redirect('/feed/')
-    else:
-        return render(request, 'userApp/newevent.html', {'events':eventform})
 
 
 class MusiciansList(ListView):
@@ -151,14 +129,8 @@ def EventFollow(request, event_id):
     return(redirect('/feed/'))
 
 
-def EditPersonProfile(UpdateView):
-    model = PersonProfile
-    fields = ['name']
-    template_name_suffix = '_update_form'
-    
 
-
-def profile(request, person_id):
+def profile(request, person_id): #detail view of profile
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
     userdetail = persondetail.user
 
@@ -167,27 +139,83 @@ def profile(request, person_id):
     'userprofile':userdetail,
     })
 
-def myevents(request, person_id):
 
-
-class EventCreate(CreateView):
+class EventList(ListView):
     model = EventProfile
-    fields = ['name']
+    context_object_name = 'context'
+    template_name = 'userApp/my_events.html'
+    def get_queryset(self):
+        result = super(EventList, self).get_queryset()
+        return result.filter(company=get_object_or_404(PersonProfile, user=self.request.user))
+
+
+# class EventCreate(CreateView):
+#     model = EventProfile
+#     fields = ['name']
    
+@login_required
+def newevent(request):
+   
+    # profile = PersonProfile.objects.get(pk=1)
+    # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    
+    a = EventProfile()
+    eventform = EventForm(request.POST)
+
+    if request.method == 'POST':
+
+        if eventform.is_valid():
+           
+            p_profile = get_object_or_404(PersonProfile, user=request.user)
+            p_profile.save()
+            doc = eventform.save(commit=False)
+            doc.company = p_profile
+            doc.save()
+            return redirect('/myevents/')
+    else:
+        return render(request, 'userApp/newevent.html', {'events':eventform})
+
 
 class EventUpdate(UpdateView):
     model = EventProfile
-    fields = ['name']
-
+    fields = ['name','date','address','group','description']
+    
     def form_valid(self, form):
+        
         post = form.save(commit=False)
         post.save()
-        return redirect('/feed/')
+        return redirect('/myevents/')
 
     
 class EventDelete(DeleteView):
     model = EventProfile
-    success_url = reverse_lazy('event-list')
+    success_url = '/myevents/'
+
+
+def EditProfile(request):
+    user_form = UserForm(request.POST, instance=request.user)
+    profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    
+    
+    if request.method == 'POST':
+
+        if user_form.is_valid() and profile_form.is_valid():
+            #profile = PersonProfile(image = request.FILES['image'])
+
+            profile = profile_form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            user_form.save()
+
+            return redirect('/feed/')
+
+    return render(request, 'userApp/reg.html', {
+    'user_form': user_form,
+    'profile_form': profile_form,
+    })
+
+
+
 
 ''' 
 def registration(request):

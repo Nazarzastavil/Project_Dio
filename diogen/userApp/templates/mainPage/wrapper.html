@@ -32,20 +32,26 @@
               
               <a id="logo-container" href="/" class="brand-logo"> <i class="material-icons">accessible_forward</i> DIOGEN</a>
               <ul class="right hide-on-med-and-down">
+              
               <li><a href="/admin/">Admin</a></li>
-              <li><a href="/persons/">Persons test</a></li>
+              
+              {% if user.is_authenticated and user.profile.company != '' %}
+              <li><a href="/myevents/">Мероприятия</a></li> 
+              {% endif %} 
               {% if user.is_authenticated %}
                 <li><a class="grey-text" href="/reg/upd/">User: {{ user.get_username }}</a></li>
                 <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>   
+                <li>
+                  <a id="logo-container" href="/editprofile/"><i class="material-icons">
+                    brightness_7
+                  </i></a></li> 
               {% else %}
-                <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>   
+                <!-- <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>    -->
               {% endif %} 
-
-              {% if user.is_authenticated and user.profile.company != '' %}
-              <li><a href="/newevent/">Новый ивент</a></li>   
+                
               
-             
-              {% endif %} 
+
+              
               </ul>
       
               <ul id="nav-mobile" class="sidenav">
