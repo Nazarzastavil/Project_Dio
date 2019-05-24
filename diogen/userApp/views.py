@@ -120,13 +120,14 @@ class MusiciansList(ListView):
 
         result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
             & Q(genres__icontains=genres))
-
+ 
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({
             'event_list': EventProfile.objects.all().order_by('date'),
             'musician_list': result, 
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user))
         })
+        #print([i.event(name) for i in context['event_follows']])
         return context
 
 def EventFollow(request, event_id):

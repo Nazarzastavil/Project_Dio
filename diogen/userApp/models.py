@@ -45,8 +45,13 @@ class EventProfile(models.Model):
     description = models.TextField(default='',blank=True) 
     company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
 
+    #self.info = (name, date, address, group)
+
     def get_absolute_url(self):
         return reverse('event-detail', kwargs={'pk': self.pk})
+
+    def get_event_info(self):
+        return(self.info)
 
 
 class Participation(models.Model):
