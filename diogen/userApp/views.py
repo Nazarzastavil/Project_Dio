@@ -19,8 +19,9 @@ from django.db.models import *
 import operator
 
 def mainpage(request):
-
     return redirect('login/')
+
+    
 
 def registration(request):
     if request.method == 'POST':
@@ -210,7 +211,7 @@ class EventDelete(DeleteView):
 def EditProfile(request):
     user_form = UserForm(request.POST, instance=request.user)
     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-    
+    profile_model = get_object_or_404(PersonProfile, user=request.user)
     
     if request.method == 'POST':
 
@@ -224,9 +225,10 @@ def EditProfile(request):
 
             return redirect('/feed/')
 
-    return render(request, 'userApp/reg.html', {
+    return render(request, 'userApp/editprofile.html', {
     'user_form': user_form,
     'profile_form': profile_form,
+    'profile_model': profile_model,
     })
 
 
