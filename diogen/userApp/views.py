@@ -11,11 +11,10 @@ from django.db import transaction
 from django.contrib.messages import constants as messages
 from django.contrib.auth.forms import UserCreationForm
 from userApp.forms import *
-from django.db.models import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.views.generic import ListView
- 
+from django.db.models import * 
 
 import operator
 
@@ -33,11 +32,20 @@ def registration(request):
             #messages.success(request, 'Account created successfully')
 
             #TEMP: логин сразу после регистрации
-            new_user = authenticate(username=form.cleaned_data['username'],password=form.cleaned_data['password1'],)
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
             login(request, new_user)
-
+            #user_form = UserForm(request.POST, instance=request.user)
+            #profile_form = ProfileForm(request.POST, instance=request.user.profile)
             return redirect('upd/')
             
+            # return render(request, 'userApp/reg.html', {
+            #     'user_form': user_form,
+            #     'profile_form': profile_form,
+            #     # 'musician_form': musician_form,
+            #     # 'company_form': company_form,
+            # })
         else:
             pass
             #TEMP
@@ -78,8 +86,13 @@ def update_profile(request):
         'profile_form': profile_form,
         })
     #return HttpResponse('test!')
+    #TEMP
+  
 
 
+def newevent(request):
+    events = Event()
+    return render(request, 'userApp/newevent.html', {'events':events})
 
 class MusiciansList(ListView):
     model = PersonProfile
@@ -94,6 +107,7 @@ class MusiciansList(ListView):
     def get_context_data(self, **kwargs):
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
+        
         instrs = self.request.GET.get('instrs')
         genres = self.request.GET.get('genres')
 
@@ -132,6 +146,7 @@ def EventFollow(request, event_id):
 
 def profile(request, person_id): #detail view of profile
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
+    #persondetail.email=''
     userdetail = persondetail.user
 
     return render(request, 'userApp/profile.html', 

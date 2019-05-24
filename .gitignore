@@ -2,6 +2,3 @@
 diogen/db.sqlite3
 *.sqlite3
 *.pyc
-diogen/db.sqlite3
-diogen/userApp/__pycache__/admin.cpython-36.pyc
-*.pyc

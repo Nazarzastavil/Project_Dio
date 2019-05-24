@@ -32,18 +32,21 @@ class ProfileForm(forms.ModelForm):
             'genres': 'Жанры Вашего творчества',
             'instruments':'Инструменты которыми вы владете',
             'soundcloud':'Ссылка на soundcloud (опционально)',
-            
+            'image': 'Ваша пикча',
             'company':'Название вашей компании',
         }
         widgets = {
             'birth_date': forms.TextInput(attrs={'class':'datepicker'}),
+            'image': forms.FileInput(attrs={'class': 'avatar'}),
             'description': forms.Textarea(attrs={'class':'materialize-textarea'})
+            
         }
         initial = {
+            
             'birth_date': ''
         }
 
-class EventForm(forms.ModelForm):
+class Event(forms.ModelForm):
     class Meta:
         model = EventProfile
         fields = ('name', 'address', 'description', 'group', 'date')

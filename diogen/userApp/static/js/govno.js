@@ -38,4 +38,3 @@ $('#confirm_password, #password').on('keyup', function () {
   } else 
     $('.helper-text.' + $(this).attr("class").split(" ")[1]).html('Wrong').css('color', 'red');
 });
-
