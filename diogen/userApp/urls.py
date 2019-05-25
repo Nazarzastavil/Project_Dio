@@ -9,12 +9,14 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('reg/', views.registration , name='registration'), 
     path('feed/', views.MusiciansList.as_view(), name='MusiciansList'),
-    re_path(r'feed/(\d+)$',views.EventFollow, name = 'EventFollow'),
+    # re_path(r'feed/(\d+)$',views.EventFollow, name = 'EventFollow'),
+    path('feed/updfollow/', views.EventFollowList, name = 'EventFollowList' ),
     path('reg/upd/', views.update_profile , name='update_profile'),
     path('<int:person_id>/', views.profile, name="profile"),
     path('newevent/', views.newevent, name="newevent"),
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
-
+    path('newgroup/', views.GroupCreate.as_view(), name="newgroup"),
+    
     path('myevents/', views.EventList.as_view(), name="EventList"),
     # re_path(r'myevents/(\d+)$',views.EventUpdate.as_view(), name = 'EventUpdate'),
 

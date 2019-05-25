@@ -6,3 +6,4 @@ from userApp.models import *
 admin.site.register(PersonProfile)
 admin.site.register(EventProfile)
 admin.site.register(Participation)
+admin.site.register(GroupProfile)   

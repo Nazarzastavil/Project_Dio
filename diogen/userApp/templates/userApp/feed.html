@@ -13,8 +13,8 @@
       <div class="govno" style="display: none;">
 
         
-          <p class="name">{{event.event.name}}</p>
-          <p class="date">{{event.event.date}}</p>
+          <p class="names">{{event.event.name}}</p>
+          <p class="dates">{{event.event.date}}</p>
         
       </div>
       {% endfor %}
@@ -46,10 +46,11 @@
                 {% endif %}
               {% endfor %}
               
-              <form id="" action={% url 'EventFollow' event.id %}   method="post" accept-charset="utf-8">
+
+              
                 {% csrf_token %}          
-                <button type="submit", class='btn-small red' style="margin-top: 30px;">Follow</button>
-              </form>
+                <button type="submit" id={{ event.id }} class='btn-small red btn-follow' style="margin-top: 30px;">Follow</button>
+              <!-- </form> -->
 
               
              
@@ -78,7 +79,43 @@
     
     <form id="searchform" action="{% url 'MusiciansList' %}" method="get" accept-charset="utf-8">
     <div class="col s5 l5">
- 
+
+
+
+        <div class="selected-date" name="date" class="date">Nety
+          <ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
+          {% for event in  selected_events %}
+          <li class="">
+              <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
+                <div class="collapsible-header" tabindex="0"> {{event.name}} <span class="badge">{{event.date}} </span></div>
+                <div class="collapsible-body" style="display: none;">
+                  <p> Описание: {{event.description}}</p>
+                  <p> Адрес проведения: {{event.address}}</p>
+                  <p> Выступают: {{event.group}}</p>
+                  <p> Проводит: {{event.company.company}}</p>
+    
+                  
+                   {% for follow in event_follows %}
+                    {% if event.id == follow.event.id %}
+                    <div class="follow"></div>
+                    {% endif %}
+                  {% endfor %}
+                  
+
+                  <div>
+                    {% csrf_token %}          
+                    <button type="submit" class={{ event.id }} class='btn-small red' style="margin-top: 30px;">Follow</button>
+                  </div>
+                 
+                 
+                </div>
+                
+            </li>
+          {% endfor %}
+        </ul>
+        </div>
+
+
       <div class="input-field col s12">
         <input type="text" id="autocomplete-input" class="autocomplete nick" name="q">
         <label for="autocomplete-input">Поиск</label>
@@ -159,17 +196,15 @@
       type: "GET", 
       url: "",
       data: {
-        //csrfmiddlewaretoken: getCookie('csrftoken'),
         'q': $(".nick").val(),
         'instrs': $(".instr").val(),
         'genres': $(".genre").val(),
         
       },
       success: function(data) {
-        // console.log('da');
-        //console.log($(data).find(".sbox").remove(".sbox").html());
+
         $(".sbox").html(($(data).find(".sbox").remove(".sbox").html()))
-        //$(document).html(data)
+
       }
     });
   
@@ -177,20 +212,50 @@
   });
 
 
-  function getCookie(name) {
+  $(".btn-follow").click(function(e) {
+    $.ajax({
+      type: "POST", 
+      url: "updfollow/",
+      dataType : "json",
+      data: {
+        "id": $(this).attr('id'),
+        "csrfmiddlewaretoken" : $(this).siblings("input[name='csrfmiddlewaretoken']" ).val(),
+        
+      },
+      success: function(data) {
+        if (data['followed']) {
+          $('#' + data['id']).parent().append('<div class="follow"></div>');
+          console.log('da');
+        }
+        else {
+          console.log($('#' + data['id']).parent().html());
+          $('#' + data['id']).parent().find('.follow').remove();
+        };
+        
+        follow_btn();
 
-    var matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ))
-    return matches ? decodeURIComponent(matches[1]) : undefined
-}
+      },
+      error: function(){
+        console.log('daddta');
+      }
+    });
+  
+  
+  });
+
+  function follow_btn() {
+    $(".follow").hide();
+    $('.btn-follow').text("Follow");
+    
+    
+    $($(('.follow')).parent().find('.btn-small')).text("Unfollow");
+  };
+
+  $(document).ready(follow_btn());
 </script>
 
 <script>
-  $(document).ready(function() { 
-    $(".follow").hide();
-    $($(('.follow')).parent().find('.btn-small')).text("Unfollow");
-  });
+  
 </script>
 
 <script> 
@@ -205,14 +270,27 @@
 
 <script>$(document).ready(function(){
 
-    console.log($('.govno').children('.date').text(function(i, s) {return s + "#";}).text().split('#'));
     $("#calendar").simpleCalendar({
         fixedStartDay: false,
-        events: $('.govno').children('.date').text(function(i, s) {return s + "#";}).text().split('#'),
-        eventsInfo: $('.govno').children('.name').text(function(i, s) {return s + "#";}).text().split('#'),
+        events: $('.govno').children('.dates').text(function(i, s) {return s + "#";}).text().split('#'),
+        eventsInfo: $('.govno').children('.names').text(function(i, s) {return s + "#";}).text().split('#'),
         selectCallback: function(date){
-            console.log('date selected '+ date);
-        }
+          $('.selected-data').text(date);
+          $.ajax({
+            type: "GET", 
+            url: "",
+            data: {
+              //csrfmiddlewaretoken: getCookie('csrftoken'),
+              'date': date,
+              
+            },
+            success: function(data) {
+              //console.log($(data).find(".selected-date").html());
+              //console.log($(data).find(".sbox").remove(".sbox").html());
+              $(".selected-date").html($(data).find(".selected-date").html())
+              //$(document).html(data)
+            }
+          })}
     });
   });</script>
 

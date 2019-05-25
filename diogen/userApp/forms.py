@@ -46,6 +46,14 @@ class ProfileForm(forms.ModelForm):
             'birth_date': ''
         }
 
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = GroupProfile
+        fields = ['users', 'name']
+        widgets = {
+            'users':  forms.Select(attrs={'style':'display: flex'})
+        }
+
 class Event(forms.ModelForm):
     class Meta:
         model = EventProfile
@@ -68,6 +76,8 @@ class Event(forms.ModelForm):
         initial = {
             'date': ''
         }
+
+
 
     # def __init__(self, *args, **kwargs):
     #     super(EventForm, self).__init__(*args, **kwargs)
