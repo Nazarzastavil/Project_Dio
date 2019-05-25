@@ -198,7 +198,6 @@ class EventUpdate(UpdateView):
     fields = ['name','date','address','group','description']
     
     def form_valid(self, form):
-        
         post = form.save(commit=False)
         post.save()
         return redirect('/myevents/')
