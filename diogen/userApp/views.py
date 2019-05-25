@@ -24,6 +24,7 @@ def mainpage(request):
     return redirect('login/')
 
 def registration(request):
+    print('da')
     if request.method == 'POST':
         form1=ProfileForm
         #userform=UserForm
@@ -67,7 +68,7 @@ def update_profile(request):
     if request.method == 'POST':
         #user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        
+        print('da')
 
         if user_form.is_valid() and profile_form.is_valid():
             #profile = PersonProfile(image = request.FILES['image'])
@@ -186,6 +187,12 @@ def profile(request, person_id): #detail view of profile
     'userprofile':userdetail,
     })
 
+
+class GroupCreate(CreateView):
+    model = GroupProfile
+    fields = ['users']
+    template_name = 'userApp/newgroup.html'
+    # print(fields)
 
 class EventList(ListView):
     model = EventProfile

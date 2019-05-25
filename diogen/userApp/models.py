@@ -26,16 +26,23 @@ class PersonProfile(models.Model):
     #org
     company=models.CharField(max_length=100,default='', blank=True)
 
-    followers = models.ManyToManyField('self', related_name='follows', symmetrical=False)
-
+    followers = models.ManyToManyField('self', related_name='follows', symmetrical=False) 
+    # group = models.ManyToManyField(GroupProfile, related_name='users', symmetrical=False)
+    
 
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
 
-
-
-
-
-
+class GroupProfile(models.Model):
+    
+    name = models.CharField(max_length=100,default='', blank=False)
+    users = models.ManyToManyField(PersonProfile)
+    description=models.TextField(default='',blank=True)
+    genres=models.CharField(max_length=100,default='', blank=True)
+    instruments=models.CharField(max_length=200,default='', blank=True)
+    soundcloud=models.CharField(max_length=100, default='', blank=True)
+    create_date = models.CharField(max_length=100, default='', blank=True)
+    image = models.FileField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
+    
 class EventProfile(models.Model):
     name = models.CharField(max_length=100,default='', blank=False)
     address = models.CharField(max_length=100,default='', blank=False)

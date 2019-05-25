@@ -169,7 +169,7 @@ function loadjscssfile(filename, filetype){
                 }
             }
 
-            datesBody.on('click', '.date-item badge', function (e) {
+            datesBody.on('click', '.badge', function (e) {
                 var day = '' + $(e.currentTarget).text(),
                     month = '' + (plugin.currentDate.getMonth() + 1),
                     year = plugin.currentDate.getFullYear();
