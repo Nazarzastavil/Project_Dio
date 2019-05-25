@@ -9,17 +9,15 @@
 <div class="row">
   <div class="col s2 l2"></div>
   <div class="col s8 l2">
-      
-      <div class="followed-events">
       {% for event in  event_follows %}
       <div class="govno" style="display: none;">
 
+        
           <p class="names">{{event.event.name}}</p>
           <p class="dates">{{event.event.date}}</p>
-      </div>  
-      
+        
+      </div>
       {% endfor %}
-    </div>
   <div id="calendar"></div>
   </div>
   <div class="col s2 l1"></div>
@@ -104,10 +102,10 @@
                   {% endfor %}
                   
 
-                  
+                  <div>
                     {% csrf_token %}          
                     <button type="submit" class={{ event.id }} class='btn-small red' style="margin-top: 30px;">Follow</button>
-                  
+                  </div>
                  
                  
                 </div>
@@ -227,26 +225,20 @@
       success: function(data) {
         if (data['followed']) {
           $('#' + data['id']).parent().append('<div class="follow"></div>');
+          console.log('da');
         }
         else {
-          //console.log($('#' + data['id']).parent().html());
+          console.log($('#' + data['id']).parent().html());
           $('#' + data['id']).parent().find('.follow').remove();
         };
         
-      },
-    });
-    $.ajax({
-            type: "GET", 
-            url: "",
-            data: {
-             //'date': $('#' + data['id']).parent().,
-            },
-            success: function(data) {   
-              $('.followed-events').html($(data).find('.followed-events').remove('.followed-events').html());
-            }
-        })
         follow_btn();
-        calendar();
+
+      },
+      error: function(){
+        console.log('daddta');
+      }
+    });
   
   
   });
@@ -254,62 +246,12 @@
   function follow_btn() {
     $(".follow").hide();
     $('.btn-follow').text("Follow");
+    
+    
     $($(('.follow')).parent().find('.btn-small')).text("Unfollow");
   };
 
-  function calendar() {
-    $("#calendar").html(" ");
-    console.log($('.govno').children('.dates').text(function(i, s) {return s + "#";}).text().split('#'));
-    $("#calendar").simpleCalendar({
-        fixedStartDay: false,
-        insertEvent: true,
-        events: $('.govno').children('.dates').text(function(i, s) {return s + "#";}).text().split('#'),
-        eventsInfo: $('.govno').children('.names').text(function(i, s) {return s + "#";}).text().split('#'),
-        selectCallback: function(date){
-          console.log(date);
-          $('.selected-data').text(date);
-          $.ajax({
-            type: "GET", 
-            url: "",
-            data: {
-             'date': date,
-            },
-            success: function(data) {   
-              $(".selected-date").html($(data).find(".selected-date").html());
-              console.log($(data).find('.govno'));
-            }
-          })
-        
-        }
-    });
-    //console.log($('.govno').children('.dates').text(function(i, s) {return s + "#";}).text().split('#'));
-  };
-
-  function set_calendar() {
-    $("#calendar").simpleCalendar({
-        fixedStartDay: false,
-        events: $('.govno').children('.dates').text(function(i, s) {return s + "#";}).text().split('#'),
-        eventsInfo: $('.govno').children('.names').text(function(i, s) {return s + "#";}).text().split('#'),
-        selectCallback: function(date){
-          //console.log(date);
-          $('.selected-data').text(date);
-          $.ajax({
-            type: "GET", 
-            url: "",
-            data: {
-             'date': date,
-            },
-            success: function(data) {   
-              $(".selected-date").html($(data).find(".selected-date").html());
-              //console.log($(data).find('.govno'));
-            }
-          })
-        
-        }
-    });
-  };
-
-  $(document).ready(function() {follow_btn(); set_calendar()});
+  $(document).ready(follow_btn());
 </script>
 
 <script>
@@ -326,7 +268,31 @@
 
 </script>
 
+<script>$(document).ready(function(){
 
+    $("#calendar").simpleCalendar({
+        fixedStartDay: false,
+        events: $('.govno').children('.dates').text(function(i, s) {return s + "#";}).text().split('#'),
+        eventsInfo: $('.govno').children('.names').text(function(i, s) {return s + "#";}).text().split('#'),
+        selectCallback: function(date){
+          $('.selected-data').text(date);
+          $.ajax({
+            type: "GET", 
+            url: "",
+            data: {
+              //csrfmiddlewaretoken: getCookie('csrftoken'),
+              'date': date,
+              
+            },
+            success: function(data) {
+              //console.log($(data).find(".selected-date").html());
+              //console.log($(data).find(".sbox").remove(".sbox").html());
+              $(".selected-date").html($(data).find(".selected-date").html())
+              //$(document).html(data)
+            }
+          })}
+    });
+  });</script>
 
 <script>$(document).ready(function(){
   $('select').formSelect();
