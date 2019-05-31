@@ -17,13 +17,13 @@ urlpatterns = [
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
     path('newgroup/', views.GroupCreate.as_view(), name="newgroup"),
     
+    #events
     path('myevents/', views.EventList.as_view(), name="EventList"),
-    # re_path(r'myevents/(\d+)$',views.EventUpdate.as_view(), name = 'EventUpdate'),
-
     path('myevents/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
     path('myevents/<int:pk>/delete/', views.EventDelete.as_view(), name='EventDelete'),
+
     
-    path('editprofile/', views.EditProfile, name="EditProfile"),
+    path('feed/<int:pk>/', views.UserUpdate.as_view(), name="UserUpdate"),
     # path('event/add/', views.EventCreate.as_view(), name='event-add'),
     # path('feed/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
 

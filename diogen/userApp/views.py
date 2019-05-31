@@ -234,7 +234,7 @@ def newevent(request):
 class EventUpdate(UpdateView):
     model = EventProfile
     fields = ['name','date','address','group','description']
-    
+
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
@@ -268,6 +268,16 @@ def EditProfile(request):
     'profile_form': profile_form,
     'profile_model': profile_model,
     })
+
+class UserUpdate(UpdateView):
+    model = PersonProfile
+    form_class  = ProfileForm
+    template_name = 'userApp/editprofile.html'
+    
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return redirect('/myevents/')
 
 
 

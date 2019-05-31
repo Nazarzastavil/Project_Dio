@@ -25,7 +25,7 @@
                         <p> Проводит: {{event.company.company}}</p>
             
                         
-                        <form id="" action={% url 'EventUpdate' event.pk %}   method="post" accept-charset="utf-8">
+                        <form id="" action={% url 'EventUpdate' pk=event.pk %}>
                             {% csrf_token %}          
                             <button type="submit", class='btn-small green ' style="margin-top: 30px;">Update</button>
                         </form>

@@ -54,7 +54,7 @@ class GroupForm(forms.ModelForm):
             'users':  forms.Select(attrs={'style':'display: flex'})
         }
 
-class Event(forms.ModelForm):
+class EventForm(forms.ModelForm):
     class Meta:
         model = EventProfile
         fields = ('name', 'address', 'description', 'group', 'date')
