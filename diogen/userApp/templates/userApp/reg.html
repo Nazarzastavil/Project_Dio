@@ -63,7 +63,7 @@
                                 </div>        
                                                         
                             <div class="col col2 s6">
-                                <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
+                                <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data" >
                                         {% csrf_token %}
                                         {% for field in user_form %}
                                         <div class="form-group">
@@ -88,7 +88,6 @@
                                                 {{profile_form.image.label_tag}}
                                                 {{profile_form.image}}
                                                 <div class="preview"></div>
-                                                
                                                 <div class="error">{{profile_form.errors}}</div>
 
                                                  
@@ -97,10 +96,10 @@
                                         <div class="row"></div>
                                         
                                         <div class="row center"> 
-                                                <button type="submit", class='btn-large red'>Я - любитель</button>
+                                                <button class='btn-large red'>Я - любитель</button>
                                         </div> 
                                 </form>
-                                <div class="cropper-result"></div>
+                                <img class="cropper-result"></img>
                             </div>
                                 <div class="col col1 s2">
                                         <!--left banner-->
@@ -148,13 +147,14 @@
                                                 
                                                 {{profile_form.image.label_tag}}
                                                 {{profile_form.image}}
+                                                <div class="preview"></div>
                                                 <!-- <img class="preview"  src="#" style="max-height: 500px; max-width: 500px;" alt="none" /> -->
                                                         <!-- <p>No files currently selected for upload</p> -->
                                                 <!-- <div> -->
                                                 <!-- <div class="error">{{profile_form.errors}}</div> -->
                                                 <div class="row"></div>
                                                 <div class="row center"> 
-                                                        <button type="submit", class='btn-large red'>Я - музыкант</button>
+                                                        <button type="submit", class='btn-large red' >Я - музыкант</button>
                                                 </div> 
                                         </div>
                                 </form>
@@ -190,6 +190,7 @@
                                                 
                                                 {{profile_form.image.label_tag}}
                                                 {{profile_form.image}}
+                                                <div class="preview"></div>
                                                 <!-- <img class="preview"  src="#" style="max-height: 500px; max-width: 500px;" alt="none" /> -->
 
                                                 
@@ -220,45 +221,49 @@
     <script src="{% static 'js/govno.js' %}"></script>
     <script src="{% static 'js/croppie.js' %}"></script>
     <script>
-    var basic = $('.preview').croppie({
-        viewport: { width: 250, height: 250, type: 'circle'},
-        boundary: { width: 300, height: 300 },
-        showZoomer: true,
-        
-        });
+   
 
 
     function readFile(input) {
-        if (input.files && input.files[0]) {
-                var reader = new FileReader();
+            $sel = $(input).parent().children('.preview');
+            $sel.croppie('destroy');
+            $sel.croppie({
+                viewport: { width: 250, height: 250, type: 'circle'},
+                boundary: { width: 300, height: 300 },
+                showZoomer: true,
+                
+                });
+                $sel.on('update.croppie', function() {cropper($sel)})
+                if (input.files && input.files[0]) {
+                        var reader = new FileReader();
 
-                reader.onload = function (e) {
-                        $('.preview').show();
-                        $('.preview').croppie('bind', {
-                        url: e.target.result
-                        });
-                        // $('.preview').attr('src', e.target.result)
-                        // $('.actionDone').toggle();
-                        // $('.actionUpload').toggle();
+                        reader.onload = function (e) {
+                                $sel.show();
+                                $sel.croppie('bind', {
+                                url: e.target.result
+                                });
+                        }
+
+                reader.readAsDataURL(input.files[0]);
                 }
-
-        reader.readAsDataURL(input.files[0]);
-        }
         }
         $(document).ready(function() {$('.preview').hide();});
         $('.avatar').on('change', function () { readFile(this); });
-        $('.cropper-result').html(basic.croppie('result', 'html', { width: 150, height: 250}).then(function(html) {$ ('.cropper-result').html(html);}));
-        //$('.avatar').on('click', function() {console.log('da'); $('.da').html(basic.result('blob'));}); 
-        // $('.actionUpload input').on('change', function () { readFile(this); });
-        // $('.actionDone').on('click', function(){
-        // $('.actionDone').toggle();
-        // $('.actionUpload').toggle();
-
-        // basic.croppie('result', 'html').then(function(html) {
-    // html is div (overflow hidden)
-    // with img positioned inside.
-        // });
-
+        
+        
+        function cropper(input) {
+                $i = ($(input).parent().children('#id_image'));
+                const dt = new DataTransfer()
+                $(input).croppie('result', {
+                        type: 'blob',
+                        size: 'viewport'
+                }).then(function (resp) {
+                        dt.items.add(new File([resp], "cropped.png"));
+                        $i[0].files = dt.files;
+                })
+                
+        }
+        
 
 
     </script>
