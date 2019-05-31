@@ -1,32 +1,174 @@
 {% extends "mainPage/wrapper.html" %}
-
-
-
 {% block page %}
+<!DOCTYPE html>
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet">
+  <style>
+ 
+ .col{
+	align-items: center;
+	display: flex;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	justify-content: center;
+ }
+ 
+ .tabs {
+	height: 400px;
+	width: 100%;
+	padding-top: 5%;
+	padding-bottom: 10%;
+	margin: 0 auto;
+	font-family: 'Roboto', cursive;
+}
+/* Стили секций с содержанием */
+.tabs>section {
+	height: 100%;
+	display: none;
+	padding: 15px;
+	background: #fff;
+	border: 1px solid #ddd;
+	font-family: 'Roboto', cursive;
+	font-size: 18px;
+}
+.tabs>section>p {
+	margin: 0 0 5px;
+	line-height: 1.5;
+	color: black;
+	/* прикрутим анимацию */
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+/* Описываем анимацию свойства opacity */
+ 
+@-webkit-keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+/* Прячем чекбоксы */
+.tabs>input {
+	display: none;
+	position: absolute;
+}
+/* Стили переключателей вкладок (табов) */
+.tabs>label {
+	display: inline-block;
+	margin: 0 0 -1px;
+	padding: 15px 25px;
+	font-weight: 600;
+	text-align: center;
+	color: black;
+	font-size: 17px;
+	border: 0px solid #ddd;
+	border-width: 1px 1px 1px 1px;
+	background: #f1f1f1;
+	border-radius: 3px 3px 0 0;
+}
 
-<!doctype html>
-<html>
-    <head>
-        <title> {{ profile.name }}</title>
-    </head>
-<body>
-        <h1> {{ profile.name }}</h1>
-            <p>{{ profile.registertime }}</p>
+/* Изменения стиля переключателей вкладок при наведении */
+ 
+.tabs>label:hover {
+	color: #888;
+	cursor: pointer;
+}
+/* Стили для активной вкладки */
+.tabs>input:checked+label {
+	color: black;
+	border-top: 1px solid black;
+	border-bottom: 1px solid #fff;
+	background: #f16c2a;
+}
+/* Активация секций с помощью псевдокласса :checked */
+#tab1:checked~#content-tab1, #tab2:checked~#content-tab2, #tab3:checked~#content-tab3, #tab4:checked~#content-tab4 {
+	display: block;
+}
+@media screen and (max-width: 680px) {
+	.tabs>label {
+		font-size: 0;
+	}
+	.tabs>label:before {
+		margin: 0;
+		font-size: 18px;
+	}
+}
+/* Изменяем внутренние отступы 
+*  переключателей для малых экранов
+*/
+@media screen and (max-width: 400px) {
+	.tabs>label {
+		padding: 15px;
+	}
+}
+  </style>
+  
+  
 
-        <center>
-            <img src = "{{ profile.image.url }}"  height=”300” width=”400”/>
-            {{ userprofile.email}}
-            {{userprofile.first_name}}
-            {{userprofile.last_name}}
-            {{profile.instruments}}
-            
-            
-            
-            
-        </center>
-<br/>
+		<section class = "row">
+		
+			<section class = "col l1 s12">
+			</section>
+			<section class = "col l4 s12">
+				<section class = "row">
+				<img src = "https://image.flaticon.com/icons/png/512/219/219989.png"  style="height:300px;width:300px;margin-top: 5%;margin-left: 20%; margin-right:20%;"/>
+				<button  class="btn-large waves-effect waves-light teal lighten-1" style = "margin-top: 5%; margin-left: 33%; font-family: 'Roboto', cursive;">Подписаться</button>
+				</section>
+			</section>
+			
+			<section class = "col l6 s12">
+				<div class="tabs">
+					<input id="tab1" type="radio" name="tabs" checked>
+					<label for="tab1" title="Вкладка 1">Обо мне</label>
+				 
+					<input id="tab2" type="radio" name="tabs">
+					<label for="tab2" title="Вкладка 2">Дополнительная информация</label>
+				 
+					<input id="tab3" type="radio" name="tabs">
+					<label for="tab3" title="Вкладка 3">Мои события</label>
+				 
+					<input id="tab4" type="radio" name="tabs">
+					<label for="tab4" title="Вкладка 4">Подписки</label>
+				 
+					<section id="content-tab1">
+						<h1 style = "font-size: 36px;">Nickname</h1>
+						<p>Имя: Иван Иванович Иванов</p>
+						<p>Возраст: 23 года</p>
+						<p>Мой город: Тюмень</p>
+						<p>Музыкальный инструмент: барабаны, гитара, клавиши</p>
+					</section>  
+					<section id="content-tab2">
+						<p>Здесь можно рассказать о своих увлечениях, музыкальных вкусах и многом другом</p>
+					</section> 
+					<section id="content-tab3">
+						<p>
+						  Здесь размещаете любое содержание.
+						</p>
+					</section> 
+					<section id="content-tab4">
+						<p>
+						  Здесь размещаете любое содержание.
+						</p>
+					</section>    
+				</div>
+			</section>
+			<section class = "col l1 s12">
+			</section>
+		</section>
 
-  </body>
 </html>
-
 {%endblock%}

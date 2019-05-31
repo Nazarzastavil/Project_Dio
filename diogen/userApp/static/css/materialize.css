@@ -2950,7 +2950,7 @@ ul.staggered-list li {
 }
 
 .page-footer {
-  padding-top: 20px;
+  padding-top: 10%;
   color: #fff;
   background-color: #ee6e73;
 }
@@ -3479,6 +3479,7 @@ table span.badge {
 
 .section.no-pad-top {
   padding-top: 0;
+  background-color: #ad0075;
 }
 
 .row {

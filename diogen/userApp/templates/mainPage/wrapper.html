@@ -29,8 +29,8 @@
       <nav class="white" role="navigation" style="flex: 0 0 auto;">
           <div class="nav-wrapper container ">
               
-              <a id="logo-container" href="/" class="brand-logo"> <i class="material-icons">accessible_forward</i> DIOGEN</a>
-              <ul class="right hide-on-med-and-down">
+              <a id="logo-container" href="/" class="brand-logo" style = "font-family: 'Roboto', cursive; font-size: 28px;"> <i class="material-icons">accessible_forward</i>DIOGEN</a>
+              <ul class="right hide-on-med-and-down" style = "font-family: 'Roboto', cursive; font-size: 16px;">
               <li><a href="/admin/">Admin</a></li>
               <li><a href="/persons/">Persons test</a></li>
               {% if user.is_authenticated %}
@@ -64,35 +64,27 @@
   <footer class="page-footer teal" style="flex: 0 0 auto;"> 
     <div class="container"> 
     <div class="row"> 
+	<div class = "col l1 s12">
+	</div>
     <div class="col l6 s12"> 
-    <h5 class="white-text">Company Bio</h5> 
-    <p class="grey-text text-lighten-4">some text too.</p> 
-    
-    
+		<div class = "row">
+			<h5 class="white-text" style = "font-family: 'Roboto', cursive; font-size: 18px;">О нас</h5> 
+			<p class="grey-text text-lighten-4" style = "font-family: 'Roboto', cursive; font-size: 14px; text-align: justify;">Мы создали этот ресурс для творческих людей. Творите вместе! Ищите вдохновение! Отлично проводите время! И всё это вместе с нами! Это целый мир людей, любящих музыку и живущих ею!</p>
+		</div>
     </div> 
-    <div class="col l3 s12"> 
-    <h5 class="white-text">Settings</h5> 
-    <ul> 
-    <li><a class="white-text" href="#!">Link 1</a></li> 
-    <li><a class="white-text" href="#!">Link 2</a></li> 
-    <li><a class="white-text" href="#!">Link 3</a></li> 
-    <li><a class="white-text" href="#!">Link 4</a></li> 
-    </ul> 
-    </div> 
-    <div class="col l3 s12"> 
-    <h5 class="white-text">Connect</h5> 
-    <ul> 
-    <li><a class="white-text" href="#!">Link 1</a></li> 
-    <li><a class="white-text" href="#!">Link 2</a></li> 
-    <li><a class="white-text" href="#!">Link 3</a></li> 
-    <li><a class="white-text" href="#!">Link 4</a></li> 
-    </ul> 
-    </div> 
+	 
+    <div class="col l4 s12"> 
+		<div class = "row">
+			<h5 class="white-text" style = "font-family: 'Roboto', cursive; font-size: 18px;">Контакты</h5> 
+			<p style = "font-family: 'Roboto', cursive; font-size: 14px; text-align: justify;">Diogen@gmail.com</p> 
+			<p style = "font-family: 'Roboto', cursive; font-size: 14px; text-align: justify;"> +7(3452)-46-13-57</p> 
+		</div> 
+	</div>
     </div> 
     </div> 
     <div class="footer-copyright"> 
-    <div class="container"> 
-    &copy; hehmda company,  {% now "Y" %} 
+    <div class="container" style = "font-family: 'Roboto', cursive; font-size: 18px;"> 
+    &copy; DIOGEN Company,  {% now "Y" %} 
     </div> 
     </div> 
     </footer> 
