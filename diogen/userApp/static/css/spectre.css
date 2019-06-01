@@ -288,7 +288,7 @@
   }
 
 .calendar body {
-    background: #fff;
+    background: white;
     color: #3b4351;
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
     font-size: .8rem;

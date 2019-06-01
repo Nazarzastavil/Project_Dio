@@ -3,27 +3,32 @@
 {% load static %}
 
 {% block page %}
+<link href="{% static 'css/spectre.css' %}" rel="stylesheet"/>
+<link href="{% static 'css/simple-calendar.css' %}" rel="stylesheet"/>
+<link href="{% static 'css/spectre-exp.css' %}" type="text/css" rel="stylesheet"/>
+<link href="{% static 'css/spectre-icons.css' %}" type="text/css" rel="stylesheet"/>
+<div id="index-banner" class="parallax-container">
 <div class="row">
-  <div class="col s2 l2"></div>
-  <div class="col s8 l2">
-    <h5>РАРАРААРАР</h5>
-  <div id="calendar"></div>
-  </div>
-  <div class="col s2 l1"></div>
-  <div class="col s12 l5">
-    <h5>РАРАРАРРА</h5>
-    <div class="collection">
-      <a href="#!" class="collection-item">Путин есть детей -> Тюмень, Ржавый дед</a>
-      <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item">Alvin</a>
-      <a href="#!" class="collection-item active">Еще больше</a>
+<div class = "container">
+	  <div class="col s8 l4">
+		<h5 style = "font-family: 'Roboto', cursive, bold; font-size: 32px; text-align: center;">Календарь</h5>
+	  <div id="calendar"></div>
+	  </div>
+	  <div class="col s2 l1"></div>
+	  <div class="col s12 l7">
+		<h5 style = "font-family: 'Roboto', cursive, bold; font-size: 32px; text-align: center;">События</h5>
+		<div class="collection" style = "font-family:'Roboto', cursive;">
+		  <a href="#!" class="collection-item">Gilead, г.Тюмень, КТЗ "Байконур"</a>
+		  <a href="#!" class="collection-item">Линда, г.Тюмень, ресторан "Максимиллианс"</a>
+		  <a href="#!" class="collection-item">Вечер органной музыки, г.Тюмень, Тюменская филармония</a>
+		  <a href="#!" class="collection-item">Квартирник. Песни группы "Агата Кристи". г.Тюмень</a>
+		  <a href="#!" class="collection-item active">Еще больше</a>
 
-    </div>
-  </div>
-  <div class="col s3 l3"></div>
-
+		</div>
+	  </div>
+</div>
+</div>
+ <div class="parallax"><img src="https://www.national.ca/workspace/uploads/editorial/pride-en-1529101959.jpg" alt="Unsplashed background img 1"></div>
 </div>
 
 
@@ -130,8 +135,6 @@
 <script>$(document).ready(function(){
   $('select').formSelect();
 });</script>
-<link href="{% static 'css/spectre.css' %}" rel="stylesheet"/>
-<link href="{% static 'css/spectre-exp.css' %}" type="text/css" rel="stylesheet"/>
-<link href="{% static 'css/spectre-icons.css' %}" type="text/css" rel="stylesheet"/>
+
 
 {% endblock %}
