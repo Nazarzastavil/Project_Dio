@@ -69,6 +69,8 @@ class Participation(models.Model):
     is_mus=models.BooleanField(blank=False, default=False) #Участвует в мероприятии как музыкант или нет
     event = models.ForeignKey(EventProfile, on_delete=models.CASCADE, blank=False)
 
+
+
 #сигналы
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
