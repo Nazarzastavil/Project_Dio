@@ -69,7 +69,7 @@ def update_profile(request):
     if request.method == 'POST':
         #user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        print('da')
+        #print('da')
 
         if user_form.is_valid() and profile_form.is_valid():
             #profile = PersonProfile(image = request.FILES['image'])
@@ -135,11 +135,11 @@ class MusiciansList(ListView):
              
             'selected_events': EventProfile.objects.filter(pk__in=[i.event.id for i in context['event_follows']], date=date)
         })
-        print([i.pk for i in context['selected_events']]) 
+        # print([i.pk for i in context['selected_events']]) 
         return context 
 
 def EventFollowList(request):
-    print(request.POST["id"]) 
+    # print(request.POST["id"]) 
     event_id = request.POST["id"]
     response_data = {}
     response_data["id"] = event_id
@@ -191,8 +191,13 @@ def profile(request, person_id): #detail view of profile
 
 class GroupCreate(CreateView):
     model = GroupProfile
-    fields = ['users']
     template_name = 'userApp/newgroup.html'
+    form_class = GroupForm
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return redirect('/feed/')
+    
     # print(fields)
 
 class EventList(ListView):

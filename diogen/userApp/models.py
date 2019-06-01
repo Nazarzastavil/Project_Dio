@@ -42,6 +42,9 @@ class GroupProfile(models.Model):
     soundcloud=models.CharField(max_length=100, default='', blank=True)
     create_date = models.CharField(max_length=100, default='', blank=True)
     image = models.FileField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
+
+    def get_absolute_url(self):
+        return reverse('groupprofile-detail', kwargs={'pk': self.pk})
     
 class EventProfile(models.Model):
     name = models.CharField(max_length=100,default='', blank=False)
@@ -65,6 +68,8 @@ class Participation(models.Model):
     userProfile = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
     is_mus=models.BooleanField(blank=False, default=False) #Участвует в мероприятии как музыкант или нет
     event = models.ForeignKey(EventProfile, on_delete=models.CASCADE, blank=False)
+
+
 
 #сигналы
 @receiver(post_save, sender=User)
