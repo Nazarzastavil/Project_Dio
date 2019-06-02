@@ -17,7 +17,8 @@ urlpatterns = [
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
     path('newgroup/', views.GroupCreate.as_view(), name="newgroup"),
     path('feed/acceptevent/', views.RequestEventAccept, name="EventAccept"),  
-
+    path('newevent/createrequest', views.MusiciansListRequest, name="Req"),
+    path('newevent/createevent/', views.EventCreate, name="Req1"),
     
     path('myevents/', views.EventList.as_view(), name="EventList"),
     # re_path(r'myevents/(\d+)$',views.EventUpdate.as_view(), name = 'EventUpdate'),

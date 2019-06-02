@@ -136,8 +136,47 @@ class MusiciansList(ListView):
              
             'selected_events': EventProfile.objects.filter(pk__in=[i.event.id for i in context['event_follows']], date=date)
         })
-        # print([i.pk for i in context['selected_events']]) 
+
         return context 
+
+def MusiciansListRequest(request):
+    response_data = {}
+    print(request.POST['id'])
+    
+    if request.method == 'POST':
+        parsemus = {}
+        parsegroup = {}
+        for i in request.POST["select"][1:-1].split(','):
+            tmp = i[1:-1]#str(i).split(':')
+            print(tmp)
+            if(tmp[0] == 'm'):
+                p = AcceptedEvent()
+                p.user = PersonProfile.objects.filter(pk=int(tmp[2:]))[0]
+                p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
+                p.save()
+            if(tmp[0] == 'g'):
+                p = AcceptedEvent()
+                p.group = GroupProfile.objects.filter(pk=int(tmp[2:]))[0]
+                p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
+                p.save()
+    response_data['da'] = 'da'
+    return JsonResponse(response_data)
+
+def EventCreate(request):
+    response_data = {}
+    if request.method == 'POST':
+        p = EventProfile()
+        p.name = request.POST["name"]
+        p.address = request.POST["address"]
+        p.date = request.POST["date"]
+        p.description = request.POST["description"]
+        p.company = get_object_or_404(PersonProfile, user=request.user)
+        p.save()
+        #print(p.pk)
+        response_data['id'] = p.pk
+        response_data['token'] = request.POST["csrfmiddlewaretoken"]
+    return JsonResponse(response_data)
+
 
 def EventFollowList(request):
     # print(request.POST["id"]) 
@@ -222,11 +261,11 @@ def newevent(request):
     
     a = EventProfile()
     eventform = Event(request.POST)
-
+    musicians = PersonProfile.objects.filter(spec=1)
+    groups = GroupProfile.objects.all()
     if request.method == 'POST':
 
         if eventform.is_valid():
-           
             p_profile = get_object_or_404(PersonProfile, user=request.user)
             p_profile.save()
             doc = eventform.save(commit=False)
@@ -234,7 +273,8 @@ def newevent(request):
             doc.save()
             return redirect('/myevents/')
     else:
-        return render(request, 'userApp/newevent.html', {'events':eventform})
+        
+        return render(request, 'userApp/newevent.html', {'events':eventform, 'musicians': musicians, 'groups': groups})
 
 
 class EventUpdate(UpdateView):
