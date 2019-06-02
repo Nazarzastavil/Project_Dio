@@ -52,23 +52,17 @@ class GroupForm(forms.ModelForm):
         fields = ['name', 'users', 'description', 'genres', 'instruments', 'soundcloud',
             'create_date', 'image']
         widgets = {
-            #'users':  forms.Select(attrs={'style': 'display: flex'}),
             'create_date': forms.TextInput(attrs={'class':'datepicker'}),
-
         }
-
-
 
 class Event(forms.ModelForm):
     class Meta:
         model = EventProfile
-        fields = ('name', 'address', 'description', 'group', 'date')
+        fields = ('name', 'address', 'description', 'date')
         labels = {
             'name': 'Наименование события',
             'date': 'Время проведения',
             'address': 'Место проведения',
-            'group': 'Выступает',
-            #'company': 'Проводит',
             'description': 'Описание'
         }
         widgets = {
@@ -82,7 +76,11 @@ class Event(forms.ModelForm):
             'date': ''
         }
 
-
+class RequestsEvent(forms.ModelForm):
+    class Meta:
+        model = RequestEvent
+        fields = ('users', 'groups', 'event', 'accepted', 'seen', 'declined')
+        
 
     # def __init__(self, *args, **kwargs):
     #     super(EventForm, self).__init__(*args, **kwargs)

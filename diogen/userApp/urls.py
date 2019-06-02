@@ -16,7 +16,7 @@ urlpatterns = [
     path('newevent/', views.newevent, name="newevent"),
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
     path('newgroup/', views.GroupCreate.as_view(), name="newgroup"),
-    
+    path('feed/acceptevent/', views.RequestEventAccept, name="EventAccept"),  
 
     
     path('myevents/', views.EventList.as_view(), name="EventList"),

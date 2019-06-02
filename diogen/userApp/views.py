@@ -128,7 +128,9 @@ class MusiciansList(ListView):
             'event_list': EventProfile.objects.all().order_by('date'), 
             'musician_list': result, 
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
-            #'current_events': EventProfile.objects.filter(pk=[i.id for i in context['event_follows']], date=date)
+            'event_request': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
+            'accepted_events': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
+            'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False))
         })
         context.update({
              
@@ -219,7 +221,7 @@ def newevent(request):
     # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
     
     a = EventProfile()
-    eventform = EventForm(request.POST)
+    eventform = Event(request.POST)
 
     if request.method == 'POST':
 
@@ -240,7 +242,6 @@ class EventUpdate(UpdateView):
     fields = ['name','date','address','group','description']
     
     def form_valid(self, form):
-        
         post = form.save(commit=False)
         post.save()
         return redirect('/myevents/')
@@ -250,6 +251,23 @@ class EventDelete(DeleteView):
     model = EventProfile
     success_url = '/myevents/'
 
+def RequestEventAccept(request):
+    event_id = (request.POST["id"])
+    user_id = get_object_or_404(PersonProfile, user=request.user)
+    response_data = {}
+    if request.method == 'POST':
+        if request.POST["act"] == "True":
+            pp = AcceptedEvent.objects.filter(user=user_id, event=event_id)
+            for p in pp:
+                p.accepted = True
+                p.save()
+            response_data["accepted"] = True
+        else:
+            p = AcceptedEvent.objects.filter(user=user_id, event=event_id)[0]
+            p.delete()
+            response_data["accepted"] = False
+    response_data["parent"] =request.POST["parent"]
+    return JsonResponse(response_data)
 
 def EditProfile(request):
     user_form = UserForm(request.POST, instance=request.user)
