@@ -25,7 +25,7 @@ def mainpage(request):
     
 
 def registration(request):
-    print('da')
+    #print('da')
     if request.method == 'POST':
         form1=ProfileForm
         #userform=UserForm
@@ -129,17 +129,57 @@ class MusiciansList(ListView):
             'event_list': EventProfile.objects.all().order_by('date'), 
             'musician_list': result, 
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
-            #'current_events': EventProfile.objects.filter(pk=[i.id for i in context['event_follows']], date=date)
+            'event_request': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
+            'accepted_events': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
+            'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False))
         })
         context.update({
              
             'selected_events': EventProfile.objects.filter(pk__in=[i.event.id for i in context['event_follows']], date=date)
         })
-        # print([i.pk for i in context['selected_events']]) 
+
         return context 
 
+def MusiciansListRequest(request):
+    response_data = {}
+    print(request.POST['id'])
+    
+    if request.method == 'POST':
+        parsemus = {}
+        parsegroup = {}
+        for i in request.POST["select"][1:-1].split(','):
+            tmp = i[1:-1]#str(i).split(':')
+            print(tmp)
+            if(tmp[0] == 'm'):
+                p = AcceptedEvent()
+                p.user = PersonProfile.objects.filter(pk=int(tmp[2:]))[0]
+                p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
+                p.save()
+            if(tmp[0] == 'g'):
+                p = AcceptedEvent()
+                p.group = GroupProfile.objects.filter(pk=int(tmp[2:]))[0]
+                p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
+                p.save()
+    response_data['da'] = 'da'
+    return JsonResponse(response_data)
+
+def EventCreate(request):
+    response_data = {}
+    if request.method == 'POST':
+        p = EventProfile()
+        p.name = request.POST["name"]
+        p.address = request.POST["address"]
+        p.date = request.POST["date"]
+        p.description = request.POST["description"]
+        p.company = get_object_or_404(PersonProfile, user=request.user)
+        p.save()
+        #print(p.pk)
+        response_data['id'] = p.pk
+        response_data['token'] = request.POST["csrfmiddlewaretoken"]
+    return JsonResponse(response_data)
+
+
 def EventFollowList(request):
-    # print(request.POST["id"]) 
     event_id = request.POST["id"]
     response_data = {}
     response_data["id"] = event_id
@@ -182,7 +222,8 @@ def profile(request, person_id): #detail view of profile
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
     #persondetail.email=''
     userdetail = persondetail.user
-
+    acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=request.user), accepted=True)
+    print(acceptedGroup)
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
@@ -197,9 +238,16 @@ class GroupCreate(CreateView):
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
+        #print(post)
+        m = AcceptedGroup()
+        m.group = post
+        m.user = get_object_or_404(PersonProfile, user=self.request.user)
+        m.accepted = True
+        m.save()
         return redirect('/feed/')
+
+
     
-    # print(fields)
 
 class EventList(ListView):
     model = EventProfile
@@ -218,22 +266,25 @@ class EventList(ListView):
 def newevent(request):
    
     # profile = PersonProfile.objects.get(pk=1)
-    # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)   
+    a = EventProfile()
     eventform = Event(request.POST)
-
+    musicians = PersonProfile.objects.filter(spec=1)
+    groups = GroupProfile.objects.all()
     if request.method == 'POST':
 
         if eventform.is_valid():
-           
             p_profile = get_object_or_404(PersonProfile, user=request.user)
             p_profile.save()
             doc = eventform.save(commit=False)
             doc.company = p_profile
             doc.save()
+            # print(redirect('/myevents/'))
             return redirect('/myevents/')
-    else:
-        return render(request, 'userApp/newevent.html', {'events':eventform})
-
+    else: 
+        # return redirect('/myevents/') 
+        return render(request, 'userApp/newevent.html', {'events':eventform, 'musicians': musicians, 'groups': groups})
+    
 
 class EventUpdate(UpdateView):
     model = EventProfile
@@ -249,25 +300,23 @@ class EventDelete(DeleteView):
     model = EventProfile
     success_url = '/myevents/'
 
-class UserUpdate(UpdateView):
-    model = PersonProfile
-    # fields = ['birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company',]
-    form_class=ProfileForm
-    second_form_class = UserForm
-
-    # def get_context_data(self, **kwargs):
-        # context = super(UserUpdate, self).get_context_data(**kwargs)
-        # print(self.form_class)
-        # context.update({ 
-        #     'mda': self.form_class(self.request.GET, instance=self.request.user),
-        # 'user_form' : self.second_form_class(self.request.GET, instance=self.request.user),
-        # })
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        post.save()
-        return redirect('/feed/')
-
-
+def RequestEventAccept(request):
+    event_id = (request.POST["id"])
+    user_id = get_object_or_404(PersonProfile, user=request.user)
+    response_data = {}
+    if request.method == 'POST':
+        if request.POST["act"] == "True":
+            pp = AcceptedEvent.objects.filter(user=user_id, event=event_id)
+            for p in pp:
+                p.accepted = True
+                p.save()
+            response_data["accepted"] = True
+        else:
+            p = AcceptedEvent.objects.filter(user=user_id, event=event_id)[0]
+            p.delete()
+            response_data["accepted"] = False
+    response_data["parent"] =request.POST["parent"]
+    return JsonResponse(response_data)
 # def UserUpdate(request,pk):
 #     user_form = UserForm(request.POST, instance=request.user)
 #     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)

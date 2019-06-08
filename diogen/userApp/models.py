@@ -36,7 +36,7 @@ class PersonProfile(models.Model):
 class GroupProfile(models.Model):
     
     name = models.CharField(max_length=100,default='', blank=False)
-    users = models.ManyToManyField(PersonProfile)
+    #users = models.ManyToManyField(PersonProfile)
     description=models.TextField(default='',blank=True)
     genres=models.CharField(max_length=100,default='', blank=True)
     instruments=models.CharField(max_length=200,default='', blank=True)
@@ -47,12 +47,11 @@ class GroupProfile(models.Model):
     def get_absolute_url(self):
         return reverse('groupprofile-detail', kwargs={'pk': self.pk})
     
+
 class EventProfile(models.Model):
     name = models.CharField(max_length=100,default='', blank=False)
     address = models.CharField(max_length=100,default='', blank=False)
     date = models.CharField(max_length=100, default='', blank=False)
-    group = models.CharField(max_length=100, default='', blank=False)
-    #place = models.CharField(max_length=100, default='', blank=False) # У организации несколько мест может быть
     description = models.TextField(default='',blank=True) 
     company = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
 
@@ -64,12 +63,37 @@ class EventProfile(models.Model):
     def get_event_info(self):
         return(self.info)
 
+class AcceptedEvent(models.Model):
+    user = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=True, null=True)
+    group = models.ForeignKey(GroupProfile, on_delete=models.CASCADE, blank=True, null=True)
+    event = models.ForeignKey(EventProfile, on_delete=models.CASCADE, blank=False)
+    accepted = models.BooleanField(blank=False, default=False)
+
+class AcceptedGroup(models.Model):
+    user = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=True)
+    group = models.ForeignKey(GroupProfile, on_delete=models.CASCADE)
+    accepted = models.BooleanField(blank=False, default=False)
+
 
 class Participation(models.Model):
     userProfile = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
     is_mus=models.BooleanField(blank=False, default=False) #Участвует в мероприятии как музыкант или нет
     event = models.ForeignKey(EventProfile, on_delete=models.CASCADE, blank=False)
 
+class RequestEvent(models.Model):
+    users = models.ManyToManyField(PersonProfile)
+    groups = models.ManyToManyField(GroupProfile) 
+    event = models.ForeignKey(EventProfile, on_delete=models.CASCADE, blank=False)
+    seen = models.BooleanField(blank=False, default=False) 
+    accepted = models.BooleanField(blank=False, default=False) 
+    declined = models.BooleanField(blank=False, default=False)
+
+class RequestGroup(models.Model):
+    users = models.ManyToManyField(PersonProfile)
+    group = models.ForeignKey(GroupProfile, on_delete=models.CASCADE, blank=False)
+    seen = models.BooleanField(blank=False, default=False) 
+    accepted = models.BooleanField(blank=False, default=False) 
+    declined = models.BooleanField(blank=False, default=False)
 
 
 #сигналы

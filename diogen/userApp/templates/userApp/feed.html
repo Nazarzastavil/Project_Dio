@@ -32,25 +32,53 @@
         
 
         <li>
-          <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
+          <div class="collapsible-header" tabindex="0">Events {% if len_events != 0 %}<span class="new badge">{{len_events}}</span>{%endif%}</div>
           <div class="cal collapsible-body" style="padding: 0rem;">
-            <ul class="collection">
-              <!-- <a href="#!" class="collection-item">Alvin</a> -->
+            
+            {% for event in event_request %}
+            <ul class="collection" event="{{event.event.pk}}"> 
+                
               <li class="collection-item">
-                <div>Alvin
-                    <a href="#!" class="secondary-content">
+                <div> {{event.event.name}}
+                    {% csrf_token %}   
+                    <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
                         <i class="small material-icons">clear</i>
                     </a>
-                  <a href="#!" class="secondary-content">
+                  <a href="#" class="secondary-content accpet-event" dada="{{event.event.pk}}" act="True">
+                      
                       <i class="small material-icons">check</i>
                     </a>
-                    <a href="#!" class="secondary-content">
+                    <a href="#!!!" class="secondary-content">
                         <i class="small material-icons">remove_red_eye</i>
                     </a>
                 </div>
               </li>
             </ul>
+            {% endfor %}
+            
         </li>
+        <li>
+            <div class="collapsible-header" tabindex="0">Accepted events</div>
+            <div class="cal collapsible-body" style="padding: 0rem;">
+              
+              {% for event in accepted_events %}
+              <ul class="collection"> 
+                  
+                <li class="collection-item">
+                  <div> {{event.event.name}}
+                      {% csrf_token %}   
+                      <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                          <i class="small material-icons">clear</i>
+                      </a>
+                      <a href="#!!!" class="secondary-content">
+                          <i class="small material-icons">remove_red_eye</i>
+                      </a>
+                  </div>
+                </li>
+              </ul>
+              {% endfor %}
+              
+          </li>
     </ul>
       
     </div>
@@ -76,7 +104,7 @@
             <li class="">
               <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
                 <div class="collapsible-header" tabindex="0"> {{event.name}} <span class="badge">{{event.date}} </span></div>
-                <div class="collapsible-body" style="display: none;">
+                <div class="collapsible-body" style="display: none;"  event="{{event.event.pk}}">
                   <p> Описание: {{event.description}}</p>
                   <p> Адрес проведения: {{event.address}}</p>
                   <p> Выступают: {{event.group}}</p>
@@ -179,6 +207,25 @@
 
 <script src="{% static 'js/jquery.simple-calendar.js' %}"></script>
 
+<script>
+  $(".accpet-event, .decline-event").click(function(e) {
+    $.ajax({
+      type: "POST", 
+      url: "acceptevent/",
+      dataType : "json",
+      data: {
+        "id": $(this).attr('dada'),
+        "csrfmiddlewaretoken" : $(this).siblings("input[name='csrfmiddlewaretoken']" ).val(),
+        "act": $(this).attr('act'),
+        "parent": $(this).parent().parent().parent().attr('event')
+      },
+      success: function(data) {
+        $($(document).find('[event=' + data['parent'] + ']')).remove()
+      }});
+  
+  
+  });
+</script>
 
 
 <script>
