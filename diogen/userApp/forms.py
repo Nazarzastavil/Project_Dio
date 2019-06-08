@@ -49,12 +49,12 @@ class ProfileForm(forms.ModelForm):
 class GroupForm(forms.ModelForm):
     class Meta:
         model = GroupProfile
-        fields = ['name', 'users', 'description', 'genres', 'instruments', 'soundcloud',
+        fields = ['name', 'description', 'genres', 'instruments', 'soundcloud',
             'create_date', 'image']
         widgets = {
             #'users':  forms.Select(attrs={'style': 'display: flex'}),
             'create_date': forms.TextInput(attrs={'class':'datepicker'}),
-
+            #'users': forms.SelectMultiple(attrs={'style': 'display: none;', 'multiple': ''}),
         }
 
 
