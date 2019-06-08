@@ -25,7 +25,7 @@ def mainpage(request):
     
 
 def registration(request):
-    #print('da')
+    print('da')
     if request.method == 'POST':
         form1=ProfileForm
         #userform=UserForm
@@ -139,6 +139,7 @@ class MusiciansList(ListView):
         return context 
 
 def EventFollowList(request):
+    # print(request.POST["id"]) 
     event_id = request.POST["id"]
     response_data = {}
     response_data["id"] = event_id
@@ -181,8 +182,7 @@ def profile(request, person_id): #detail view of profile
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
     #persondetail.email=''
     userdetail = persondetail.user
-    acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=request.user), accepted=True)
-    print(acceptedGroup)
+
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
@@ -197,16 +197,9 @@ class GroupCreate(CreateView):
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
-        #print(post)
-        m = AcceptedGroup()
-        m.group = post
-        m.user = get_object_or_404(PersonProfile, user=self.request.user)
-        m.accepted = True
-        m.save()
         return redirect('/feed/')
-
-
     
+    # print(fields)
 
 class EventList(ListView):
     model = EventProfile
@@ -237,11 +230,10 @@ def newevent(request):
             doc = eventform.save(commit=False)
             doc.company = p_profile
             doc.save()
-            # print(redirect('/myevents/'))
             return redirect('/myevents/')
-    else: 
-        # return redirect('/myevents/') 
-        return render(request, 'userApp/newevent.html', {'events':eventform, 'musicians': musicians, 'groups': groups})
+    else:
+        return render(request, 'userApp/newevent.html', {'events':eventform})
+
 
 class EventUpdate(UpdateView):
     model = EventProfile

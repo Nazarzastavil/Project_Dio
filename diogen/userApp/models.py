@@ -36,7 +36,7 @@ class PersonProfile(models.Model):
 class GroupProfile(models.Model):
     
     name = models.CharField(max_length=100,default='', blank=False)
-    #users = models.ManyToManyField(PersonProfile)
+    users = models.ManyToManyField(PersonProfile)
     description=models.TextField(default='',blank=True)
     genres=models.CharField(max_length=100,default='', blank=True)
     instruments=models.CharField(max_length=200,default='', blank=True)
@@ -63,17 +63,8 @@ class EventProfile(models.Model):
 
     def get_event_info(self):
         return(self.info)
-		
-class AcceptedEvent(models.Model):
-    user = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=True, null=True)
-    group = models.ForeignKey(GroupProfile, on_delete=models.CASCADE, blank=True, null=True)
-    event = models.ForeignKey(EventProfile, on_delete=models.CASCADE, blank=False)
-    accepted = models.BooleanField(blank=False, default=False)
 
-class AcceptedGroup(models.Model):
-    user = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=True)
-    group = models.ForeignKey(GroupProfile, on_delete=models.CASCADE)
-    accepted = models.BooleanField(blank=False, default=False)
+
 class Participation(models.Model):
     userProfile = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, blank=False)
     is_mus=models.BooleanField(blank=False, default=False) #Участвует в мероприятии как музыкант или нет

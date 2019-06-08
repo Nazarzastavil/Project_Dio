@@ -8,6 +8,9 @@
 
     <div class="col s3 m3 l3"></div>
     <div class="col s6 m6 l6">
+        
+        <form action="{% url 'newevent' %}" method="post" enctype="multipart/form-data">
+
             <h3>NEW EVENT</h3>
             {% csrf_token %}
             <div class="form-group">
@@ -15,74 +18,18 @@
                 {{field.label_tag}}
                 <div>{{field}}</div>     
             
-            {% endfor %}    
-            <div class="input-field col s12">
-                <select multiple style="display: none;">
-                    <option value="" disabled selected>Choose your option</option>
-                    <optgroup label="Музыканты">
-                    {% for field in musicians %}
-                    <option value="m:{{field.pk}}">{{field.nickname}}</option>
-                    {% endfor %} 
-                    </optgroup>
-                    <optgroup label="Группы">
-                    {% for field in groups %}
-                    <option value="g:{{field.pk}}">{{field.name}}</option>
-                    {% endfor %} 
-                    </optgroup>
-                </select>
-                <label>Materialize Multiple Select</label>
-            </div>
-            <button type="submit" class='btn-large red' >Создать</button>
+            {% endfor %}
+            
+            <button type="submit", class='btn-large red'>Создать</button>
             </div>
         </form>
     </div>
     <div class="col s3 m3 l3"></div>
     </div>
-    <script>
-        $(document).ready(function(){
-            $('select').formSelect();
-          });
 
-
-        $selected = 0
-        $('select').on('change', function() {
-            $selected = $('select').formSelect('getSelectedValues');
-        })
-        
-        $('.btn-large').click(
-        function(e){
-            console.log($selected)
-
-            $.ajax({
-                type: "POST", 
-                url: "createevent/",
-                dataType : "json",
-                data: {
-                  //"id": $('select').formSelect('getSelectedValues'),
-                  "name": $('[name=name]').val(),
-                  "address": $('[name=address]').val(),
-                  "description": $('[name=description]').val(),
-                  "date": $('[name=date]').val(),
-                  "csrfmiddlewaretoken" : $(this).siblings("input[name='csrfmiddlewaretoken']" ).val(),
-                },
-                success: function(data) {
-
-                    $.ajax({
-                        type: "POST", 
-                        url: "createrequest",
-                        dataType : "json",
-                        data: {
-                            "id": data['id'],
-                            "csrfmiddlewaretoken" : data['token'],
-                            "select": JSON.stringify($selected)
-                        },
-                        success: function(data) {
-                            window.location.replace("/myevents/ ");
-                        }});
-                    }
-                })}
-            
-        )
+    <!-- <script>
+        $('#desc').val('New Text');
+        M.textareaAutoResize($('#desc'));
     </script>
      -->
     
