@@ -4,11 +4,5 @@ from userApp.models import *
 
 #admin.site.register(Person, PersonModelAdmin)
 admin.site.register(PersonProfile)
-
-admin.site.register(EventProfile)
-admin.site.register(Participation)
-admin.site.register(GroupProfile)   
-admin.site.register(RequestEvent)
-admin.site.register(AcceptedEvent)   
-admin.site.register(AcceptedGroup)   
-
+# admin.site.register(MusicianProfile)
+# admin.site.register(CompanyProfile)

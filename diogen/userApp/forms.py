@@ -42,49 +42,6 @@ class ProfileForm(forms.ModelForm):
             'birth_date': ''
         }
 
-
-class GroupForm(forms.ModelForm):
-    class Meta:
-        model = GroupProfile
-        fields = ['name', 'description', 'genres', 'instruments', 'soundcloud',
-            'create_date', 'image']
-        widgets = {
-            'create_date': forms.TextInput(attrs={'class':'datepicker'}),
-            #'users': forms.SelectMultiple(attrs={'style': 'display: none;', 'multiple': ''}),
-        }
-
-class Event(forms.ModelForm):
-    class Meta:
-        model = EventProfile
-        fields = ('name', 'address', 'description', 'date')
-        labels = {
-            'name': 'Наименование события',
-            'date': 'Время проведения',
-            'address': 'Место проведения',
-            'description': 'Описание'
-        }
-        widgets = {
-            'date': forms.TextInput(attrs={'class':'datepicker'}),
-            'description': forms.Textarea(attrs={'class':'materialize-textarea', 'id':'desc'}),
-            'company': forms.Select(attrs={'style':'display: flex'}),
-            'address': forms.TextInput(attrs={}),
-            
-        }
-        initial = {
-            'date': ''
-        }
-
-class RequestsEvent(forms.ModelForm):
-    class Meta:
-        model = RequestEvent
-        fields = ('users', 'groups', 'event', 'accepted', 'seen', 'declined')
-        
-
-    # def __init__(self, *args, **kwargs):
-    #     super(EventForm, self).__init__(*args, **kwargs)
-    #     self.fields['company'].queryset = PersonProfile.objects.all()
-
-
 # class MusicianForm(forms.ModelForm):
 #     class Meta:
 #         model = MusicianProfile

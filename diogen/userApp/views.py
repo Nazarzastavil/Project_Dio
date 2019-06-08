@@ -21,7 +21,6 @@ def mainpage(request):
     return redirect('login/')
 
 def registration(request):
-
     if request.method == 'POST':
         form1=ProfileForm
         #userform=UserForm
@@ -106,89 +105,8 @@ class MusiciansList(ListView):
     def get_queryset(self):
         result = super(MusiciansList, self).get_queryset()
         query = self.request.GET.get('q')
-
-        
-        instrs = self.request.GET.get('instrs')
-        genres = self.request.GET.get('genres')
-        date = self.request.GET.get('date')
-        if (not query):
-            query=''
-        if(not instrs):
-            instrs=''
-        if(not genres):
-            genres=''
-
-        result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
-            & Q(genres__icontains=genres))
- 
-        context = super(MusiciansList, self).get_context_data(**kwargs)
-        context.update({  
-            'event_list': EventProfile.objects.all().order_by('date'), 
-            'musician_list': result, 
-            'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
-            'event_request': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
-            'accepted_events': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
-            'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False))
-        })
-        context.update({
-             
-            'selected_events': EventProfile.objects.filter(pk__in=[i.event.id for i in context['event_follows']], date=date)
-        })
-
-        return context 
-
-def MusiciansListRequest(request):
-    response_data = {}
-    print(request.POST['id'])
-    
-    if request.method == 'POST':
-        parsemus = {}
-        parsegroup = {}
-        for i in request.POST["select"][1:-1].split(','):
-            tmp = i[1:-1]#str(i).split(':')
-            print(tmp)
-            if(tmp[0] == 'm'):
-                p = AcceptedEvent()
-                p.user = PersonProfile.objects.filter(pk=int(tmp[2:]))[0]
-                p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
-                p.save()
-            if(tmp[0] == 'g'):
-                p = AcceptedEvent()
-                p.group = GroupProfile.objects.filter(pk=int(tmp[2:]))[0]
-                p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
-                p.save()
-    response_data['da'] = 'da'
-    return JsonResponse(response_data)
-
-def EventCreate(request):
-    response_data = {}
-    if request.method == 'POST':
-        p = EventProfile()
-        p.name = request.POST["name"]
-        p.address = request.POST["address"]
-        p.date = request.POST["date"]
-        p.description = request.POST["description"]
-        p.company = get_object_or_404(PersonProfile, user=request.user)
-        p.save()
-        #print(p.pk)
-        response_data['id'] = p.pk
-        response_data['token'] = request.POST["csrfmiddlewaretoken"]
-    return JsonResponse(response_data)
-
-
-def EventFollowList(request):
-    event_id = request.POST["id"]
-    response_data = {}
-    response_data["id"] = event_id
-    if request.method == 'POST':
-        
-        if(Participation.objects.filter(event=event_id).count()==0):
-            p = Participation()
-            p.userProfile = get_object_or_404(PersonProfile, user=request.user)
-            p.is_mus=False
-            p.event=get_object_or_404(EventProfile, id=event_id)
-            p.save()
-
+        if query:
+            result = result.filter(Q(nickname__icontains=query))
             
 
         return result
@@ -211,16 +129,14 @@ def profile(request, person_id):
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
     #persondetail.email=''
     userdetail = persondetail.user
-    acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=request.user), accepted=True)
-    print(acceptedGroup)
+
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
     })
 
 
-
-
+'''
 def registration(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -249,3 +165,4 @@ def registration(request):
 
 def login(request):
     pass
+'''
