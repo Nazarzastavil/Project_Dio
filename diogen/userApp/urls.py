@@ -23,7 +23,9 @@ urlpatterns = [
     path('myevents/<int:pk>/delete/', views.EventDelete.as_view(), name='EventDelete'),
 
     
-    path('feed/<int:pk>/', views.UserUpdate.as_view(), name="UserUpdate"),
+    path('users/<int:pk>/', views.UserUpdate.as_view(), name="UserUpdate"),
+    # path('users/<int:pk>/', views.UserUpdate, name="UserUpdate"),
+
     # path('event/add/', views.EventCreate.as_view(), name='event-add'),
     # path('feed/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
 

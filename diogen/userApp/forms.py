@@ -21,7 +21,7 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = PersonProfile
-        fields = ('birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company')
+        fields = ('birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company', 'user')
         labels = {
             'birth_date': 'Дата рождения',
             'adress': 'Укажите свой город',
@@ -49,10 +49,15 @@ class ProfileForm(forms.ModelForm):
 class GroupForm(forms.ModelForm):
     class Meta:
         model = GroupProfile
-        fields = ['users', 'name']
+        fields = ['name', 'users', 'description', 'genres', 'instruments', 'soundcloud',
+            'create_date', 'image']
         widgets = {
-            'users':  forms.Select(attrs={'style':'display: flex'})
+            #'users':  forms.Select(attrs={'style': 'display: flex'}),
+            'create_date': forms.TextInput(attrs={'class':'datepicker'}),
+
         }
+
+
 
 class EventForm(forms.ModelForm):
     class Meta:
