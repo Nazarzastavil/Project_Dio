@@ -13,6 +13,10 @@ urlpatterns = [
     path('feed/updfollow/', views.EventFollowList, name = 'EventFollowList' ),
     path('reg/upd/', views.update_profile , name='update_profile'),
     path('<int:person_id>/', views.profile, name="profile"),
+    
+    path('follows/<int:pk>', views.follow, name="follow"),
+    path('unfollow/<int:pk>', views.unfollow, name="unfollow"),
+
     path('newevent/', views.newevent, name="newevent"),
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
     path('newgroup/', views.GroupCreate.as_view(), name="newgroup"),

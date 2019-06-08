@@ -66,11 +66,15 @@ def registration(request):
 def update_profile(request):
     user_form = UserForm(request.POST, instance=request.user)
     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    profile_form.user = get_object_or_404(User, pk=request.user.pk)
+
+
     if request.method == 'POST':
         #user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         #print('da')
-
+        
+        print('user:',profile_form.user)
+        print(user_form.errors, 'mda', profile_form.errors)
         if user_form.is_valid() and profile_form.is_valid():
             #profile = PersonProfile(image = request.FILES['image'])
 
@@ -82,13 +86,13 @@ def update_profile(request):
             #return redirect('settings:profile')
             #return HttpResponse('success!')
             return redirect('/feed/')
-
-    else:
-        return render(request, 'userApp/reg.html', {
-        'user_form': user_form,
-        'profile_form': profile_form,
-        })
-    #return HttpResponse('test!')
+       
+    
+    return render(request, 'userApp/reg.html', {
+    'user_form': user_form,
+    'profile_form': profile_form,
+    })
+    # return HttpResponse('test!')
     #TEMP
   
 
@@ -182,11 +186,19 @@ def profile(request, person_id): #detail view of profile
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
     #persondetail.email=''
     userdetail = persondetail.user
+    myprofile = get_object_or_404(PersonProfile, user=request.user)
+    isfollow=False
+    if (persondetail.followed_by.filter(user=request.user)):
+        print('dada')
+        isfollow=True
+    else: print('netnet')
+    
 
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
-    'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id))
+    'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id)),
+    'isfollow':isfollow,
     })
 
 
@@ -219,10 +231,9 @@ def newevent(request):
    
     # profile = PersonProfile.objects.get(pk=1)
     # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-    eventform = Event(request.POST)
+    eventform = EventForm(request.POST)
 
     if request.method == 'POST':
-
         if eventform.is_valid():
            
             p_profile = get_object_or_404(PersonProfile, user=request.user)
@@ -267,6 +278,21 @@ class UserUpdate(UpdateView):
         post.save()
         return redirect('/feed/')
 
+def follow(request, pk):
+    p = get_object_or_404(PersonProfile, user=request.user)
+    followman = get_object_or_404(PersonProfile, pk=pk)
+    p.followers.add(followman)
+
+    return redirect("/{}/".format(pk))
+
+def unfollow(request, pk):
+    p = get_object_or_404(PersonProfile, user=request.user)
+    followman = get_object_or_404(PersonProfile, pk=pk)
+    p.followers.remove(followman)
+
+    return redirect("/{}/".format(pk))
+  
+
 
 # def UserUpdate(request,pk):
 #     user_form = UserForm(request.POST, instance=request.user)
@@ -292,37 +318,3 @@ class UserUpdate(UpdateView):
 #     })
 
 
-
-
-
-
-''' 
-def registration(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        #registertime = request.POST.get("registertime")
-        date = request.POST.get("date")
-        password = request.POST.get("password")
-        spec = request.POST.get("spec")
-        image= request.POST.get("image")
-        p = Person()
-        p.name=name
-        p.registertime=datetime.datetime.utcnow().replace(tzinfo=utc)
-        p.date=date
-        p.spec=spec
-        p.phone=1337
-        p.description='description'
-        p.email='nu da'
-        p.clean()
-        p.image=image
-
-        p.save()
-        # age = request.POST.get("age")     # получение значения поля age
-        return HttpResponse("<h2>Hello, {0}</h2>".format(name))
-    else:
-        personform = PersonForm()
-        return render(request, "userApp/reg.html", {"form": personform})
-
-def login(request):
-    pass
-'''

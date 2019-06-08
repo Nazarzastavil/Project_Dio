@@ -29,7 +29,6 @@
 				<li class="tab col s3"><a href="#test3">События</a></li>
 				<li class="tab col s3"><a href="#test4">Подписки</a></li>
 				
-
 				</ul>
 			</div>
 			<div id="test1" class="col s12">
@@ -74,7 +73,40 @@
 				{% endfor %} -->
 
 			</div>
-			<div id="test4" class="col s12">Test 4</div>
+			<div id="test4" class="col s12">
+					<ul class="collection sbox">
+					{% for f in profile.followers.all %}
+					<!-- {{ f }} -->
+					
+						
+
+						<a href="{% url 'profile' f.id %}">  
+							<li  class="collection-item collection-item avatar">
+								
+								<img src = "{{ f.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
+								<span class="title">{{ f.nickname}}</span>
+							
+								{% with instrumentlist=f.instruments.split %}
+								<p style="margin-top: 10px;">
+								{% for instrument in  instrumentlist %}
+									<div class="chip">
+									{{instrument}}
+									</div>    
+								{% endfor %}
+								{% endwith %}
+								</p>
+								<p style="margin-top: 10px;">
+									
+								</p>
+								
+							</li>
+						</a>
+				
+					{% endfor %}
+				</ul>
+				
+
+			</div>
 		</div> 
 		
 	</div>
@@ -91,8 +123,25 @@
 				</div>
 				
 				<div class="col col1 l3 m3 s12 row center">
-					
+				
+					{% if isfollow == True %}
+					<form action="{% url 'unfollow' profile.pk %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}        
+						<button type="submit", class='btn-large red'>Отписаться</button>
+					</form>
+					{% else %}
+					<form action="{% url 'follow' profile.pk %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}        
 						<button type="submit", class='btn-large red'>Подписаться</button>
+					</form>
+					{% endif %}
+					
+					
+					
+					
+
+					
+						
 					
 					
 				</div>
