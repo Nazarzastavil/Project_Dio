@@ -5886,10 +5886,6 @@ body.keyboard-focused .dropdown-content li:focus {
   background-color: #eee;
 }
 
-.cal.collapsible-body {
-  padding: 0rem;
-}
-
 .collapsible-body {
   display: none;
   border-bottom: 1px solid #ddd;
@@ -5897,8 +5893,6 @@ body.keyboard-focused .dropdown-content li:focus {
           box-sizing: border-box;
   padding: 2rem;
 }
-
-
 
 .sidenav .collapsible,
 .sidenav.fixed .collapsible {
@@ -7150,7 +7144,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before {
 /* Select Field
    ========================================================================== */
 select {
-  display: flex;
+  display: none;
 }
 
 select.browser-default {

@@ -44,9 +44,9 @@
                 <li>
                   <form id="" action={% url 'UserUpdate' pk=user.personprofile.pk %}>
                       {% csrf_token %}          
-                      <!-- <button type="submit", class='btn-small green ' style="margin-top: 30px;">Update</button> -->
-                    <a id="logo-container" href={% url 'UserUpdate' pk=user.personprofile.pk %}><i class="material-icons">brightness_7</i></a></li> 
-                  <!-- </form> -->
+                      <button type="submit", class='btn-small green ' style="margin-top: 30px;">Update</button>
+                    <!-- <a id="logo-container" ><i class="material-icons">brightness_7</i></a></li>  -->
+                  </form>
               {% else %}
                 <!-- <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>    -->
               {% endif %} 
