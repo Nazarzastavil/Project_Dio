@@ -5,27 +5,28 @@
 
 {% block page %}
 
-
+<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Oswald|Vollkorn&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
       <div class="container">
         
-        <h1 class="header center teal-text text-lighten-1" style = "font-family: 'Open Sans', sans-serif;">
+        <h1 class="header center" style = "font-family: 'Indie Flower', bold; font-size: 100px;">
             DIOGEN
         </h1>
         <div class="row center">
-          <h5 class="header col s12 light">welcome to DIO's universe</h5>
+          <h5 class="header col s12 light" style = "font-family: 'Roboto'; font-size: 36px;">Добро пожаловать!</h5>
         </div>
         <div class="row center">
           {% if user.is_authenticated %}
-          <a href="/feed" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Начать скроллить</a>
+          <a href="/feed" id="download-button" class="btn-large waves-effect waves-light teal lighten-1" style = "font-family: 'Roboto'; font-size: 16px;">Начать скроллить</a>
           {% else %}
-          <a href="/reg" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Регистрация</a>
+          <a href="/reg" id="download-button" class="btn-large waves-effect waves-light teal lighten-1" style = "font-family: 'Roboto'; font-size: 16px;">Регистрация</a>
           {% endif %}
         </div>
         <div class="row center">
-            <a class="btn-large modal-trigger ebala" href="#modal1">Вход</a>
+            <a class="btn-large modal-trigger ebala" href="#modal1" style = "font-family: 'Roboto'; font-size: 16px;">Вход</a>
 
             <div id="modal1" class="modal" href="{% url 'login'%}?next={{request.path}}">
                 
@@ -58,7 +59,7 @@
 
       </div>
     </div>
-    <div class="parallax"><img src="https://images.wallpaperscraft.ru/image/korabl_polnolunie_gorizont_129359_1280x720.jpg" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="https://www.national.ca/workspace/uploads/editorial/pride-en-1529101959.jpg" alt="Unsplashed background img 1"></div>
   </div>
 
 
@@ -70,28 +71,27 @@
         <div class="col s12 m4">
           <div class="icon-block">
             <h2 class="center teal-text"><i class="material-icons">account_circle</i></h2>
-            <h5 class="center">Находите новых музыкантов</h5>
+            <h5 class="center"  style = "font-family: 'Roboto'; font-size: 18px;text-align: center;">Находите новых музыкантов</h5>
 
-            <p class="light">Общайтесь, ищете вдохновение и создавайте музыку вместе! Вы не одиноки!</p>
+            <p class="light"  style = "font-family: 'Roboto'; font-size: 16px; color: grey; text-align: justify;">Общайтесь, ищите вдохновение и создавайте музыку вместе! Вы не одиноки!</p>
           </div>
         </div>
 
         <div class="col s12 m4">
           <div class="icon-block">
             <h2 class="center teal-text"><i class="material-icons">location_on</i></h2>
-            <h5 class="center">Концерты в вашем городе</h5>
-           
+            <h5 class="center" style = "font-family: 'Roboto'; font-size: 18px;text-align: center;">Концерты в вашем городе</h5>
 
-            <p class="light">Узнавайте о предстоящих концертах вместе с нами! Проводите время весело и со вкусом!</p>
+            <p class="light" style = "font-family: 'Roboto'; font-size: 16px; color: grey; text-align: justify;">Узнавайте о предстоящих концертах вместе с нами! Проводите время весело и со вкусом!</p>
           </div>
         </div>
 
         <div class="col s12 m4">
           <div class="icon-block">
             <h2 class="center teal-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">Создайте свою музыкальную группу</h5>
+            <h5 class="center" style = "font-family: 'Roboto'; font-size: 18px;text-align: center;">Создайте свою музыкальную группу</h5>
 
-            <p class="light">Объединяйтесь и создавайте шедевры вместе! Будьте одним целым!</p>
+            <p class="light" style = "font-family: 'Roboto'; font-size: 16px; color: grey; text-align: justify;">Объединяйтесь и создавайте шедевры вместе! Будьте одним целым!</p>
           </div>
         </div>
       </div>
@@ -100,16 +100,17 @@
   </div>
  
 
-  <div class="parallax-container valign-wrapper">
+ <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h5 class="header col s12 light">Its me, Dio!</h5>
+          <h5 class="header col s12 light"></h5>
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/553dd069476919.5b830f3d47aeb.jpg" alt="Unsplashed background img 3"></div>
+    <div class="parallax"><img src="https://cdn.wallpapersafari.com/34/79/auI1bD.jpg" alt="Unsplashed background img 3"></div>
   </div>
+
 
   
 {% endblock %}
