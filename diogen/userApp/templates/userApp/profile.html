@@ -3,12 +3,16 @@
 
 
 {% block page %}
+
+<body>
+
+
 <div class="row"></div>
 <div class="row">
 
 
 	<div class="col col1 l2 m2 s0">
-	2
+	
 	</div>
 	
 	<div class="col col1 l3 m5 s12 row center">
@@ -20,20 +24,64 @@
 		<div class="row">
 			<div class="col l12 s12">
 				<ul class="tabs">
-					<li class="tab col s3"><a class="active" href="#test1">Test 1</a></li>
-				<li class="tab col s3"><a href="#test2">Test 2</a></li>
-				<li class="tab col s3"><a href="#test4">Test 4</a></li>
+					<li class="tab col s3"><a class="active" href="#test1">Обо мне</a></li>
+				<li class="tab col s3"><a href="#test2">Доп</a></li>
+				<li class="tab col s3"><a href="#test3">События</a></li>
+				<li class="tab col s3"><a href="#test4">Подписки</a></li>
+				
+
 				</ul>
 			</div>
-			<div id="test1" class="col s12">Test 1</div>
-			<div id="test2" class="col s12">Test 2</div>
+			<div id="test1" class="col s12">
+				<div class="row ">
+				</div>
+					<h2>{{userprofile.first_name}}
+					{{userprofile.last_name}}</h2>
+					
+				<p>Почта: {{ userprofile.email }}</p>
+				<p>Дата рождения: {{ profile.birth_date }}</p>
 
+			
+			</div>
+			<div id="test2" class="col s12">
+				<p>
+					{{profile.description}}
+				</p>
+			</div>
+			<div id="test3" class="col s12">
+					<ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
+						
+
+						
+							{% for e in  event_follows %}
+							<li>
+							  <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
+								<div class="collapsible-header" tabindex="0"> {{e.event.name}} <span class="badge">{{e.event.date}} </span></div>
+								<div class="collapsible-body" style="display: none;">
+								  <p> Описание: {{e.event.description}}</p>
+								  <p> Адрес проведения: {{e.event.address}}</p>
+								  <p> Выступают: {{e.event.group}}</p>
+								  <p> Проводит: {{e.event.company.company}}</p>
+								</div>
+							</li>
+							{% endfor %}
+							
+					
+						</ul>
+					
+				<!-- {% for event in event_follows %}
+					{{event.event.name}}
+				{% endfor %} -->
+
+			</div>
 			<div id="test4" class="col s12">Test 4</div>
-		</div>
-	
+		</div> 
+		
 	</div>
+
+	
 	<div class="col col1 l3 m3 s0">
-			2
+			
 	</div>
 
 </div>
@@ -49,11 +97,13 @@
 					
 				</div>
 </div>
-
+</body>
 <script>
 	$(document).ready(function(){
 		$('.tabs').tabs();
+		$('.collapsible').collapsible();
 		});
+		
 </script>
 <!-- <!doctype html>
 <html>

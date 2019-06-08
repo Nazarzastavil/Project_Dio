@@ -186,6 +186,7 @@ def profile(request, person_id): #detail view of profile
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
+    'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id))
     })
 
 
@@ -218,9 +219,7 @@ def newevent(request):
    
     # profile = PersonProfile.objects.get(pk=1)
     # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-    
-    a = EventProfile()
-    eventform = EventForm(request.POST)
+    eventform = Event(request.POST)
 
     if request.method == 'POST':
 
@@ -250,39 +249,49 @@ class EventDelete(DeleteView):
     model = EventProfile
     success_url = '/myevents/'
 
-
-def EditProfile(request):
-    user_form = UserForm(request.POST, instance=request.user)
-    profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-    profile_model = get_object_or_404(PersonProfile, user=request.user)
-    
-    if request.method == 'POST':
-
-        if user_form.is_valid() and profile_form.is_valid():
-            #profile = PersonProfile(image = request.FILES['image'])
-
-            profile = profile_form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            user_form.save()
-
-            return redirect('/feed/')
-
-    return render(request, 'userApp/editprofile.html', {
-    'user_form': user_form,
-    'profile_form': profile_form,
-    'profile_model': profile_model,
-    })
-
 class UserUpdate(UpdateView):
     model = PersonProfile
-    form_class  = ProfileForm
-    template_name = 'userApp/editprofile.html'
-    
+    # fields = ['birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company',]
+    form_class=ProfileForm
+    second_form_class = UserForm
+
+    # def get_context_data(self, **kwargs):
+        # context = super(UserUpdate, self).get_context_data(**kwargs)
+        # print(self.form_class)
+        # context.update({ 
+        #     'mda': self.form_class(self.request.GET, instance=self.request.user),
+        # 'user_form' : self.second_form_class(self.request.GET, instance=self.request.user),
+        # })
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
-        return redirect('/myevents/')
+        return redirect('/feed/')
+
+
+# def UserUpdate(request,pk):
+#     user_form = UserForm(request.POST, instance=request.user)
+#     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+#     profile_model = get_object_or_404(PersonProfile, user=request.user)
+    
+#     if request.method == 'POST':
+
+#         if user_form.is_valid() and profile_form.is_valid():
+#             #profile = PersonProfile(image = request.FILES['image'])
+
+#             profile = profile_form.save(commit=False)
+#             profile.user = request.user
+#             profile.save()
+#             user_form.save()
+
+#             return redirect('/feed/')
+
+#     return render(request, 'userApp/personprofile_form.html', {
+#     'user_form': user_form,
+#     'form': profile_form,
+#     'profile_model': profile_model,
+#     })
+
+
 
 
 

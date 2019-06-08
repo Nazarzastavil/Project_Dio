@@ -26,7 +26,8 @@ class PersonProfile(models.Model):
     #org
     company=models.CharField(max_length=100,default='', blank=True)
 
-    followers = models.ManyToManyField('self', related_name='follows', symmetrical=False) 
+    followers = models.ManyToManyField('self', related_name='follows', symmetrical=False, blank=True) 
+    
     # group = models.ManyToManyField(GroupProfile, related_name='users', symmetrical=False)
     
 
