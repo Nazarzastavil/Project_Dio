@@ -20,8 +20,9 @@ import operator
 import json
 
 def mainpage(request):
-
     return redirect('login/')
+
+    
 
 def registration(request):
     #print('da')
@@ -65,11 +66,15 @@ def registration(request):
 def update_profile(request):
     user_form = UserForm(request.POST, instance=request.user)
     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    profile_form.user = get_object_or_404(User, pk=request.user.pk)
+
+
     if request.method == 'POST':
         #user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         #print('da')
-
+        
+        print('user:',profile_form.user)
+        print(user_form.errors, 'mda', profile_form.errors)
         if user_form.is_valid() and profile_form.is_valid():
             #profile = PersonProfile(image = request.FILES['image'])
 
@@ -81,13 +86,13 @@ def update_profile(request):
             #return redirect('settings:profile')
             #return HttpResponse('success!')
             return redirect('/feed/')
-
-    else:
-        return render(request, 'userApp/reg.html', {
-        'user_form': user_form,
-        'profile_form': profile_form,
-        })
-    #return HttpResponse('test!')
+       
+    
+    return render(request, 'userApp/reg.html', {
+    'user_form': user_form,
+    'profile_form': profile_form,
+    })
+    # return HttpResponse('test!')
     #TEMP
   
 
@@ -222,12 +227,22 @@ def profile(request, person_id): #detail view of profile
     persondetail = get_object_or_404(PersonProfile, pk=person_id)
     #persondetail.email=''
     userdetail = persondetail.user
+    myprofile = get_object_or_404(PersonProfile, user=request.user)
+    isfollow=False
+    if (persondetail.followed_by.filter(user=request.user)):
+        print('dada')
+        isfollow=True
+    else: print('netnet')
+    
+
     acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=request.user), accepted=True)
     #print(acceptedGroup)
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
     'groups': acceptedGroup
+    'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id)),
+    'isfollow':isfollow,
     })
 
 
@@ -282,7 +297,6 @@ def newevent(request):
     musicians = PersonProfile.objects.filter(~Q(nickname=''))
     groups = GroupProfile.objects.all()
     if request.method == 'POST':
-
         if eventform.is_valid():
             p_profile = get_object_or_404(PersonProfile, user=request.user)
             p_profile.save()
@@ -299,7 +313,7 @@ def newevent(request):
 class EventUpdate(UpdateView):
     model = EventProfile
     fields = ['name','date','address','group','description']
-    
+
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
@@ -310,6 +324,31 @@ class EventDelete(DeleteView):
     model = EventProfile
     success_url = '/myevents/'
 
+class UserUpdate(UpdateView):
+    model = PersonProfile
+    # fields = ['birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company',]
+    form_class=ProfileForm
+    second_form_class = UserForm
+
+    # def get_context_data(self, **kwargs):
+        # context = super(UserUpdate, self).get_context_data(**kwargs)
+        # print(self.form_class)
+        # context.update({ 
+        #     'mda': self.form_class(self.request.GET, instance=self.request.user),
+        # 'user_form' : self.second_form_class(self.request.GET, instance=self.request.user),
+        # })
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return redirect('/feed/')
+
+def follow(request, pk):
+    p = get_object_or_404(PersonProfile, user=request.user)
+    followman = get_object_or_404(PersonProfile, pk=pk)
+    p.followers.add(followman)
+    return redirect("/{}/".format(pk))
+
+    
 def RequestEventAccept(request):
     event_id = (request.POST["id"])
     user_id = get_object_or_404(PersonProfile, user=request.user)
@@ -351,53 +390,37 @@ def EditProfile(request):
     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
     
     
-    if request.method == 'POST':
 
-        if user_form.is_valid() and profile_form.is_valid():
-            #profile = PersonProfile(image = request.FILES['image'])
+def unfollow(request, pk):
+    p = get_object_or_404(PersonProfile, user=request.user)
+    followman = get_object_or_404(PersonProfile, pk=pk)
+    p.followers.remove(followman)
 
-            profile = profile_form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            user_form.save()
-
-            return redirect('/feed/')
-
-    return render(request, 'userApp/reg.html', {
-    'user_form': user_form,
-    'profile_form': profile_form,
-    })
+    return redirect("/{}/".format(pk))
+  
 
 
+# def UserUpdate(request,pk):
+#     user_form = UserForm(request.POST, instance=request.user)
+#     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+#     profile_model = get_object_or_404(PersonProfile, user=request.user)
+    
+#     if request.method == 'POST':
+
+#         if user_form.is_valid() and profile_form.is_valid():
+#             #profile = PersonProfile(image = request.FILES['image'])
+
+#             profile = profile_form.save(commit=False)
+#             profile.user = request.user
+#             profile.save()
+#             user_form.save()
+
+#             return redirect('/feed/')
+
+#     return render(request, 'userApp/personprofile_form.html', {
+#     'user_form': user_form,
+#     'form': profile_form,
+#     'profile_model': profile_model,
+#     })
 
 
-''' 
-def registration(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        #registertime = request.POST.get("registertime")
-        date = request.POST.get("date")
-        password = request.POST.get("password")
-        spec = request.POST.get("spec")
-        image= request.POST.get("image")
-        p = Person()
-        p.name=name
-        p.registertime=datetime.datetime.utcnow().replace(tzinfo=utc)
-        p.date=date
-        p.spec=spec
-        p.phone=1337
-        p.description='description'
-        p.email='nu da'
-        p.clean()
-        p.image=image
-
-        p.save()
-        # age = request.POST.get("age")     # получение значения поля age
-        return HttpResponse("<h2>Hello, {0}</h2>".format(name))
-    else:
-        personform = PersonForm()
-        return render(request, "userApp/reg.html", {"form": personform})
-
-def login(request):
-    pass
-'''

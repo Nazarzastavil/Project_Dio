@@ -26,11 +26,13 @@ class PersonProfile(models.Model):
     #org
     company=models.CharField(max_length=100,default='', blank=True)
 
-    followers = models.ManyToManyField('self', related_name='follows', symmetrical=False) 
+    followers = models.ManyToManyField('self', related_name='followed_by', symmetrical=False, blank=True)
+
     # group = models.ManyToManyField(GroupProfile, related_name='users', symmetrical=False)
     
 
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
+
 
 class GroupProfile(models.Model):
     name = models.CharField(max_length=100,default='', blank=False)

@@ -56,7 +56,9 @@ class GroupForm(forms.ModelForm):
             #'users': forms.SelectMultiple(attrs={'style': 'display: none;', 'multiple': ''}),
         }
 
-class Event(forms.ModelForm):
+
+
+class EventForm(forms.ModelForm):
     class Meta:
         model = EventProfile
         fields = ('name', 'address', 'description', 'date')

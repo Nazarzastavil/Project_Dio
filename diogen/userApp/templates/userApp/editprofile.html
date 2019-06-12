@@ -14,55 +14,17 @@
 
 {{ form.media }}
 
-<body>
-        <div class="container">
-            <div class="row">
+<body>        
 
-                    
-                    <div class="col s4 m4">
-                            <figure class="snip1273 deg">
-                                    <img src="{% static 'images/tolpa.png' %}" alt="sample72" />
-                                    <figcaption>
-                                    <h3 style = "color: #ffffff"> Любитель</h3>
-                                    <p>Если ты любишь музыку, ищешь новое и неизвестное, то добро пожаловать к нам!</p>
-                                    
-                                    </figcaption>
-                                    <a href="#"></a>
-                                </figure>
-                    </div> 
-            
-                    <div class="col s4 m4">
-                                <figure class="snip1273 mus">
-                                    <img src="{% static 'images/dio.png' %}" alt="sample21" />
-                                    <figcaption>
-                                            <h3 style = "color: #ffffff"> Творец</h3>
-                                    <p>Если ты живешь музыкой, любишь и  создаешь музыку, то добро пожаловать в Мир таких же “вольных” творцов, как и ты!</p>
-                                    </figcaption>
-                                    <a href="#"></a>
-                                </figure>
-                    </div>
-            
-                    <div class="col s4 m4">
-                            <figure class="snip1273 org">
-                                    <img src="{% static 'images/pub.png' %}" alt="sample86"/>
-                                    <figcaption>
-                                    <h3 style = "color: #ffffff"> Держатель</h3>
-                                    <p>Если вы нуждайтесь в тех, кто скрасит вечер в ваших владениях, заставит трепетать сердца слушателей, то мы поможем их найти! Добро пожаловать!</p>
-                                    </figcaption>
-                                    <a href="#"></a>
-                                </figure>
-                </div>
-            </div>
-        </div>
-
+        
         <section class="container text">
                 <div class="inner">
-                        <div class="row flex flex-2 deg">
+                        <div class="row flex flex-2">
                                 <div class="col col1 s3">
-                      
+                                        
                                 </div>        
                                                         
-                            <div class="col col2 s6">
+                                <div class="col col2 s6">
                                 <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data" >
                                         {% csrf_token %}
                                         {% for field in user_form %}
@@ -75,8 +37,7 @@
                                         {% endfor %}
                                         <div>
                                         <div class="form-group">
-                                            
-`
+                                                
                                                 {{profile_form.birth_date.label_tag}}
                                                 {{profile_form.birth_date}}
                                                 {{profile_form.adress.label_tag}}
@@ -90,7 +51,7 @@
                                                 <div class="preview"></div>
                                                 <div class="error">{{profile_form.errors}}</div>
 
-                                                 
+                                                        
                                         </div>
                                                 
                                         <div class="row"></div>
@@ -100,18 +61,15 @@
                                         </div> 
                                 </form>
                                 <img class="cropper-result"></img>
-                            </div>
+                                </div>
                                 <div class="col col1 s2">
                                         <!--left banner-->
                                 </div>  
                         </div>
-                        
-                      
-                
 
                 </div>
                 <div class="inner">
-                <div class="row flex flex-2 mus">
+                <div class="row flex flex-2">
                         <div class="col col1 s3">
                         </div>
                         <div class="col col2 s6">
@@ -162,7 +120,7 @@
                 </div>
                 </div>
                 <div class="inner">
-                <div class="row flex flex-2 org">
+                <div class="row flex flex-2">
                         <div class="col col1 s3">
                                 
                         </div>
@@ -204,30 +162,30 @@
                         </div>
                 </div>
                 </div>  
-                                    
-                            
-                                   
-                           
-               
+                                        
+                                
+                                        
+                                
+                
         </section>
 
         
 
-      
-              
-              
+        
+                
+                
 
-    <!--Scripts-->
-    <script src="{% static 'js/govno.js' %}"></script>
-    <script src="{% static 'js/croppie.js' %}"></script>
-    <script>
-   
+        <!--Scripts-->
+        <!-- <script src="{% static 'js/govno.js' %}"></script>
+        <script src="{% static 'js/croppie.js' %}"></script>
+        <script>
+        
 
 
-    function readFile(input) {
-            $sel = $(input).parent().children('.preview');
-            $sel.croppie('destroy');
-            $sel.croppie({
+        function readFile(input) {
+                $sel = $(input).parent().children('.preview');
+                $sel.croppie('destroy');
+                $sel.croppie({
                 viewport: { width: 250, height: 250, type: 'circle'},
                 boundary: { width: 300, height: 300 },
                 showZoomer: true,
@@ -266,8 +224,10 @@
         
 
 
-    </script>
+        </script> -->
 
 </body>
+
+
 {% endblock %}
 

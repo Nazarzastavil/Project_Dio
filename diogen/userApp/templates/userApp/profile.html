@@ -4,7 +4,157 @@
 
 {% block page %}
 
-<!doctype html>
+<body>
+
+
+<div class="row"></div>
+<div class="row">
+
+
+	<div class="col col1 l2 m2 s0">
+	
+	</div>
+	
+	<div class="col col1 l3 m5 s12 row center">
+			<img src = "{{ profile.image.url }}"/>
+		
+		
+	</div>
+	<div class="col col1 l4 m4 s12">
+		<div class="row">
+			<div class="col l12 s12">
+				<ul class="tabs">
+					<li class="tab col s3"><a class="active" href="#test1">Обо мне</a></li>
+				<li class="tab col s3"><a href="#test2">Доп</a></li>
+				<li class="tab col s3"><a href="#test3">События</a></li>
+				<li class="tab col s3"><a href="#test4">Подписки</a></li>
+				
+				</ul>
+			</div>
+			<div id="test1" class="col s12">
+				<div class="row ">
+				</div>
+					<h2>{{userprofile.first_name}}
+					{{userprofile.last_name}}</h2>
+					
+				<p>Почта: {{ userprofile.email }}</p>
+				<p>Дата рождения: {{ profile.birth_date }}</p>
+
+			
+			</div>
+			<div id="test2" class="col s12">
+				<p>
+					{{profile.description}}
+				</p>
+			</div>
+			<div id="test3" class="col s12">
+					<ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
+						
+
+						
+							{% for e in  event_follows %}
+							<li>
+							  <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
+								<div class="collapsible-header" tabindex="0"> {{e.event.name}} <span class="badge">{{e.event.date}} </span></div>
+								<div class="collapsible-body" style="display: none;">
+								  <p> Описание: {{e.event.description}}</p>
+								  <p> Адрес проведения: {{e.event.address}}</p>
+								  <p> Выступают: {{e.event.group}}</p>
+								  <p> Проводит: {{e.event.company.company}}</p>
+								</div>
+							</li>
+							{% endfor %}
+							
+					
+						</ul>
+					
+				<!-- {% for event in event_follows %}
+					{{event.event.name}}
+				{% endfor %} -->
+
+			</div>
+			<div id="test4" class="col s12">
+					<ul class="collection sbox">
+					{% for f in profile.followers.all %}
+					<!-- {{ f }} -->
+					
+						
+
+						<a href="{% url 'profile' f.id %}">  
+							<li  class="collection-item collection-item avatar">
+								
+								<img src = "{{ f.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
+								<span class="title">{{ f.nickname}}</span>
+							
+								{% with instrumentlist=f.instruments.split %}
+								<p style="margin-top: 10px;">
+								{% for instrument in  instrumentlist %}
+									<div class="chip">
+									{{instrument}}
+									</div>    
+								{% endfor %}
+								{% endwith %}
+								</p>
+								<p style="margin-top: 10px;">
+									
+								</p>
+								
+							</li>
+						</a>
+				
+					{% endfor %}
+				</ul>
+				
+
+			</div>
+		</div> 
+		
+	</div>
+
+	
+	<div class="col col1 l3 m3 s0">
+			
+	</div>
+
+</div>
+<div class="row">
+		<div class="col col1 l2 m2 s0">
+				
+				</div>
+				
+				<div class="col col1 l3 m3 s12 row center">
+				
+					{% if isfollow == True %}
+					<form action="{% url 'unfollow' profile.pk %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}        
+						<button type="submit", class='btn-large red'>Отписаться</button>
+					</form>
+					{% else %}
+					<form action="{% url 'follow' profile.pk %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}        
+						<button type="submit", class='btn-large red'>Подписаться</button>
+					</form>
+					{% endif %}
+					
+					
+					
+					
+
+					
+						
+					
+					
+				</div>
+</div>
+</body>
+<script>
+	$(document).ready(function(){
+		$('.tabs').tabs();
+		$('.collapsible').collapsible();
+		});
+		
+</script>
+<!-- <!doctype html>
 <html>
     <head>
         <title> {{ profile.name }}</title>
@@ -49,7 +199,7 @@
 <br/>
 
   </body>
-</html>
+</html> -->
 
 
 <script>
