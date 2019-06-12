@@ -11683,6 +11683,7 @@ $jscomp.polyfill = function (e, r, p, m) {
       key: "_handleSelectChange",
       value: function _handleSelectChange(e) {
         this._setValueToInput();
+        this._setSelectedStates();
       }
 
       /**
