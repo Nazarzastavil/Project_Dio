@@ -129,18 +129,12 @@ class MusiciansList(ListView):
             genres=''
         if(not town):
             town=''
-        if(not fol):
-            fol=''
         if(not ihere):
             ihere=''   
-        print(fol)
         result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
                 & Q(genres__icontains=genres) & Q(adress__icontains=town))
-        if fol:
-            print(result[0].followed_by)
-            #result = result.filter(Q(adress__icontains=town))
-        #print([i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)])
-       # print(AcceptedEvent.objects.filter(accepted=False, group__in=[i for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True).values('pk')]))
+        if fol == "true":
+            result = result.filter(Q(followed_by=get_object_or_404(PersonProfile, user=self.request.user)))
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({  
             'event_list': EventProfile.objects.all().order_by('date'), 
