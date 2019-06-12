@@ -36,10 +36,30 @@
           <div class="cal collapsible-body" style="padding: 0rem;">
             
             {% for event in event_request %}
-            <ul class="collection" event="{{event.event.pk}}"> 
+            <ul class="collection" event="{{event.event.pk}}" kto="u" ids="{{event.pk}}"> 
                 
               <li class="collection-item">
                 <div> {{event.event.name}}
+                    {% csrf_token %}   
+                    <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                        <i class="small material-icons">clear</i>
+                    </a>
+                  <a href="#" class="secondary-content accpet-event" dada="{{event.event.pk}}" act="True">
+                      
+                      <i class="small material-icons">check</i>
+                    </a>
+                    <a href="#!!!" class="secondary-content">
+                        <i class="small material-icons">remove_red_eye</i>
+                    </a>
+                </div>
+              </li>
+            </ul>
+            {% endfor %}
+            {% for event in group_events_request %}
+            <ul class="collection" event="{{event.event.pk}}" kto="g" ids="{{event.pk}}"> 
+                
+              <li class="collection-item">
+                <div> {{event.event.name}} группа {{event.group}}
                     {% csrf_token %}   
                     <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
                         <i class="small material-icons">clear</i>
@@ -77,6 +97,22 @@
                 </li>
               </ul>
               {% endfor %}
+              {% for event in groups_events %}
+            <ul class="collection" event="{{event.event.pk}}" kto="g" ids="{{event.pk}}"> 
+                
+              <li class="collection-item">
+                <div> {{event.event.name}} группа {{event.group}}
+                    {% csrf_token %}   
+                    <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                        <i class="small material-icons">clear</i>
+                    </a>
+                  <a href="#!!!" class="secondary-content">
+                        <i class="small material-icons">remove_red_eye</i>
+                    </a>
+                </div>
+              </li>
+            </ul>
+            {% endfor %}
               
           </li>
 
@@ -266,7 +302,9 @@
         "id": $(this).attr('dada'),
         "csrfmiddlewaretoken" : $(this).siblings("input[name='csrfmiddlewaretoken']" ).val(),
         "act": $(this).attr('act'),
-        "parent": $(this).parent().parent().parent().attr('event')
+        "parent": $(this).parent().parent().parent().attr('event'),
+        "who": $(this).parent().parent().parent().attr('kto'),
+        "pk": $(this).parent().parent().parent().attr('ids'),
       },
       success: function(data) {
         $(e.currentTarget).parent().parent().remove()

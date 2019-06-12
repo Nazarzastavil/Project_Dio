@@ -47,7 +47,7 @@
 
 
         $selected = 0
-        $('select').on('change:after', function() {
+        $('select').on('change', function() {
             $selected = $('select').formSelect('getSelectedValues');
         })
         
@@ -60,7 +60,7 @@
                 url: "createevent/",
                 dataType : "json",
                 data: {
-                  //"id": $('select').formSelect('getSelectedValues'),
+                  "id": $('select').formSelect('getSelectedValues'),
                   "name": $('[name=name]').val(),
                   "address": $('[name=address]').val(),
                   "description": $('[name=description]').val(),

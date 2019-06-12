@@ -127,7 +127,8 @@ class MusiciansList(ListView):
 
         result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
             & Q(genres__icontains=genres))
-        #print(AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False)[0])
+        print([i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)])
+       # print(AcceptedEvent.objects.filter(accepted=False, group__in=[i for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True).values('pk')]))
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({  
             'event_list': EventProfile.objects.all().order_by('date'), 
@@ -137,7 +138,9 @@ class MusiciansList(ListView):
             'accepted_events': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
             'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False)),
             'group_request': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
-            'groups': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)
+            'groups': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
+            'group_events_request' : AcceptedEvent.objects.filter(accepted=False, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]),
+            'groups_events': AcceptedEvent.objects.filter(accepted=True, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)])
         })
         context.update({
              
@@ -161,6 +164,7 @@ def MusiciansListRequest(request):
                 p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
                 p.save()
             if(tmp[0] == 'g'):
+                #print(tmp)
                 p = AcceptedEvent()
                 p.group = GroupProfile.objects.filter(pk=int(tmp[2:]))[0]
                 p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
@@ -240,7 +244,7 @@ def profile(request, person_id): #detail view of profile
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
-    'groups': acceptedGroup
+    'groups': acceptedGroup,
     'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id)),
     'isfollow':isfollow,
     })
@@ -288,12 +292,8 @@ class EventList(ListView):
    
 @login_required
 def newevent(request):
-   
-    # profile = PersonProfile.objects.get(pk=1)
-    # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-    
     a = EventProfile()
-    eventform = Event(request.POST)
+    eventform = EventForm
     musicians = PersonProfile.objects.filter(~Q(nickname=''))
     groups = GroupProfile.objects.all()
     if request.method == 'POST':
@@ -353,18 +353,34 @@ def RequestEventAccept(request):
     event_id = (request.POST["id"])
     user_id = get_object_or_404(PersonProfile, user=request.user)
     response_data = {}
-    if request.method == 'POST':
-        if request.POST["act"] == "True":
-            pp = AcceptedEvent.objects.filter(user=user_id, event=event_id)
-            for p in pp:
-                p.accepted = True
-                p.save()
-            response_data["accepted"] = True
-        else:
-            p = AcceptedEvent.objects.filter(user=user_id, event=event_id)[0]
-            p.delete()
-            response_data["accepted"] = False
-    response_data["parent"] =request.POST["parent"]
+    event = AcceptedEvent.objects.get(pk=int(request.POST["pk"]))
+
+    if event.group:
+        if request.method == 'POST':
+            if request.POST["act"] == "True":
+                #pp = AcceptedEvent.objects.filter(user=user_id, event=event_id)
+                #for p in pp:
+                event.accepted = True
+                event.save()
+                response_data["accepted"] = True
+            else:
+                #p = AcceptedEvent.objects.filter(user=user_id, event=event_id)[0]
+                event.delete()
+                response_data["accepted"] = False
+        response_data["parent"] =request.POST["parent"]
+    else:
+        if request.method == 'POST':
+            if request.POST["act"] == "True":
+                pp = AcceptedEvent.objects.filter(user=user_id, event=event_id)
+                for p in pp:
+                    p.accepted = True
+                    p.save()
+                response_data["accepted"] = True
+            else:
+                p = AcceptedEvent.objects.filter(user=user_id, event=event_id)[0]
+                p.delete()
+                response_data["accepted"] = False
+        response_data["parent"] =request.POST["parent"]
     return JsonResponse(response_data)
 
 def RequestGroupAccept(request):
