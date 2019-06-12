@@ -35,6 +35,7 @@ class PersonProfile(models.Model):
 
 
 class GroupProfile(models.Model):
+    
     name = models.CharField(max_length=100,default='', blank=False)
     #users = models.ManyToManyField(PersonProfile)
     description=models.TextField(default='',blank=True)
