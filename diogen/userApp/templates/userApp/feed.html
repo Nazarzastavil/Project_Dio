@@ -242,7 +242,25 @@
           <input type="text" id="autocomplete-input" class="autocomplete genre" name="genres">
           <label for="autocomplete-input">Жанры</label>
         </div>
-       
+
+        <div class="input-field col s6">
+          <input type="text" id="autocomplete-input" class="autocomplete town" name="town">
+          <label for="autocomplete-input">Город</label>
+        </div class="row">
+        <div>
+        <p class="col m4 l4 s4">
+          <label>
+            <input class="fol" type="checkbox" name="fol"/>
+            <span>Фоллоу</span>
+          </label>
+        </p>
+        <p class="col m4 l4 s4">
+            <label>
+              <input class="imhere" type="checkbox" name="imhere"/>
+              <span>Город</span>
+            </label>
+          </p>
+        </div>
       <div class="row center">
        
       </div>
@@ -342,7 +360,10 @@
       $('.collapsible').collapsible();
     });
 
-  $(".nick, .instr, .genre").keyup(function(e) {
+  $(".nick, .instr, .genre, .town").keyup(function(e) {search()});
+  $(".fol, .imhere").click(function(e) {search()});
+
+  function search() {
     $.ajax({
       type: "GET", 
       url: "",
@@ -350,7 +371,9 @@
         'q': $(".nick").val(),
         'instrs': $(".instr").val(),
         'genres': $(".genre").val(),
-        
+        'town': $(".town").val(),
+        'ihere': $(".imhere").is(':checked'),
+        'fol': $(".fol").is(':checked'),
       },
       success: function(data) {
 
@@ -360,7 +383,7 @@
     });
   
   
-  });
+  };
 
 
   $(".btn-follow").click(function(e) {
