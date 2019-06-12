@@ -47,7 +47,7 @@
 
 
         $selected = 0
-        $('select').on('change', function() {
+        $('select').on('change:after', function() {
             $selected = $('select').formSelect('getSelectedValues');
         })
         

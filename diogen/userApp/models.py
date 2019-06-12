@@ -33,7 +33,6 @@ class PersonProfile(models.Model):
     User.profile = property(lambda u: PersonProfile.objects.get_or_create(user=u)[0])
 
 class GroupProfile(models.Model):
-    
     name = models.CharField(max_length=100,default='', blank=False)
     #users = models.ManyToManyField(PersonProfile)
     description=models.TextField(default='',blank=True)

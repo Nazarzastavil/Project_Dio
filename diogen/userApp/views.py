@@ -122,7 +122,7 @@ class MusiciansList(ListView):
 
         result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
             & Q(genres__icontains=genres))
- 
+        #print(AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False)[0])
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({  
             'event_list': EventProfile.objects.all().order_by('date'), 
@@ -130,7 +130,9 @@ class MusiciansList(ListView):
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
             'event_request': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
             'accepted_events': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
-            'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False))
+            'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False)),
+            'group_request': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
+            'groups': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)
         })
         context.update({
              
@@ -142,7 +144,6 @@ class MusiciansList(ListView):
 def MusiciansListRequest(request):
     response_data = {}
     print(request.POST['id'])
-    
     if request.method == 'POST':
         parsemus = {}
         parsegroup = {}
@@ -222,11 +223,21 @@ def profile(request, person_id): #detail view of profile
     #persondetail.email=''
     userdetail = persondetail.user
     acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=request.user), accepted=True)
-    print(acceptedGroup)
+    #print(acceptedGroup)
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
+    'groups': acceptedGroup
     })
+
+
+def GroupReq(request):
+    if request.method == 'POST':   
+        m = AcceptedGroup()
+        m.group = GroupProfile.objects.get(pk=request.POST['group'])
+        m.user = PersonProfile.objects.get(pk=request.POST['user'])
+        m.save()
+    return JsonResponse(request.POST)
 
 
 class GroupCreate(CreateView):
@@ -268,7 +279,7 @@ def newevent(request):
     
     a = EventProfile()
     eventform = Event(request.POST)
-    musicians = PersonProfile.objects.filter(spec=1)
+    musicians = PersonProfile.objects.filter(~Q(nickname=''))
     groups = GroupProfile.objects.all()
     if request.method == 'POST':
 
@@ -312,6 +323,24 @@ def RequestEventAccept(request):
             response_data["accepted"] = True
         else:
             p = AcceptedEvent.objects.filter(user=user_id, event=event_id)[0]
+            p.delete()
+            response_data["accepted"] = False
+    response_data["parent"] =request.POST["parent"]
+    return JsonResponse(response_data)
+
+def RequestGroupAccept(request):
+    event_id = (request.POST["id"])
+    user_id = get_object_or_404(PersonProfile, user=request.user)
+    response_data = {}
+    if request.method == 'POST':
+        if request.POST["act"] == "True":
+            pp = AcceptedGroup.objects.filter(user=user_id, group=event_id)
+            for p in pp:
+                p.accepted = True
+                p.save()
+            response_data["accepted"] = True
+        else:
+            p = AcceptedGroup.objects.filter(user=user_id, group=event_id)[0]
             p.delete()
             response_data["accepted"] = False
     response_data["parent"] =request.POST["parent"]
