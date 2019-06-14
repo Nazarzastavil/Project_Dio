@@ -6,9 +6,11 @@
 
 
 {% block page %}
+<div class="row"></div>
+<div class="row">
 <div class="row">
   <div class="col s2 l2"></div>
-  <div class="col s8 l2">
+  <div class="col s8 l4">
       {% for event in  event_follows %}
       <div class="govno" style="display: none;">
 
@@ -20,9 +22,13 @@
       {% endfor %}
   <div id="calendar"></div>
   </div>
-  <div class="col s2 l1"></div>
-  <div class="col s12 l5">
-    <h5>РАРАРАРРА</h5>
+  <!-- <div class="col s2 l4">
+
+
+  </div> -->
+  
+  <div class="col s12 l4">
+    
 
   
     
@@ -32,7 +38,7 @@
         
 
         <li>
-          <div class="collapsible-header" tabindex="0">Events {% if len_events != 0 %}<span class="new badge">{{len_events}}</span>{%endif%}</div>
+          <div class="collapsible-header" tabindex="0">Приглашения на события {% if len_events != 0 %}<span class="new badge">{{len_events}}</span>{%endif%}</div>
           <div class="cal collapsible-body" style="padding: 0rem;">
             
             {% for event in event_request %}
@@ -78,7 +84,7 @@
             
         </li>
         <li>
-            <div class="collapsible-header" tabindex="0">Accepted events</div>
+            <div class="collapsible-header" tabindex="0">Мои события</div>
             <div class="cal collapsible-body" style="padding: 0rem;">
               
               {% for event in accepted_events %}
@@ -117,7 +123,7 @@
           </li>
 
           <li>
-              <div class="collapsible-header" tabindex="0">Group Requests</div>
+              <div class="collapsible-header" tabindex="0">Приглашения в группу</div>
               <div class="cal collapsible-body" style="padding: 0rem;">
                 
                 {% for group in group_request %}
@@ -143,7 +149,7 @@
             </li>
 
             <li>
-                <div class="collapsible-header" tabindex="0">Group</div>
+                <div class="collapsible-header" tabindex="0">Мои группы</div>
                 <div class="cal collapsible-body" style="padding: 0rem;">
                   
                   {% for event in groups %}
@@ -166,23 +172,121 @@
               </li>
     </ul>
       
-    </div>
+    <!-- </div> -->
   </div>
   <div class="col s3 l3"></div>
 
 </div>
-
+</div>
 
 <div class="row" style="margin: 10px;">
   
     <div class="col s2 l3"></div>
     
     <form id="searchform" action="{% url 'MusiciansList' %}" method="get" accept-charset="utf-8">
-    <div class="col s5 l5">
+    <div class="col s6 l6">
+
+      	<ul class="tabs row center">
+          
+          <li class="tab"><a class="active" href="#muslist">Музыканты</a></li>
+          <li class="tab"><a href="#eventlist">События</a></li>
+          <li class="tab"><a href="#grouplist">Группы</a></li>
+          
+        </ul>
+     <!-- ================ МУЗЫКАНТЫ ============ -->
+     <div id = "muslist">
+
+        
+        <div class="input-field col s12">
+          <input type="text" id="autocomplete-input" class="autocomplete nick" name="q">
+          <label for="autocomplete-input">Поиск</label>
+        </div>
+    
+    
+    
+        <div class="input-field col s6">
+          <input type="text" id="autocomplete-input" class="autocomplete instr" name="instrs">
+          <label for="autocomplete-input">Инструменты</label>
+        </div>
+  
+
+
+        <div class="input-field col s6">
+          <input type="text" id="autocomplete-input" class="autocomplete genre" name="genres">
+          <label for="autocomplete-input">Жанры</label>
+        </div>
+
+        <div class="input-field col s6">
+          <input type="text" id="autocomplete-input" class="autocomplete town" name="town">
+          <label for="autocomplete-input">Город</label>
+        </div>
+        <div>
+          <p class="col m3">
+            <label>
+              <input class="fol" type="checkbox" name="fol"/>
+              <span>Подписки</span>
+            </label>
+          </p>
+          <p class="col m3">
+              <label>
+                <input class="imhere" type="checkbox" name="imhere"/>
+                <span>Город</span>
+              </label>
+            </p>
+        </div>
+        <div class="row center">
+        
+        </div>
+  
+      
+    
+  <!-- <div class="search"> -->
+  <div>
+    <div class="row coll">
+      
+
+        
+        <ul class="collection sbox">
+          {% csrf_token %}                                
+          {% for person in  musician_list %}
+          {% if person.nickname != '' %}
+          <a href="{% url 'profile' person.id %}">  
+          <li  class="collection-item collection-item avatar">
+          
+              <img src = "{{ person.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
+              <span class="title">{{ person.nickname}}</span>
+        
+              {% with instrumentlist=person.instruments.split %}
+              <p style="margin-top: 10px;">
+              {% for instrument in  instrumentlist %}
+                <div class="chip">
+                  {{instrument}}
+                </div>    
+              {% endfor %}
+              {% endwith %}
+              </p>
+              <p style="margin-top: 10px;">
+              
+              </p>
+              {% endif %}
+          </li>
+          </a>
+          {% endfor %}
+    
+      </ul>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ================ КОНЕЦ МУЗЫКАНТОВ ============ -->
 
 
 
-        <div class="selected-date" name="date" class="date">Nety
+        <!-- <div class="selected-date" name="date" class="date">Nety -->
+<!-- ================ СОБЫТИЯ ================ -->
+          <div id = "eventlist">
+
           <ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
 
             {% for event in  event_list %}
@@ -216,94 +320,16 @@
             {% endfor %}
             
     
-            <li>
+            <!-- <li>
               <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
               <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
-            </li>
+            </li> -->
         </ul>
         </div>
 
 
-      <div class="input-field col s12">
-        <input type="text" id="autocomplete-input" class="autocomplete nick" name="q">
-        <label for="autocomplete-input">Поиск</label>
-      </div>
-   
-   
-   
-      <div class="input-field col s6">
-        <input type="text" id="autocomplete-input" class="autocomplete instr" name="instrs">
-        <label for="autocomplete-input">Инструменты</label>
-      </div>
-   
+        <!-- </div> -->
  
- 
-        <div class="input-field col s6">
-          <input type="text" id="autocomplete-input" class="autocomplete genre" name="genres">
-          <label for="autocomplete-input">Жанры</label>
-        </div>
-
-        <div class="input-field col s6">
-          <input type="text" id="autocomplete-input" class="autocomplete town" name="town">
-          <label for="autocomplete-input">Город</label>
-        </div class="row">
-        <div>
-        <p class="col m4 l4 s4">
-          <label>
-            <input class="fol" type="checkbox" name="fol"/>
-            <span>Фоллоу</span>
-          </label>
-        </p>
-        <p class="col m4 l4 s4">
-            <label>
-              <input class="imhere" type="checkbox" name="imhere"/>
-              <span>Город</span>
-            </label>
-          </p>
-        </div>
-      <div class="row center">
-       
-      </div>
- 
-    </div>
-  </div>
-<!-- <div class="search"> -->
-<div>
-  <div class="row coll">
-    
-
-      <div class="col s3"></div>
-      <ul class="collection col s6 sbox">
-        {% csrf_token %}                                
-        {% for person in  musician_list %}
-        {% if person.nickname != '' %}
-        <a href="{% url 'profile' person.id %}">  
-        <li  class="collection-item collection-item avatar">
-         
-            <img src = "{{ person.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
-            <span class="title">{{ person.nickname}}</span>
-       
-            {% with instrumentlist=person.instruments.split %}
-            <p style="margin-top: 10px;">
-            {% for instrument in  instrumentlist %}
-              <div class="chip">
-                {{instrument}}
-              </div>    
-            {% endfor %}
-            {% endwith %}
-            </p>
-            <p style="margin-top: 10px;">
-             
-            </p>
-            {% endif %}
-        </li>
-        </a>
-        {% endfor %}
-   
-    </ul>
-    <div class="col s3"></div>
-  </div>
-</div>
 
 </div>
 <!-- <script src="{% static 'jquery-2.1.4.min.js' %}"></script> -->
@@ -358,6 +384,7 @@
 <script>
     $(document).ready(function(){
       $('.collapsible').collapsible();
+      $('.tabs').tabs();
     });
 
   $(".nick, .instr, .genre, .town").keyup(function(e) {search()});

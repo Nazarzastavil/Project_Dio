@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col l12 s12">
 				<ul class="tabs">
-					<li class="tab col s3"><a class="active" href="#test1">Обо мне</a></li>
+					<li class="tab tabs-fixed-width col s3"><a class="active" href="#test1">Обо мне</a></li>
 				<li class="tab col s3"><a href="#test2">Доп</a></li>
 				<li class="tab col s3"><a href="#test3">События</a></li>
 				<li class="tab col s3"><a href="#test4">Подписки</a></li>
@@ -34,12 +34,20 @@
 			<div id="test1" class="col s12">
 				<div class="row ">
 				</div>
+				
+
 					<h2>{{userprofile.first_name}}
 					{{userprofile.last_name}}</h2>
-					
-				<p>Почта: {{ userprofile.email }}</p>
-				<p>Дата рождения: {{ profile.birth_date }}</p>
-
+					<div class="col s6">
+							<p>Почта: {{ userprofile.email }}</p>
+					<p>Дата рождения: {{ profile.birth_date }}</p>
+					<p>Город: {{ profile.adress }}</p>
+					</div>
+					<div class="col s1"></div>
+					<div class="col s5">
+							<p>Инструменты: {{ profile.instruments }}</p>
+							<p>Жанры: {{ profile.genres }}</p>
+					</div>
 			
 			</div>
 			<div id="test2" class="col s12">

@@ -20,10 +20,11 @@
                 <div class="col col1 s3"></div>
                 <div class="col col1 s6">
                         <h2>Обновление профиля</h2>
+                        
                         <img src="{{person.image.url}}">
-                        {{person.image.url}}
-                        {{person.email}}
-                        <form method="post">{% csrf_token %}
+                        
+                        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="form-group">
                          
                         
                                 <p>{{ context }}</p>
@@ -78,14 +79,14 @@
 
                                 
 
-
+                                
                                 {{form.image.label_tag}}
                                 {{form.image}}
                                 <div class="preview"></div>
 
                                 
                         
-                                
+                                </div>
                                 <div class="row"></div>
                                 <input type="submit" value="Обновить профиль" class="btn-large red">
                         </form>
@@ -102,60 +103,58 @@
 
         
 
-        
-                
-                
-
-        <!--Scripts-->
-        <!-- <script src="{% static 'js/govno.js' %}"></script>
+        <script src="{% static 'js/govno.js' %}"></script>
         <script src="{% static 'js/croppie.js' %}"></script>
         <script>
-        
-
-
+       
+    
+    
         function readFile(input) {
                 $sel = $(input).parent().children('.preview');
                 $sel.croppie('destroy');
                 $sel.croppie({
-                viewport: { width: 250, height: 250, type: 'circle'},
-                boundary: { width: 300, height: 300 },
-                showZoomer: true,
+                    viewport: { width: 250, height: 250, type: 'circle'},
+                    boundary: { width: 300, height: 300 },
+                    showZoomer: true,
+                    
+                    });
+                    $sel.on('update.croppie', function() {cropper($sel)})
+                    if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+    
+                            reader.onload = function (e) {
+                                    $sel.show();
+                                    $sel.croppie('bind', {
+                                    url: e.target.result
+                                    });
+                            }
+    
+                    reader.readAsDataURL(input.files[0]);
+                    }
+            }
+            $(document).ready(function() {$('.preview').hide();});
+            $('.avatar').on('change', function () { readFile(this); });
+            
+            
+            function cropper(input) {
+                    $i = ($(input).parent().children('#id_image'));
+                    const dt = new DataTransfer()
+                    $(input).croppie('result', {
+                            type: 'blob',
+                            size: 'viewport'
+                    }).then(function (resp) {
+                            dt.items.add(new File([resp], "cropped.png"));
+                            $i[0].files = dt.files;
+                    })
+                    
+            }
+            
+    
+    
+        </script>
                 
-                });
-                $sel.on('update.croppie', function() {cropper($sel)})
-                if (input.files && input.files[0]) {
-                        var reader = new FileReader();
-
-                        reader.onload = function (e) {
-                                $sel.show();
-                                $sel.croppie('bind', {
-                                url: e.target.result
-                                });
-                        }
-
-                reader.readAsDataURL(input.files[0]);
-                }
-        }
-        $(document).ready(function() {$('.preview').hide();});
-        $('.avatar').on('change', function () { readFile(this); });
-        
-        
-        function cropper(input) {
-                $i = ($(input).parent().children('#id_image'));
-                const dt = new DataTransfer()
-                $(input).croppie('result', {
-                        type: 'blob',
-                        size: 'viewport'
-                }).then(function (resp) {
-                        dt.items.add(new File([resp], "cropped.png"));
-                        $i[0].files = dt.files;
-                })
                 
-        }
-        
 
-
-        </script> -->
 
 </body>
 

@@ -57,7 +57,7 @@
             {% endif %} 
      
             {% if user.is_authenticated %}
-              <li><a class="grey-text" href="/reg/upd/">User: {{ user.get_username }}</a></li>
+              <li><a class="grey-text" href={% url 'UserUpdate' pk=user.personprofile.pk %}>User: {{ user.get_username }}</a></li>
               <li><a href="{% url 'logout'%}?next=/">Выйти</a></li>   
               <li>
                 <form id="" action={% url 'UserUpdate' pk=user.personprofile.pk %}>

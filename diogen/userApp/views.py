@@ -64,7 +64,7 @@ def registration(request):
 
 @transaction.atomic
 @login_required
-def update_profile(request):
+def update_profile(request): #апдейт при регистрации
     user_form = UserForm(request.POST, instance=request.user)
     profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
     profile_form.user = get_object_or_404(User, pk=request.user.pk)
@@ -138,6 +138,7 @@ class MusiciansList(ListView):
             result = result.filter(Q(followed_by=get_object_or_404(PersonProfile, user=self.request.user)))
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({  
+            'person_profile': get_object_or_404(PersonProfile, user=self.request.user),
             'event_list': EventProfile.objects.all().order_by('date'), 
             'musician_list': result, 
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
@@ -321,14 +322,32 @@ class UserUpdate(UpdateView): #Редактирование профиля
     # fields = ['birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company',]
     form_class=ProfileForm
     second_form_class = UserForm
+    success_url = '/feed/'
+   
+    def get(self, request, pk):
 
-    def get_context_data(self, **kwargs):
-        context = super(UserUpdate, self).get_context_data(**kwargs)
-        person=get_object_or_404(PersonProfile, user=self.request.user)
+        if(get_object_or_404(PersonProfile, pk=self.request.user.pk) != get_object_or_404(PersonProfile, pk=pk)):
+            return redirect('/users/{}'.format(self.request.user.pk))
 
+        self.object = PersonProfile.objects.get(pk=self.request.user.pk)
+        person =  PersonProfile.objects.get(pk=self.request.user.pk)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        context = self.get_context_data(object=self.object, form=form)    
+        print(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True))
         context.update({ 
-        'person' : person
+        'person' : person,
+        'groups': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)
         })
+        return self.render_to_response(context)
+    # def get_context_data(self, **kwargs):
+        
+        # context = super(UserUpdate, self).get_context_data(**kwargs)
+        # person=get_object_or_404(PersonProfile, user=self.request.user)
+
+        # context.update({ 
+        # 'person' : person
+        # })
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()

@@ -1,0 +1,331 @@
+  
+{% extends "mainPage/wrapper.html" %}
+ 
+
+{% load static %}
+
+
+{% block page %}
+<div class="row">
+  <div class="col s2 l2"></div>
+  <div class="col s12 l3" style = "margin: 2%;">
+      {% for event in  event_follows %}
+      <div class="govno" style="display: none;">
+
+        
+          <p class="names">{{event.event.name}}</p>
+          <p class="dates">{{event.event.date}}</p>
+        
+      </div>
+      {% endfor %}
+	<h5>Календарь</h5>
+  <div id="calendar"></div>
+  </div>
+  <div class="col s12 l5" style = "margin: 2%;">
+    <h5>События</h5> 
+    <div class="list" style="display: flex; flex-direction: column; height: 237px; overflow: auto; border: .05rem solid #dadee4;">
+      <ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
+
+        <li>
+          <div class="collapsible-header" tabindex="0">Something event<span class="new badge">4</span></div>
+          <div class="cal collapsible-body" style="padding: 0rem;">
+            <ul class="collection">
+              <!-- <a href="#!" class="collection-item">Alvin</a> -->
+              <li class="collection-item">
+                <div>Alvin
+                    <a href="#!" class="secondary-content">
+                        <i class="small material-icons">clear</i>
+                    </a>
+                  <a href="#!" class="secondary-content">
+                      <i class="small material-icons">check</i>
+                    </a>
+                    <a href="#!" class="secondary-content">
+                        <i class="small material-icons">remove_red_eye</i>
+                    </a>
+                </div>
+              </li>
+            </ul>
+        </li>
+    </ul>
+      
+    </div>
+  </div>
+  <div class="col s3 l1"></div>
+
+</div>
+</div>
+
+<div class="row center">
+			<div class="col l12 s12">
+				<ul class="tabs">
+          <li class="tab"><a class="active" href="#muslist">Музыканты</a></li>
+          <li class="tab"><a href="#eventlist">События</a></li>
+          <li class="tab"><a href="#grouplist">Группы</a></li>
+				
+				</ul>
+			
+    
+        
+				
+				<div id="eventlist">
+
+						<form id="searchform" action="{% url 'MusiciansList' %}" method="get" accept-charset="utf-8">
+
+							<div class="selected-date" name="date" class="date">
+								<ul class="collapsible" style="width: 120%; margin-block-end: 0px; margin-block-start: 0px;">
+
+								{% for event in  event_list %}
+								<li class="">
+									<div class="collapsible-header" tabindex="0"> {{event.name}} <span class="badge">{{event.date}} </span></div>
+									<div class="collapsible-body" style="display: none;">
+									  <p> Описание: {{event.description}}</p>
+									  <p> Место проведения: {{event.address}}</p>
+									  <p> Выступают: {{event.group}}</p>
+									  <p> Проводит: {{event.company.company}}</p>
+						
+									  
+									   {% for follow in event_follows %}
+										{% if event.id == follow.event.id %}
+										<div class="follow"></div>
+										{% endif %}
+									  {% endfor %}
+									  
+						
+									  
+										{% csrf_token %}          
+										<button type="submit" id={{ event.id }} class='btn-small red btn-follow' style="margin-top: 30px;">Follow</button>
+									  <!-- </form> -->
+									</div>
+							
+								</li>
+								{% endfor %}
+								
+						
+								<li>
+								<div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
+								<div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
+								</li>
+								</ul>
+							</div>
+						</form>
+        </div>
+        
+
+
+
+				<div id = "muslist">
+            <div class="input-field col s12">
+                <input type="text" id="autocomplete-input" class="autocomplete nick" name="q">
+                <label for="autocomplete-input">Поиск</label>
+              </div>
+           
+           
+           
+              <div class="input-field col s6">
+                <input type="text" id="autocomplete-input" class="autocomplete instr" name="instrs">
+                <label for="autocomplete-input">Инструменты</label>
+              </div>
+           
+         
+         
+                <div class="input-field col s6">
+                  <input type="text" id="autocomplete-input" class="autocomplete genre" name="genres">
+                  <label for="autocomplete-input">Жанры</label>
+                </div>
+        
+                <div class="input-field col s6">
+                  <input type="text" id="autocomplete-input" class="autocomplete town" name="town">
+                  <label for="autocomplete-input">Город</label>
+                </div class="row">
+                <div>
+                <p class="col m4 l4 s4">
+                  <label>
+                    <input class="fol" type="checkbox" name="fol"/>
+                    <span>Фоллоу</span>
+                  </label>
+                </p>
+                <p class="col m4 l4 s4">
+                    <label>
+                      <input class="imhere" type="checkbox" name="imhere"/>
+                      <span>Город</span>
+                    </label>
+                  </p>
+                </div>
+              <div class="row center">
+               
+              </div>
+         
+            </div>
+          </div>
+        <!-- <div class="search"> -->
+        <div>
+          <div class="row coll">
+            
+        
+              <div class="col s3"></div>
+              <ul class="collection col s6 sbox">
+                {% csrf_token %}                                
+                {% for person in  musician_list %}
+                {% if person.nickname != '' %}
+                <a href="{% url 'profile' person.id %}">  
+                <li  class="collection-item collection-item avatar">
+                 
+                    <img src = "{{ person.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
+                    <span class="title">{{ person.nickname}}</span>
+               
+                    {% with instrumentlist=person.instruments.split %}
+                    <p style="margin-top: 10px;">
+                    {% for instrument in  instrumentlist %}
+                      <div class="chip">
+                        {{instrument}}
+                      </div>    
+                    {% endfor %}
+                    {% endwith %}
+                    </p>
+                    <p style="margin-top: 10px;">
+                     
+                    </p>
+                    {% endif %}
+                </li>
+                </a>
+                {% endfor %}
+           
+            </ul>
+            <div class="col s3"></div>
+          </div>
+        </div>
+        
+     
+				<div class = "col l1 s2"></div>
+	</div>
+</div>
+		
+<!-- <script src="{% static 'jquery-2.1.4.min.js' %}"></script> -->
+
+<script src="{% static 'js/jquery.simple-calendar.js' %}"></script>
+
+<script>
+	$(document).ready(function(){
+		$('.tabs').tabs();
+		$('.collapsible').collapsible();
+		});
+		
+</script>
+
+<script>
+    $(document).ready(function(){
+      $('.collapsible').collapsible();
+    });
+
+  $(".nick, .instr, .genre").keyup(function(e) {
+    $.ajax({
+      type: "GET", 
+      url: "",
+      data: {
+        'q': $(".nick").val(),
+        'instrs': $(".instr").val(),
+        'genres': $(".genre").val(),
+        
+      },
+      success: function(data) {
+
+        $(".sbox").html(($(data).find(".sbox").remove(".sbox").html()))
+
+      }
+    });
+  
+  
+  });
+
+
+  $(".btn-follow").click(function(e) {
+    $.ajax({
+      type: "POST", 
+      url: "updfollow/",
+      dataType : "json",
+      data: {
+        "id": $(this).attr('id'),
+        "csrfmiddlewaretoken" : $(this).siblings("input[name='csrfmiddlewaretoken']" ).val(),
+        
+      },
+      success: function(data) {
+        if (data['followed']) {
+          $('#' + data['id']).parent().append('<div class="follow"></div>');
+          console.log('da');
+        }
+        else {
+          console.log($('#' + data['id']).parent().html());
+          $('#' + data['id']).parent().find('.follow').remove();
+        };
+        
+        follow_btn();
+
+      },
+      error: function(){
+        console.log('daddta');
+      }
+    });
+  
+  
+  });
+
+  function follow_btn() {
+    $(".follow").hide();
+    $('.btn-follow').text("Follow");
+    
+    
+    $($(('.follow')).parent().find('.btn-small')).text("Unfollow");
+  };
+
+  $(document).ready(follow_btn());
+</script>
+
+<script>
+  
+</script>
+
+<script> 
+    $(document).ready(function(){
+     $(".search") .hide();
+    });
+    $(".srh").click( function() {
+      $(".search").show();
+    });
+
+</script>
+
+<script>$(document).ready(function(){
+
+    $("#calendar").simpleCalendar({
+        fixedStartDay: false,
+        events: $('.govno').children('.dates').text(function(i, s) {return s + "#";}).text().split('#'),
+        eventsInfo: $('.govno').children('.names').text(function(i, s) {return s + "#";}).text().split('#'),
+        selectCallback: function(date){
+          $('.selected-data').text(date);
+          $.ajax({
+            type: "GET", 
+            url: "",
+            data: {
+              //csrfmiddlewaretoken: getCookie('csrftoken'),
+              'date': date,
+              
+            },
+            success: function(data) {
+              //console.log($(data).find(".selected-date").html());
+              //console.log($(data).find(".sbox").remove(".sbox").html());
+              $(".selected-date").html($(data).find(".selected-date").html())
+              //$(document).html(data)
+            }
+          })}
+    });
+  });</script>
+
+<script>$(document).ready(function(){
+  $('select').formSelect();
+});</script>
+<link href="{% static 'css/spectre.css' %}" rel="stylesheet"/>
+<link href="{% static 'css/spectre-exp.css' %}" type="text/css" rel="stylesheet"/>
+<link href="{% static 'css/spectre-icons.css' %}" type="text/css" rel="stylesheet"/>
+
+{% endblock %}
+
