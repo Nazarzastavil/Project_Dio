@@ -258,7 +258,13 @@ def profile(request, person_id): #detail view of profile
     'isfollow':isfollow,
     })
 
-
+def GroupReq(request):
+    if request.method == 'POST':   
+        m = AcceptedGroup()
+        m.group = GroupProfile.objects.get(pk=request.POST['group'])
+        m.user = PersonProfile.objects.get(pk=request.POST['user'])
+        m.save()
+    return JsonResponse(request.POST)
 
 
 class EventList(ListView):
