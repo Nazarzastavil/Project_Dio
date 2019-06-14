@@ -252,6 +252,7 @@ def profile(request, person_id): #detail view of profile
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
+    'groups': acceptedGroup,
     'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id)),
     'isfollow':isfollow,
     })
