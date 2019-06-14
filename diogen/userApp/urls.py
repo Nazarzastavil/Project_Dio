@@ -34,6 +34,7 @@ urlpatterns = [
 
 
     #GROUPS
+    path('requestgroup', views.GroupReq, name='req2'),
     path('mygroups/', views.GroupList.as_view(), name="mygroups"),
     path('mygroups/creategroup/', views.GroupCreate.as_view(), name="GroupCreate"),
     path('mygroups/upd/<int:pk>/', views.GroupUpdate.as_view(), name='GroupUpdate'),
