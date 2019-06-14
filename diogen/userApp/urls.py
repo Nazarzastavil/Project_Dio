@@ -20,7 +20,8 @@ urlpatterns = [
     path('newevent/', views.newevent, name="newevent"),
     path('feed/search/', views.MusiciansList.as_view(), name="search"),
     path('newgroup/', views.GroupCreate.as_view(), name="newgroup"),
-    path('feed/acceptevent/', views.RequestEventAccept, name="EventAccept"),  
+    path('feed/acceptevent/', views.RequestEventAccept, name="EventAccept"), 
+    path('feed/acceptegroup/', views.RequestGroupAccept, name="GroupAccept"), 
     path('newevent/createrequest', views.MusiciansListRequest, name="Req"),
     path('newevent/createevent/', views.EventCreate, name="Req1"),
     
