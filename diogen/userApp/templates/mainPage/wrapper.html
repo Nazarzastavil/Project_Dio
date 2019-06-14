@@ -55,10 +55,7 @@
             {% if user.is_authenticated and user.profile.nickname != '' %}
             <li><a href={% url 'mygroups' %}>Мои группы</a></li> 
             {% endif %} 
-            <!-- TEMP -->
-            <li><a href="{% url 'GroupCreate' %}">Добавить группу</a></li>
-
-
+     
             {% if user.is_authenticated %}
               <li><a class="grey-text" href="/reg/upd/">User: {{ user.get_username }}</a></li>
               <li><a href="{% url 'logout'%}?next=/">Выйти</a></li>   

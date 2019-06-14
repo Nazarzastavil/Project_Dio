@@ -35,7 +35,11 @@ urlpatterns = [
     #GROUPS
     path('mygroups/', views.GroupList.as_view(), name="mygroups"),
     path('mygroups/creategroup/', views.GroupCreate.as_view(), name="GroupCreate"),
+    path('mygroups/upd/<int:pk>/', views.GroupUpdate.as_view(), name='GroupUpdate'),
+    path('mygroups/<int:pk>/delete/', views.GroupDelete.as_view(), name='GroupDelete'),
+    path('mygroups/<int:pk>/', views.GroupDetail.as_view(), name='GroupDetail'),
 
+    
     # path('users/<int:pk>/', views.UserUpdate, name="UserUpdate"),
 
     # path('event/add/', views.EventCreate.as_view(), name='event-add'),

@@ -368,13 +368,13 @@ class GroupList(ListView):
         result = super(GroupList, self).get_queryset()
 
         acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)
-        print(acceptedGroup)
-        return result.filter(pk = acceptedGroup.group.pk)
+        print(acceptedGroup) 
+        return result.filter(pk = acceptedGroup.group.pk) #Я ебу как вывести только свои группы?
 
 
 class GroupCreate(CreateView):
     model = GroupProfile
-    template_name = 'userApp/newgroup.html'
+    template_name = 'groups/newgroup.html'
     form_class = GroupForm
     def form_valid(self, form):
         f = form.save(commit=False)
@@ -385,11 +385,11 @@ class GroupCreate(CreateView):
         m.user = get_object_or_404(PersonProfile, user=self.request.user)
         m.accepted = True
         m.save()
-        return redirect('/feed/')
+        return redirect('/mygroups/')
 
 class GroupDetail(DetailView):
     model = GroupProfile
-
+    template_name = 'groups/groupprofile_detail.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -397,15 +397,15 @@ class GroupDetail(DetailView):
 class GroupUpdate(UpdateView):
     model = GroupProfile
     fields = ['name','date','address','description']
-
+    template_name = 'groups/groupprofile_update.html'
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
-        return redirect('/myevents/')
+        return redirect('/mygroups/')
 
 class GroupDelete(DeleteView):
     model = GroupProfile
-    success_url = '/myevents/'
+    success_url = '/mygroups/'
 
 
 # def UserUpdate(request,pk):

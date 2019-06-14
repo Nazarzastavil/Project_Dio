@@ -1,0 +1,69 @@
+{% extends "mainPage/wrapper.html" %}
+
+{% load static %}
+
+
+{% block page %}
+    <div class="row">
+
+    <div class="col s3 m3 l3">
+        
+    </div>
+    <div class="col s6 m6 l6">
+            <h3>Ваши мероприятия:</h3>
+
+                <ul class="collapsible" style="margin-block-end: 0px; margin-block-start: 0px;">
+            
+                    {% for group in  context %}
+                    <li class="active">
+                    <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
+                        <div class="collapsible-header" tabindex="0"> {{group.name}} <span class="badge">{{group.genres}} </span></div>
+                        <div class="collapsible-body" style="display: none;">
+                        <p> Описание: {{group.description}}</p>
+                        <p> Жанры: {{group.genres}}</p>
+                        <p> Инструменты: {{group.instruments}}</p>
+                        <p> Проводит: {{group.soundcloud}}</p>
+                        <p> Дата создания: {{group.create_date}}</p>
+                            
+                        <form id="" action={% url 'GroupDetail' pk=group.pk %}>
+                            {% csrf_token %}          
+                            <button type="submit", class='btn-small blue ' style="margin-top: 30px;">Просмотр</button>
+                        </form>
+                        
+                        <form id="" action={% url 'GroupUpdate' pk=group.pk %}>
+                            {% csrf_token %}          
+                            <button type="submit", class='btn-small green ' style="margin-top: 30px;">Обновить</button>
+                        </form>
+
+                        <form id="" action={% url 'GroupDelete' group.pk %}   method="post" accept-charset="utf-8">
+                            {% csrf_token %}          
+                            <button type="submit", class='btn-small red' style="margin-top: 30px;">Удалить</button>
+                        </form>
+                
+            
+                        
+                        </div>
+                        
+                    </li>
+                    {% endfor %}
+                
+                </ul>
+                    
+            <div class="col s3 m3 l4"></div>
+            <a href="/newgroup/" class='btn-large red' style="margin-top: 30px;">Новое мероприятие</a>
+        
+
+        
+    </div>
+    <div class="col s3 m3 l3">
+       
+    </div>
+    </div>
+
+    
+     <script>
+            $(document).ready(function(){
+              $('.collapsible').collapsible();
+            });
+    </script>        
+{% endblock %}
