@@ -370,13 +370,13 @@ def unfollow(request, pk):
 class GroupList(ListView):
     model = GroupProfile
     context_object_name = 'context'
-    template_name = 'groups/listview.html'
+    template_name = 'groups/groups_listview.html'
     def get_queryset(self):
         result = super(GroupList, self).get_queryset()
 
-        acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)
-        print(acceptedGroup) 
-        return result.filter(pk = acceptedGroup.group.pk) #Я ебу как вывести только свои группы?
+        acceptedGroup = [i.group.pk for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]
+        #print(acceptedGroup) 
+        return result.filter(pk__in= acceptedGroup) #Я ебу как вывести только свои группы?
 
 
 class GroupCreate(CreateView):
