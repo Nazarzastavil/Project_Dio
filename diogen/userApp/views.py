@@ -321,8 +321,7 @@ class UserUpdate(UpdateView): #Редактирование профиля
 
     def get_context_data(self, **kwargs):
         context = super(UserUpdate, self).get_context_data(**kwargs)
-
-        person=get_object_or_404(PersonProfile, user=request.user)
+        person=get_object_or_404(PersonProfile, user=self.request.user)
 
         context.update({ 
         'person' : person
