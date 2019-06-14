@@ -36,10 +36,30 @@
           <div class="cal collapsible-body" style="padding: 0rem;">
             
             {% for event in event_request %}
-            <ul class="collection" event="{{event.event.pk}}"> 
+            <ul class="collection" event="{{event.event.pk}}" kto="u" ids="{{event.pk}}"> 
                 
               <li class="collection-item">
                 <div> {{event.event.name}}
+                    {% csrf_token %}   
+                    <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                        <i class="small material-icons">clear</i>
+                    </a>
+                  <a href="#" class="secondary-content accpet-event" dada="{{event.event.pk}}" act="True">
+                      
+                      <i class="small material-icons">check</i>
+                    </a>
+                    <a href="#!!!" class="secondary-content">
+                        <i class="small material-icons">remove_red_eye</i>
+                    </a>
+                </div>
+              </li>
+            </ul>
+            {% endfor %}
+            {% for event in group_events_request %}
+            <ul class="collection" event="{{event.event.pk}}" kto="g" ids="{{event.pk}}"> 
+                
+              <li class="collection-item">
+                <div> {{event.event.name}} группа {{event.group}}
                     {% csrf_token %}   
                     <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
                         <i class="small material-icons">clear</i>
@@ -62,7 +82,7 @@
             <div class="cal collapsible-body" style="padding: 0rem;">
               
               {% for event in accepted_events %}
-              <ul class="collection"> 
+              <ul class="collection" event="{{event.event.pk}}"> 
                   
                 <li class="collection-item">
                   <div> {{event.event.name}}
@@ -77,8 +97,73 @@
                 </li>
               </ul>
               {% endfor %}
+              {% for event in groups_events %}
+            <ul class="collection" event="{{event.event.pk}}" kto="g" ids="{{event.pk}}"> 
+                
+              <li class="collection-item">
+                <div> {{event.event.name}} группа {{event.group}}
+                    {% csrf_token %}   
+                    <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                        <i class="small material-icons">clear</i>
+                    </a>
+                  <a href="#!!!" class="secondary-content">
+                        <i class="small material-icons">remove_red_eye</i>
+                    </a>
+                </div>
+              </li>
+            </ul>
+            {% endfor %}
               
           </li>
+
+          <li>
+              <div class="collapsible-header" tabindex="0">Group Requests</div>
+              <div class="cal collapsible-body" style="padding: 0rem;">
+                
+                {% for group in group_request %}
+                <ul class="collection" group={{group.group.pk}}> 
+                    
+                  <li class="collection-item">
+                    <div> {{group.group.name}}
+                        {% csrf_token %}   
+                        <a href="#!" class="secondary-content  decline-group" dada="{{group.group.pk}}" act="False">
+                            <i class="small material-icons">clear</i>
+                        </a>
+                        <a href="#" class="secondary-content accpet-group" dada="{{group.group.pk}}" act="True">
+                            <i class="small material-icons">check</i>
+                          </a>
+                        <a href="#!!!" class="secondary-content">
+                            <i class="small material-icons">remove_red_eye</i>
+                        </a>
+                    </div>
+                  </li>
+                </ul>
+                {% endfor %}
+                
+            </li>
+
+            <li>
+                <div class="collapsible-header" tabindex="0">Group</div>
+                <div class="cal collapsible-body" style="padding: 0rem;">
+                  
+                  {% for event in groups %}
+                  <ul class="collection" event="{{event.event.pk}}"> 
+                      
+                    <li class="collection-item">
+                      <div> {{event.group.name}}
+                          {% csrf_token %}   
+                          <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                              <i class="small material-icons">clear</i>
+                          </a>
+                          <a href="#!!!" class="secondary-content">
+                              <i class="small material-icons">remove_red_eye</i>
+                          </a>
+                      </div>
+                    </li>
+                  </ul>
+                  {% endfor %}
+                  
+              </li>
     </ul>
       
     </div>
@@ -235,15 +320,39 @@
         "id": $(this).attr('dada'),
         "csrfmiddlewaretoken" : $(this).siblings("input[name='csrfmiddlewaretoken']" ).val(),
         "act": $(this).attr('act'),
-        "parent": $(this).parent().parent().parent().attr('event')
+        "parent": $(this).parent().parent().parent().attr('event'),
+        "who": $(this).parent().parent().parent().attr('kto'),
+        "pk": $(this).parent().parent().parent().attr('ids'),
       },
       success: function(data) {
-        $($(document).find('[event=' + data['parent'] + ']')).remove()
+        $(e.currentTarget).parent().parent().remove()
+        //$($(document).find('[event=' + data['parent'] + ']')).remove()
       }});
   
   
   });
 </script>
+
+<script>
+    $(".accpet-group, .decline-group").click(function(e) {
+      $.ajax({
+        type: "POST", 
+        url: "acceptegroup/",
+        dataType : "json",
+        data: {
+          "id": $(this).attr('dada'),
+          "csrfmiddlewaretoken" : $(this).siblings("input[name='csrfmiddlewaretoken']" ).val(),
+          "act": $(this).attr('act'),
+          "parent": $(this).parent().parent().parent().attr('group')
+        },
+        success: function(data) {
+          $(e.currentTarget).parent().parent().remove()
+          console.log('da')
+        }});
+    
+    
+    });
+  </script>
 
 
 <script>
