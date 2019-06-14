@@ -145,7 +145,8 @@ class MusiciansList(ListView):
             'event_request': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
             'accepted_events': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
             'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False)),
-            'group_request': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
+            'group_request': AcceptedGroup.objects.filter(Q(user=get_object_or_404(PersonProfile, user=self.request.user)) & Q(accepted=False) & 
+                            ~Q(group__in=([i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]))),
             'groups': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
             'group_events_request' : AcceptedEvent.objects.filter(accepted=False, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]),
             'groups_events': AcceptedEvent.objects.filter(accepted=True, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)])
@@ -253,11 +254,18 @@ def profile(request, person_id): #detail view of profile
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
+    'groups': acceptedGroup,
     'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id)),
     'isfollow':isfollow,
     })
 
-
+def GroupReq(request):
+    if request.method == 'POST':   
+        m = AcceptedGroup()
+        m.group = GroupProfile.objects.get(pk=request.POST['group'])
+        m.user = PersonProfile.objects.get(pk=request.POST['user'])
+        m.save()
+    return JsonResponse(request.POST)
 
 
 class EventList(ListView):
@@ -281,7 +289,7 @@ def newevent(request):
     
     a = EventProfile()
     eventform = EventForm(request.POST)
-    musicians = PersonProfile.objects.filter(spec=1)
+    musicians = PersonProfile.objects.filter(~Q(nickname=''))
     groups = GroupProfile.objects.all()
     if request.method == 'POST':
         if eventform.is_valid():
@@ -306,12 +314,23 @@ class EventDetail(DetailView):
 
 class EventUpdate(UpdateView):
     model = EventProfile
+    template_name = 'userApp/updateevent.html'
     fields = ['name','date','address','description']
 
     def form_valid(self, form):
+        print(self.request)
         post = form.save(commit=False)
         post.save()
         return redirect('/myevents/')
+
+    def get_context_data(self, **kwargs):
+        context = super(EventUpdate, self).get_context_data(**kwargs)
+        context['events'] = [self.object][0]
+        musicians = PersonProfile.objects.filter(~Q(nickname='')).filter(~Q(pk__in=[i.user.pk for i in AcceptedEvent.objects.filter(Q(event=self.object) & Q(user__isnull=False))]))
+        groups = GroupProfile.objects.filter(~Q(pk__in=[i.group.pk for i in AcceptedEvent.objects.filter(Q(event=self.object) & Q(group__isnull=False))]))
+        context['musicians'] =  musicians 
+        context['groups'] = groups
+        return context
 
 class EventDelete(DeleteView):
     model = EventProfile
@@ -378,7 +397,23 @@ def RequestEventAccept(request):
     response_data["parent"] =request.POST["parent"]
     return JsonResponse(response_data)
 
-    
+def RequestGroupAccept(request):
+    event_id = (request.POST["id"])
+    user_id = get_object_or_404(PersonProfile, user=request.user)
+    response_data = {}
+    if request.method == 'POST':
+        if request.POST["act"] == "True":
+            pp = AcceptedGroup.objects.filter(user=user_id, group=event_id)
+            for p in pp:
+                p.accepted = True
+                p.save()
+            response_data["accepted"] = True
+        else:
+            p = AcceptedGroup.objects.filter(user=user_id, group=event_id)[0]
+            p.delete()
+            response_data["accepted"] = False
+    response_data["parent"] =request.POST["parent"]
+    return JsonResponse(response_data)    
 
 def unfollow(request, pk):
     p = get_object_or_404(PersonProfile, user=request.user)
