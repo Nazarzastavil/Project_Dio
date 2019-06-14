@@ -138,13 +138,16 @@ class MusiciansList(ListView):
             result = result.filter(Q(followed_by=get_object_or_404(PersonProfile, user=self.request.user)))
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({  
-            'group_list': GroupProfile.objects.all(),
             'event_list': EventProfile.objects.all().order_by('date'), 
             'musician_list': result, 
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
             'event_request': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
             'accepted_events': AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
-            'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False))
+            'len_events': len(AcceptedEvent.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False)),
+            'group_request': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=False),
+            'groups': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
+            'group_events_request' : AcceptedEvent.objects.filter(accepted=False, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]),
+            'groups_events': AcceptedEvent.objects.filter(accepted=True, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)])
         })
         context.update({
              
@@ -156,7 +159,6 @@ class MusiciansList(ListView):
 def MusiciansListRequest(request):
     response_data = {}
     print(request.POST['id'])
-    
     if request.method == 'POST':
         parsemus = {}
         parsegroup = {}
@@ -169,6 +171,7 @@ def MusiciansListRequest(request):
                 p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
                 p.save()
             if(tmp[0] == 'g'):
+                #print(tmp)
                 p = AcceptedEvent()
                 p.group = GroupProfile.objects.filter(pk=int(tmp[2:]))[0]
                 p.event = EventProfile.objects.filter(pk=request.POST['id'])[0]
@@ -321,8 +324,7 @@ class UserUpdate(UpdateView): #Редактирование профиля
 
     def get_context_data(self, **kwargs):
         context = super(UserUpdate, self).get_context_data(**kwargs)
-
-        person=get_object_or_404(PersonProfile, user=request.user)
+        person=get_object_or_404(PersonProfile, user=self.request.user)
 
         context.update({ 
         'person' : person
