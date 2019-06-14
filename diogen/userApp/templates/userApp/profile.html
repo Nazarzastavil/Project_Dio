@@ -213,11 +213,39 @@
 
 
 <script>
-$(document).ready(function(){
-		$('.modal').modal();
-		$('.modal-content').attr('style', 'overflow-y: hidden');
-		$('.modal').attr('style', 'overflow-y: hidden');
-    //$.when( $('select').on('change', function() {})).then( function() {console.log($('select').formSelect('getSelectedValues'));})
-  });
-</script>
+	$(document).ready(function(){
+			$('.modal').modal();
+			$('.modal-content').attr('style', 'overflow-y: hidden');
+			$('.modal').attr('style', 'overflow-y: hidden');
+			//$.when( $('select').on('change', function() {})).then( function() {console.log($('select').formSelect('getSelectedValues'));})
+		});
+	
+		$('.send').click(function() {
+				$.each($('select').formSelect('getSelectedValues'), function(ind, val) {
+					$.ajax({
+									type: "POST", 
+									url: "/requestgroup",
+									dataType : "json",
+									data: {
+										//"id": $('select').formSelect('getSelectedValues'),
+										"group": val,
+										"user": $('.send').attr('da'),
+										"csrfmiddlewaretoken" : $("input[name='csrfmiddlewaretoken']").val()
+									},
+									success: function(data) {
+									}
+											
+							}
+					)
+				})
+		})
+	
+	//   href="/requestgroup/{{ profile.pk }}"
+	
+		$(document).ready(function(){
+							$('select').formSelect();
+			});
+	
+	
+	</script>
 {%endblock%}
