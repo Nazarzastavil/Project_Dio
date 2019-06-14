@@ -20,71 +20,75 @@
                 <div class="col col1 s3"></div>
                 <div class="col col1 s6">
                         <h2>Обновление профиля</h2>
-
+                        <img src="{{person.image.url}}">
+                        {{person.image.url}}
+                        {{person.email}}
+                        <form method="post">{% csrf_token %}
+                         
                         
-                        <p>{{ context }}</p>
+                                <p>{{ context }}</p>
+                                        
+                                {% if user.profile.company != ''  %}
+                                {{form.adress.label_tag}}
+                                {{form.adress}}
+                                {{form.phone.label_tag}}
+                                {{form.phone}}
+                                {{form.description.label_tag}}
+                                {{form.description}}
+
+                                {{form.company.label_tag}}
+                                {{form.company}}
                                 
-                        {% if user.profile.company != ''  %}
-                        {{form.adress.label_tag}}
-                        {{form.adress}}
-                        {{form.phone.label_tag}}
-                        {{form.phone}}
-                        {{form.description.label_tag}}
-                        {{form.description}}
+                
+                                
+                                {% endif %}
 
-                        {{form.company.label_tag}}
-                        {{form.company}}
+                                {% if user.profile.nickname != '' %}
+                                {{form.birth_date.label_tag}}
+                                {{form.birth_date}}
+                                {{form.adress.label_tag}}
+                                {{form.adress}}
+                                {{form.phone.label_tag}}
+                                {{form.phone}}
+                                {{form.description.label_tag}}
+                                {{form.description}}
+
+                                {{form.nickname.label_tag}}
+                                {{form.nickname}}
+                                {{form.genres.label_tag}}
+                                {{form.genres}}
+                                {{form.instruments.label_tag}}
+                                {{form.instruments}}
+                                {{form.soundcloud.label_tag}}
+                                {{form.soundcloud}}
+
+                                {% else %}
+                                {{form.birth_date.label_tag}}
+                                {{form.birth_date}}
+                                {{form.adress.label_tag}}
+                                {{form.adress}}
+                                {{form.phone.label_tag}}
+                                {{form.phone}}
+                                {{form.description.label_tag}}
+                                {{form.description}}
+                                {% endif %}
                         
-           
+                                
+
+
+                                
+
+
+                                {{form.image.label_tag}}
+                                {{form.image}}
+                                <div class="preview"></div>
+
+                                
                         
-                        {% endif %}
-
-                        {% if user.profile.nickname != '' %}
-                        {{form.birth_date.label_tag}}
-                        {{form.birth_date}}
-                        {{form.adress.label_tag}}
-                        {{form.adress}}
-                        {{form.phone.label_tag}}
-                        {{form.phone}}
-                        {{form.description.label_tag}}
-                        {{form.description}}
-
-                        {{form.nickname.label_tag}}
-                        {{form.nickname}}
-                        {{form.genres.label_tag}}
-                        {{form.genres}}
-                        {{form.instruments.label_tag}}
-                        {{form.instruments}}
-                        {{form.soundcloud.label_tag}}
-                        {{form.soundcloud}}
-
-                        {% else %}
-                        {{form.birth_date.label_tag}}
-                        {{form.birth_date}}
-                        {{form.adress.label_tag}}
-                        {{form.adress}}
-                        {{form.phone.label_tag}}
-                        {{form.phone}}
-                        {{form.description.label_tag}}
-                        {{form.description}}
-                        {% endif %}
-                    
-                        
-
-
-                        
-
-
-                        {{form.image.label_tag}}
-                        {{form.image}}
-                        <div class="preview"></div>
-
-                        
-                        <!-- {% for field in form %}
-                                {{field.label_tag}}
-                                <div>{{field}}</div>     
-                        {% endfor %}
-                        {{form.user.name}} -->
+                                
+                                <div class="row"></div>
+                                <input type="submit" value="Обновить профиль" class="btn-large red">
+                        </form>
                     
                     
                 </div>

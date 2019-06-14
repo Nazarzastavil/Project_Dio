@@ -25,11 +25,17 @@ urlpatterns = [
     path('newevent/createevent/', views.EventCreate, name="Req1"),
     
     path('myevents/', views.EventList.as_view(), name="EventList"),
-    path('myevents/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
+    path('myevents/upd/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
     path('myevents/<int:pk>/delete/', views.EventDelete.as_view(), name='EventDelete'),
-
+    path('myevents/<int:pk>/', views.EventDetail.as_view(), name='EventDetail'),
     
     path('users/<int:pk>/', views.UserUpdate.as_view(), name="UserUpdate"),
+
+
+    #GROUPS
+    path('mygroups/', views.GroupList.as_view(), name="mygroups"),
+    path('mygroups/creategroup/', views.GroupCreate.as_view(), name="GroupCreate"),
+
     # path('users/<int:pk>/', views.UserUpdate, name="UserUpdate"),
 
     # path('event/add/', views.EventCreate.as_view(), name='event-add'),

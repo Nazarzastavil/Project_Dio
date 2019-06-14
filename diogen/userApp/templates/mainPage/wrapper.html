@@ -31,19 +31,34 @@
           <div class="nav-wrapper container ">
               
             {% if user.is_authenticated %}
-            <a id="logo-container" href="/feed/" class="brand-logo"> <i> <img src="{% static 'images/icon.png' %}" style="max-height: 63px"></i> DIOGEN</a>
+            <a id="logo-container" href="/feed/" class="brand-logo"> 
+              <!-- <i> <img src="{% static 'images/icon.png' %}" style="max-height: 63px"> -->
+                <i class="material-icons">accessible_forward</i> 
+              </i> DIOGEN</a>
             <ul class="right hide-on-med-and-down">
             {% else %}
-            <a id="logo-container" href="/" class="brand-logo"> <i> <img src="{% static 'images/icon.png' %}" style="max-height: 63px"></i> DIOGEN</a>
+            <a id="logo-container" href="/" class="brand-logo"> 
+              <!-- <i> <img src="{% static 'images/icon.png' %}" style="max-height: 63px"> -->
+                <i class="material-icons">accessible_forward</i> 
+              </i> DIOGEN</a>
             <ul class="right hide-on-med-and-down">
             {% endif %} 
             
-            
+            {% if request.user.is_superuser %}
             <li><a href="/admin/">Admin</a></li>
+            {% endif %}
             
             {% if user.is_authenticated and user.profile.company != '' %}
-            <li><a href="/myevents/">Мероприятия</a></li> 
+            <li><a href="/myevents/">Мои мероприятия</a></li> 
             {% endif %} 
+
+            {% if user.is_authenticated and user.profile.nickname != '' %}
+            <li><a href={% url 'mygroups' %}>Мои группы</a></li> 
+            {% endif %} 
+            <!-- TEMP -->
+            <li><a href="{% url 'GroupCreate' %}">Добавить группу</a></li>
+
+
             {% if user.is_authenticated %}
               <li><a class="grey-text" href="/reg/upd/">User: {{ user.get_username }}</a></li>
               <li><a href="{% url 'logout'%}?next=/">Выйти</a></li>   

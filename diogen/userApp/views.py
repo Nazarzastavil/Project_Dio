@@ -3,6 +3,7 @@ from .models import *
 from django.http import HttpResponseRedirect,HttpResponse,JsonResponse,HttpRequest
 from django.urls import reverse,reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.detail import DetailView
 import datetime
 from django.utils.timezone import utc
 
@@ -98,7 +99,7 @@ def update_profile(request):
 
 
 def newevent(request):
-    events = Event()
+    events = EventProfile()
     return render(request, 'userApp/newevent.html', {'events':events})
 
 class MusiciansList(ListView):
@@ -130,6 +131,7 @@ class MusiciansList(ListView):
  
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({  
+            'group_list': GroupProfile.objects.all(),
             'event_list': EventProfile.objects.all().order_by('date'), 
             'musician_list': result, 
             'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, user=self.request.user)),
@@ -219,6 +221,7 @@ def EventFollow(request, event_id):
             p = get_object_or_404(Participation, event=event_id)
             p.delete()
             response_data["followed"] = False
+            
     return redirect('/feed/')
 
 
@@ -244,23 +247,7 @@ def profile(request, person_id): #detail view of profile
     })
 
 
-class GroupCreate(CreateView):
-    model = GroupProfile
-    template_name = 'userApp/newgroup.html'
-    form_class = GroupForm
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        post.save()
-        #print(post)
-        m = AcceptedGroup()
-        m.group = post
-        m.user = get_object_or_404(PersonProfile, user=self.request.user)
-        m.accepted = True
-        m.save()
-        return redirect('/feed/')
 
-
-    
 
 class EventList(ListView):
     model = EventProfile
@@ -282,7 +269,7 @@ def newevent(request):
     # profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
     
     a = EventProfile()
-    eventform = Event(request.POST)
+    eventform = EventForm(request.POST)
     musicians = PersonProfile.objects.filter(spec=1)
     groups = GroupProfile.objects.all()
     if request.method == 'POST':
@@ -299,33 +286,40 @@ def newevent(request):
         return render(request, 'userApp/newevent.html', {'events':eventform, 'musicians': musicians, 'groups': groups})
     
 
+class EventDetail(DetailView):
+    model = EventProfile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 class EventUpdate(UpdateView):
     model = EventProfile
-    fields = ['name','date','address','group','description']
+    fields = ['name','date','address','description']
 
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
         return redirect('/myevents/')
 
-    
 class EventDelete(DeleteView):
     model = EventProfile
     success_url = '/myevents/'
 
-class UserUpdate(UpdateView):
+class UserUpdate(UpdateView): #Редактирование профиля
     model = PersonProfile
     # fields = ['birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company',]
     form_class=ProfileForm
     second_form_class = UserForm
 
-    # def get_context_data(self, **kwargs):
-        # context = super(UserUpdate, self).get_context_data(**kwargs)
-        # print(self.form_class)
-        # context.update({ 
-        #     'mda': self.form_class(self.request.GET, instance=self.request.user),
-        # 'user_form' : self.second_form_class(self.request.GET, instance=self.request.user),
-        # })
+    def get_context_data(self, **kwargs):
+        context = super(UserUpdate, self).get_context_data(**kwargs)
+
+        person=get_object_or_404(PersonProfile, user=request.user)
+
+        context.update({ 
+        'person' : person
+        })
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
@@ -364,7 +358,54 @@ def unfollow(request, pk):
     p.followers.remove(followman)
 
     return redirect("/{}/".format(pk))
-  
+
+#==================================GROUPS=========================
+class GroupList(ListView):
+    model = GroupProfile
+    context_object_name = 'context'
+    template_name = 'groups/listview.html'
+    def get_queryset(self):
+        result = super(GroupList, self).get_queryset()
+
+        acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)
+        print(acceptedGroup)
+        return result.filter(pk = acceptedGroup.group.pk)
+
+
+class GroupCreate(CreateView):
+    model = GroupProfile
+    template_name = 'userApp/newgroup.html'
+    form_class = GroupForm
+    def form_valid(self, form):
+        f = form.save(commit=False)
+        f.save()
+        #print(post)
+        m = AcceptedGroup()
+        m.group = f
+        m.user = get_object_or_404(PersonProfile, user=self.request.user)
+        m.accepted = True
+        m.save()
+        return redirect('/feed/')
+
+class GroupDetail(DetailView):
+    model = GroupProfile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class GroupUpdate(UpdateView):
+    model = GroupProfile
+    fields = ['name','date','address','description']
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.save()
+        return redirect('/myevents/')
+
+class GroupDelete(DeleteView):
+    model = GroupProfile
+    success_url = '/myevents/'
 
 
 # def UserUpdate(request,pk):

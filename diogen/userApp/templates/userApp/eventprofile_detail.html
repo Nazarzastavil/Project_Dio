@@ -1,0 +1,29 @@
+{% extends "mainPage/wrapper.html" %}
+
+{% load static %}
+
+
+{% block page %}
+<div class="row center">
+
+    <div class="col s3 m3 l3">
+        
+    </div>
+    <div class="col s6 m6 l6">
+        <h3>Мероприятие</h3>
+        <img src="{{object.company.image.url}}">
+        <h5> {{object.name}}</h5>
+        <h5> {{object.address}} </h5>
+        <h5> {{object.date}} </h5>
+        <h5> {{object.company.company}} </h5>
+        <p> {{object.description}} </p>
+       
+
+    </div>
+    <div class="col s3 m3 l3">
+        
+    </div>
+</div>
+    
+{% endblock %}
+

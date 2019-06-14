@@ -23,16 +23,20 @@
                         <p> Адрес проведения: {{event.address}}</p>
                         <p> Выступают: {{event.group}}</p>
                         <p> Проводит: {{event.company.company}}</p>
-            
+                            
+                        <form id="" action={% url 'EventDetail' pk=event.pk %}>
+                            {% csrf_token %}          
+                            <button type="submit", class='btn-small blue ' style="margin-top: 30px;">Просмотр</button>
+                        </form>
                         
                         <form id="" action={% url 'EventUpdate' pk=event.pk %}>
                             {% csrf_token %}          
-                            <button type="submit", class='btn-small green ' style="margin-top: 30px;">Update</button>
+                            <button type="submit", class='btn-small green ' style="margin-top: 30px;">Обновить</button>
                         </form>
 
                         <form id="" action={% url 'EventDelete' event.pk %}   method="post" accept-charset="utf-8">
                             {% csrf_token %}          
-                            <button type="submit", class='btn-small red' style="margin-top: 30px;">Delete</button>
+                            <button type="submit", class='btn-small red' style="margin-top: 30px;">Удалить</button>
                         </form>
                 
             
