@@ -119,16 +119,23 @@ class MusiciansList(ListView):
         instrs = self.request.GET.get('instrs')
         genres = self.request.GET.get('genres')
         date = self.request.GET.get('date')
+        town = self.request.GET.get('town')
+        ihere = self.request.GET.get('imhere')
+        fol = self.request.GET.get('fol')
         if (not query):
             query=''
         if(not instrs):
             instrs=''
         if(not genres):
             genres=''
-
+        if(not town):
+            town=''
+        if(not ihere):
+            ihere=''   
         result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
-            & Q(genres__icontains=genres))
- 
+                & Q(genres__icontains=genres) & Q(adress__icontains=town))
+        if fol == "true":
+            result = result.filter(Q(followed_by=get_object_or_404(PersonProfile, user=self.request.user)))
         context = super(MusiciansList, self).get_context_data(**kwargs)
         context.update({  
             'group_list': GroupProfile.objects.all(),
