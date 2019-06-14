@@ -134,6 +134,7 @@ class MusiciansList(ListView):
             ihere=''   
         result = PersonProfile.objects.filter(Q(nickname__icontains=query) & Q(instruments__icontains=instrs) 
                 & Q(genres__icontains=genres) & Q(adress__icontains=town))
+        group_result = GroupProfile.objects.filter(Q(name__icontains=query) & Q(instruments__icontains=instrs) & Q(genres__icontains=genres))
         if fol == "true":
             result = result.filter(Q(followed_by=get_object_or_404(PersonProfile, user=self.request.user)))
         context = super(MusiciansList, self).get_context_data(**kwargs)
@@ -149,7 +150,8 @@ class MusiciansList(ListView):
                             ~Q(group__in=([i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]))),
             'groups': AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True),
             'group_events_request' : AcceptedEvent.objects.filter(accepted=False, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]),
-            'groups_events': AcceptedEvent.objects.filter(accepted=True, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)])
+            'groups_events': AcceptedEvent.objects.filter(accepted=True, group__in=[i.group for i in AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=self.request.user), accepted=True)]),
+            'group_search': group_result
         })
         context.update({
              
