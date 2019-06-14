@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+  {% load static %}
+  {% load staticfiles %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Diogen</title>
+  
+  <!-- CSS  -->
+
+  <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="{% static 'js/materialize.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="{% static 'js/init.js' %}"></script>
+  <script src="{% static 'js/govno.js' %}"></script>
+</head>
+<body>
+
+
+  
+  {% block header %}
+  <body style="display: flex; flex-direction: column; height: 100%;">
+      <nav class="white" role="navigation" style="flex: 0 0 auto;">
+          <div class="nav-wrapper container ">
+              
+              <a id="logo-container" href="/" class="brand-logo"> <i class="material-icons">accessible_forward</i> DIOGEN</a>
+              <ul class="right hide-on-med-and-down">
+              
+              <li><a href="/admin/">Admin</a></li>
+              
+              {% if user.is_authenticated and user.profile.company != '' %}
+              <li><a href="/myevents/">Мероприятия</a></li> 
+              {% endif %} 
+              {% if user.is_authenticated %}
+                <li><a class="grey-text" href="/reg/upd/">User: {{ user.get_username }}</a></li>
+                <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>   
+                <li>
+                  <form id="" action={% url 'UserUpdate' pk=user.personprofile.pk %}>
+                      {% csrf_token %}          
+                      <!-- <button type="submit", class='btn-small green ' style="margin-top: 30px;">Update</button> -->
+                    <a id="logo-container" href={% url 'UserUpdate' pk=user.personprofile.pk %}><i class="material-icons">brightness_7</i></a></li> 
+                  <!-- </form> -->
+              {% else %}
+                <!-- <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>    -->
+              {% endif %} 
+                
+              
+
+              
+              </ul>
+      
+              <ul id="nav-mobile" class="sidenav">
+              <li><a href="">Navbar Link2
+      
+              </a></li>
+              </ul>
+              <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          </div>
+      </nav>
+  </body>
+  <div class='content' style="flex: 1 0 auto;">
+  {% endblock %}
+
+  {% block page %}
+  
+  {% endblock %}
+
+  {% block footer %}
+
+
+  </div>
+  <footer class="page-footer teal" style="flex: 0 0 auto;"> 
+    <div class="container"> 
+    <div class="row"> 
+	<div class="col l1 s2"></div>
+    <div class="col l5 s12"> 
+    <h5 class="white-text" style = "text-align: center;">О нас</h5> 
+    <p class="grey-text text-lighten-4">Этот проект для творческих людей, горящих желанием создавать музыку! Создавайте месте с нами!</p> 
+    
+    
+    </div> 
+    <div class="col l2 s12"> 
+    
+    </div> 
+    <div class="col l4 s12"> 
+    <h5 class="white-text" style = "text-align: center;">Контакты</h5> 
+    <ul> 
+    <li><a class="white-text" href="#!">diogen@gmail.com</a></li> 
+    <li><a class="white-text" href="#!">7 (3452) 447568 </a></li> 
+    </ul> 
+    </div> 
+    </div> 
+    </div> 
+    <div class="footer-copyright"> 
+    <div class="container"> 
+    &copy; DIOGEN Company,  {% now "Y" %} 
+    </div> 
+    </div> 
+    </footer> 
+  </footer>
+  {% endblock %}
+
+   
+  <!--Scripts-->
+  
+
+  </body>
+  
+
+
+
+  <script>
+      $(document).ready(function(){
+    $('.modal').modal({opacity: 0.5});
+  });
+    </script>
+</html>
+
+
