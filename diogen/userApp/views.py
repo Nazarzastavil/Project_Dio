@@ -288,7 +288,7 @@ def newevent(request):
     
     a = EventProfile()
     eventform = EventForm(request.POST)
-    musicians = PersonProfile.objects.filter(spec=1)
+    musicians = PersonProfile.objects.filter(~Q(nickname=''))
     groups = GroupProfile.objects.all()
     if request.method == 'POST':
         if eventform.is_valid():
@@ -313,12 +313,23 @@ class EventDetail(DetailView):
 
 class EventUpdate(UpdateView):
     model = EventProfile
+    template_name = 'userApp/updateevent.html'
     fields = ['name','date','address','description']
 
     def form_valid(self, form):
+        print(self.request)
         post = form.save(commit=False)
         post.save()
         return redirect('/myevents/')
+
+    def get_context_data(self, **kwargs):
+        context = super(EventUpdate, self).get_context_data(**kwargs)
+        context['events'] = [self.object][0]
+        musicians = PersonProfile.objects.filter(~Q(nickname='')).filter(~Q(pk__in=[i.user.pk for i in AcceptedEvent.objects.filter(Q(event=self.object) & Q(user__isnull=False))]))
+        groups = GroupProfile.objects.filter(~Q(pk__in=[i.group.pk for i in AcceptedEvent.objects.filter(Q(event=self.object) & Q(group__isnull=False))]))
+        context['musicians'] =  musicians 
+        context['groups'] = groups
+        return context
 
 class EventDelete(DeleteView):
     model = EventProfile

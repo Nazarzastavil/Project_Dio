@@ -1,0 +1,75 @@
+{% extends "mainPage/wrapper.html" %}
+
+{% load static %}
+
+
+{% block page %}
+    
+    <div class="row">
+
+        <div class="col s3 m3 l3"></div>
+        <div class="col s6 m6 l6">
+                <h3>NEW EVENT</h3>
+                
+                <form id="updthis" method="post">{% csrf_token %}
+                    {{ form.as_p }}
+                    
+                <div class="input-field col s12">
+                    <select multiple style="display: none;">
+                        <option value="" disabled selected>Choose your option</option>
+                        <optgroup label="Музыканты">
+                        {% for field in musicians %}
+                        <option value="m:{{field.pk}}">{{field.nickname}}</option>
+                        {% endfor %} 
+                        </optgroup>
+                        <optgroup label="Группы">
+                        {% for field in groups %}
+                        <option value="g:{{field.pk}}" class="selected">{{field.name}}</option>
+                        {% endfor %} 
+                        </optgroup>
+                    </select>
+                    <label>Materialize Multiple Select</label>
+                </div>
+                <button type="submit" class='btn-large red' >Создать</button>
+                </div>
+            </form>  
+            <!-- </form> -->
+        </div>
+        <div class="col s3 m3 l3"></div>
+        </div>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+        <script>
+        $(document).ready(function(){
+            $('select').formSelect();
+          });
+
+        
+
+
+        $selected = 0
+        $('select').on('change', function() {
+            $selected = $('select').formSelect('getSelectedValues');
+        })
+        
+        $('#updthis').validate({
+            submitHandler: function(form) {
+                //e.preventDefault();
+                $.ajax({
+                    type: "POST", 
+                    url: "/createrequest",
+                    dataType : "json",
+                    data: {
+                        "id": {{events.pk}},
+                        "csrfmiddlewaretoken" : $('[name=csrfmiddlewaretoken]').attr('value'),
+                        "select": JSON.stringify($selected)
+                    },
+                    success: function(data) {
+                        window.location.replace("/myevents/ ");
+                    }});
+            }
+         });
+
+    </script>
+    
+    
+{% endblock %}

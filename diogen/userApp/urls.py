@@ -24,6 +24,7 @@ urlpatterns = [
     path('feed/acceptegroup/', views.RequestGroupAccept, name="GroupAccept"), 
     path('newevent/createrequest', views.MusiciansListRequest, name="Req"),
     path('newevent/createevent/', views.EventCreate, name="Req1"),
+    path('createrequest', views.MusiciansListRequest, name="Req"),
     
     path('myevents/', views.EventList.as_view(), name="EventList"),
     path('myevents/upd/<int:pk>/', views.EventUpdate.as_view(), name='EventUpdate'),
