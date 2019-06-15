@@ -4,15 +4,30 @@
 
 
 {% block page %}
+<link rel="stylesheet" href="http://foliotek.github.io/Croppie/croppie.css" />
     <div class="row">
-
+    <form method="post">{% csrf_token %}
     <div class="col s3 m3 l3"></div>
     <div class="col s6 m6 l6">
         <h1>Новая группа</h1>
-        <form method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Save">
+        <p> {{form.name.label_tag}}{{form.name}}</p>
+        <p> {{form.description.label_tag}}{{form.description}}  </p>
+        <p> {{form.genres.label_tag}}{{form.genres}} </p>
+        <p> {{form.instruments.label_tag}}{{form.instruments}} </p>
+        <p> {{form.soundcloud.label_tag}}{{form.soundcloud}} </p>
+
+        {{form.create_date.label_tag}}  {{form.create_date}} 
+        {{form.image.label_tag}}{{form.image}} 
+        <div class="preview"></div>
+
+            <!-- {{ form.as_p }} -->
+            <div class="row center">
+                <input type="submit" value="Обновить профиль" class="btn-large red">
+            </div>
+           
         </form>
+
+
     </div>
     <div class="col s3 m3 l3"></div>
     </div>
@@ -22,6 +37,54 @@
             $('select').formSelect();
         });
     </script>
-    
+    <script src="{% static 'js/govno.js' %}"></script>
+    <script src="{% static 'js/croppie.js' %}"></script>
+    <script>
+   
+
+
+    function readFile(input) {
+            $sel = $(input).parent().children('.preview');
+            $sel.croppie('destroy');
+            $sel.croppie({
+                viewport: { width: 250, height: 250, type: 'circle'},
+                boundary: { width: 300, height: 300 },
+                showZoomer: true,
+                
+                });
+                $sel.on('update.croppie', function() {cropper($sel)})
+                if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                                $sel.show();
+                                $sel.croppie('bind', {
+                                url: e.target.result
+                                });
+                        }
+
+                reader.readAsDataURL(input.files[0]);
+                }
+        }
+        $(document).ready(function() {$('.preview').hide();});
+        $('.avatar').on('change', function () { readFile(this); });
+        
+        
+        function cropper(input) {
+                $i = ($(input).parent().children('#id_image'));
+                const dt = new DataTransfer()
+                $(input).croppie('result', {
+                        type: 'blob',
+                        size: 'viewport'
+                }).then(function (resp) {
+                        dt.items.add(new File([resp], "cropped.png"));
+                        $i[0].files = dt.files;
+                })
+                
+        }
+        
+
+
+    </script>
     
 {% endblock %}
