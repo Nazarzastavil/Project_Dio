@@ -330,7 +330,7 @@ class EventUpdate(UpdateView):
         context['events'] = [self.object][0]
         musicians = PersonProfile.objects.filter(~Q(nickname='')).filter(~Q(pk__in=[i.user.pk for i in AcceptedEvent.objects.filter(Q(event=self.object) & Q(user__isnull=False))]))
         groups = GroupProfile.objects.filter(~Q(pk__in=[i.group.pk for i in AcceptedEvent.objects.filter(Q(event=self.object) & Q(group__isnull=False))]))
-        context['musicians'] =  musicians 
+        context['musicians'] =  musicians   
         context['groups'] = groups
         return context
 
