@@ -144,7 +144,7 @@
 					</form>
 					{% endif %}
 					<br></br>
-					<a class="waves-effect waves-light btn-large red modal-trigger" href="#modal1">Инвайт</a>
+					<a class="waves-effect waves-light btn-large red modal-trigger inv" href="#modal1">Инвайт</a>
             <div id="modal1" class="modal">
               <div class="modal-content">
                 <h4>Группки</h4>
@@ -161,7 +161,7 @@
               <div class="modal-footer">
                 <div class="row center">
                 {% csrf_token %}
-                <a class="waves-effect waves-light btn send"  da={{ profile.pk }} >Send</a>
+                <a class="modal-close waves-effect waves-light btn send"  da={{ profile.pk }} >Send</a>
                 </div>
               </div>
             </div>
@@ -229,6 +229,7 @@
 		});
 	
 		$('.send').click(function() {
+				
 				$.each($('select').formSelect('getSelectedValues'), function(ind, val) {
 					$.ajax({
 									type: "POST", 
@@ -247,7 +248,12 @@
 					)
 				})
 		})
-	
+		
+
+		//$('.inv').click(function() {
+		//	alert('da');
+		//	$('.modal.open').attr('style', $('.modal').attr('style') + 'overflow-y: visible;');
+		//})
 	//   href="/requestgroup/{{ profile.pk }}"
 	
 		$(document).ready(function(){
@@ -256,4 +262,10 @@
 	
 	
 	</script>
+
+	<style>
+    .modal.open {
+			overflow-y: visible;
+    }
+</style>
 {%endblock%}

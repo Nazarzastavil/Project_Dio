@@ -56,7 +56,7 @@
                       
                       <i class="small material-icons">check</i>
                     </a>
-                    <a href="#!!!" class="secondary-content">
+                      <a href="/myevents/{{event.event.pk}}" class="secondary-content">
                         <i class="small material-icons">remove_red_eye</i>
                     </a>
                 </div>
@@ -76,7 +76,7 @@
                       
                       <i class="small material-icons">check</i>
                     </a>
-                    <a href="#!!!" class="secondary-content">
+                    <a href="/myevents/{{event.event.pk}}" class="secondary-content">
                         <i class="small material-icons">remove_red_eye</i>
                     </a>
                 </div>
@@ -98,7 +98,7 @@
                       <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
                           <i class="small material-icons">clear</i>
                       </a>
-                      <a href="#!!!" class="secondary-content">
+                      <a href="/myevents/{{event.event.pk}}" class="secondary-content">
                           <i class="small material-icons">remove_red_eye</i> 
                       </a>
                   </div>
@@ -114,7 +114,7 @@
                     <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
                         <i class="small material-icons">clear</i>
                     </a>
-                  <a href="#!!!" class="secondary-content">
+                  <a href="/myevents/{{event.event.pk}}" class="secondary-content">
                         <i class="small material-icons">remove_red_eye</i>
                     </a>
                 </div>
@@ -140,7 +140,7 @@
                         <a href="#" class="secondary-content accpet-group" dada="{{group.group.pk}}" act="True">
                             <i class="small material-icons">check</i>
                           </a>
-                        <a href="#!!!" class="secondary-content">
+                        <a href="/mygroups/{{group.group.pk}}" class="secondary-content">
                             <i class="small material-icons">remove_red_eye</i>
                         </a>
                     </div>
@@ -163,7 +163,7 @@
                           <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
                               <i class="small material-icons">clear</i>
                           </a>
-                          <a href="#!!!" class="secondary-content">
+                          <a href="/mygroups/{{event.group.pk}}" class="secondary-content">
                               <i class="small material-icons">remove_red_eye</i>
                           </a>
                       </div>
@@ -271,6 +271,29 @@
               
               </p>
               {% endif %}
+          </li>
+          </a>
+          {% endfor %}
+          {% for group in  group_search %}
+          <a href='/mygroups/{{ group.pk }}'>  
+          <li  class="collection-item collection-item avatar">
+          
+              <img src = "{{ group.image.url }}" class="circle" style="height: 50px; width: 50px;"/>
+              <span class="title">{{ group.name}}</span>
+        
+              {% with instrumentlist=person.instruments.split %}
+              <p style="margin-top: 10px;">
+              {% for instrument in  instrumentlist %}
+                <div class="chip">
+                  {{instrument}}
+                </div>    
+              {% endfor %}
+              {% endwith %}
+              </p>
+              <p style="margin-top: 10px;">
+              
+              </p>
+
           </li>
           </a>
           {% endfor %}
