@@ -229,12 +229,7 @@
               <span>Подписки</span>
             </label>
           </p>
-          <p class="col m3">
-              <label>
-                <input class="imhere" type="checkbox" name="imhere"/>
-                <span>Город</span>
-              </label>
-            </p>
+          
         </div>
         <div class="row center">
         
@@ -424,7 +419,7 @@
         'instrs': $(".instr").val(),
         'genres': $(".genre").val(),
         'town': $(".town").val(),
-        'ihere': $(".imhere").is(':checked'),
+        'ihere': "true",
         'fol': $(".fol").is(':checked'),
       },
       success: function(data) {

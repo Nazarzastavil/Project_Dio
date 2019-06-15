@@ -53,7 +53,9 @@
         
         $('#updthis').validate({
             submitHandler: function(form) {
-                //e.preventDefault();
+                
+                
+                if ($selected.length != 0) {
                 $.ajax({
                     type: "POST", 
                     url: "/createrequest",
@@ -64,8 +66,9 @@
                         "select": JSON.stringify($selected)
                     },
                     success: function(data) {
-                        window.location.replace("/myevents/ ");
-                    }});
+                        //window.location.replace("/myevents/ ");
+                    }}); }
+                form.preventDefault();
             }
          });
 
