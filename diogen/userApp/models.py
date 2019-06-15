@@ -45,6 +45,9 @@ class GroupProfile(models.Model):
     create_date = models.CharField(max_length=100, default='', blank=True)
     image = models.FileField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
 
+    def __str__(self):
+        return self.name
+
     def get_absolute_url(self):
         return reverse('groupprofile-detail', kwargs={'pk': self.pk})
     

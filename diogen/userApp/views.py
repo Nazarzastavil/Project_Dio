@@ -461,7 +461,8 @@ class GroupDetail(DetailView):
 
 class GroupUpdate(UpdateView):
     model = GroupProfile
-    fields = ['name','date','address','description']
+    form_class= GroupForm
+    # fields = ['name','description', 'create_date', 'genres','instruments','soundcloud','image']
     template_name = 'groups/groupprofile_update.html'
     def form_valid(self, form):
         post = form.save(commit=False)

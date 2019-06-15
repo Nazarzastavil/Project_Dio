@@ -52,7 +52,9 @@ class GroupForm(forms.ModelForm):
         fields = ['name', 'description', 'genres', 'instruments', 'soundcloud',
             'create_date', 'image']
         widgets = {
+            'description': forms.Textarea(attrs={'class':'materialize-textarea'}),
             'create_date': forms.TextInput(attrs={'class':'datepicker'}),
+            'image': forms.FileInput(attrs={'class': 'avatar'}),
             #'users': forms.SelectMultiple(attrs={'style': 'display: none;', 'multiple': ''}),
         }
 

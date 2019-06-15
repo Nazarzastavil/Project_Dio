@@ -10,7 +10,7 @@
         
     </div>
     <div class="col s6 m6 l6">
-            <h3>Ваши мероприятия:</h3>
+            <h3>Ваши группы:</h3>
 
                 <ul class="collapsible" style="margin-block-end: 0px; margin-block-start: 0px;">
             
@@ -22,7 +22,7 @@
                         <p> Описание: {{group.description}}</p>
                         <p> Жанры: {{group.genres}}</p>
                         <p> Инструменты: {{group.instruments}}</p>
-                        <p> Проводит: {{group.soundcloud}}</p>
+                        <p> Ссылка на soundcloud: {{group.soundcloud}}</p>
                         <p> Дата создания: {{group.create_date}}</p>
                             
                         <form id="" action={% url 'GroupDetail' pk=group.pk %}>
@@ -50,7 +50,7 @@
                 </ul>
                     
             <div class="col s3 m3 l4"></div>
-            <a href="/newgroup/" class='btn-large red' style="margin-top: 30px;">Новое мероприятие</a>
+            <a href="/newgroup/" class='btn-large red' style="margin-top: 30px;">Новая группа</a>
         
 
         
