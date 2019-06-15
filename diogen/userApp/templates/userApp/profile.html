@@ -25,7 +25,7 @@
 			<div class="col l12 s12">
 				<ul class="tabs">
 					<li class="tab tabs-fixed-width col s3"><a class="active" href="#test1">Обо мне</a></li>
-				<li class="tab col s3"><a href="#test2">Доп</a></li>
+				<li class="tab col s3"><a href="#test2">Группы</a></li>
 				<li class="tab col s3"><a href="#test3">События</a></li>
 				<li class="tab col s3"><a href="#test4">Подписки</a></li>
 				
@@ -48,12 +48,22 @@
 							<p>Инструменты: {{ profile.instruments }}</p>
 							<p>Жанры: {{ profile.genres }}</p>
 					</div>
+					{{profile.description}}
 			
 			</div>
 			<div id="test2" class="col s12">
-				<p>
-					{{profile.description}}
-				</p>
+				<ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
+					{% for g in  ugroups %}
+							
+					<li>
+							  <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
+								<div class="collapsible-header" tabindex="0"> {{g.name}} <span class="badge"> </span></div>
+								<div class="collapsible-body" style="display: none;">
+								  <p> Описание: {{g.description}}</p>
+								</div>
+							</li>
+					{% endfor %}
+				</ul>
 			</div>
 			<div id="test3" class="col s12">
 					<ul class="collapsible" style="margin-block-end: 0px;     margin-block-start: 0px;">
@@ -74,7 +84,7 @@
 							{% endfor %}
 							
 					
-						</ul>
+						
 					
 				<!-- {% for event in event_follows %}
 					{{event.event.name}}
@@ -249,13 +259,6 @@
 				})
 		})
 		
-
-		//$('.inv').click(function() {
-		//	alert('da');
-		//	$('.modal.open').attr('style', $('.modal').attr('style') + 'overflow-y: visible;');
-		//})
-	//   href="/requestgroup/{{ profile.pk }}"
-	
 		$(document).ready(function(){
 							$('select').formSelect();
 			});

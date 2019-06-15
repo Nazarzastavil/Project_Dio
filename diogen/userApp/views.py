@@ -252,11 +252,13 @@ def profile(request, person_id): #detail view of profile
     
 
     acceptedGroup = AcceptedGroup.objects.filter(user=get_object_or_404(PersonProfile, user=request.user), accepted=True)
-    print(acceptedGroup)
+    usergroup = [i.group for i in AcceptedGroup.objects.filter(accepted=True, user=(PersonProfile.objects.get(pk=person_id)))]
+    print(usergroup)
     return render(request, 'userApp/profile.html', 
     {'profile':persondetail,
     'userprofile':userdetail,
     'groups': acceptedGroup,
+    'ugroups': usergroup, 
     'event_follows': Participation.objects.filter(userProfile=get_object_or_404(PersonProfile, pk=person_id)),
     'isfollow':isfollow,
     })
