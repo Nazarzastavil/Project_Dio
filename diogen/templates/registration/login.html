@@ -2,9 +2,7 @@
 
 {% block loginblock %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+
 
 {% if next %}
     {% if user.is_authenticated %}
@@ -29,8 +27,13 @@
 
 
 <div>
-  <input type="submit" value="login" class="btn-large" />
+  <input type="submit" value="login" class="btn-large"/>
   <input type="hidden" name="next" value="{{ next }}"  />
+  {% if form.errors %}
+  <td><p style="color:black">Ваши имя и пароль не подходят. Пожалуйста, попробуйте снова.</p></td>
+
+  {% endif %}
+  
 </div>
 </form>
 

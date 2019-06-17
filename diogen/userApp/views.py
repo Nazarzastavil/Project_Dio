@@ -23,7 +23,8 @@ import json
 def mainpage(request):
     return redirect('login/')
 
-    
+
+
 
 def registration(request):
     #print('da')
@@ -40,25 +41,14 @@ def registration(request):
                                     password=form.cleaned_data['password1'],
                                     )
             login(request, new_user)
-            #user_form = UserForm(request.POST, instance=request.user)
-            #profile_form = ProfileForm(request.POST, instance=request.user.profile)
+
             return redirect('upd/')
             
-            # return render(request, 'userApp/reg.html', {
-            #     'user_form': user_form,
-            #     'profile_form': profile_form,
-            #     # 'musician_form': musician_form,
-            #     # 'company_form': company_form,
-            # })
         else:
             pass
-            #TEMP
-            
-            # return HttpResponse('nani!!!')
-            # return render(request, 'userApp/reg.html', {'form': form1})
-  
-    form = UserCreationForm()
-    return render(request, 'userApp/create_user.html', {'form': form})
+    else:
+        form = UserCreationForm()
+    return render(request, 'userApp/create_user.html', {'form': form, 'errors':form.errors})
 
 
 
@@ -341,7 +331,7 @@ class EventDelete(DeleteView):
 class UserUpdate(UpdateView): #Редактирование профиля
     model = PersonProfile
     # fields = ['birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company',]
-    form_class=ProfileForm
+    form_class=EditProfileForm
     second_form_class = UserForm
     success_url = '/feed/'
    
