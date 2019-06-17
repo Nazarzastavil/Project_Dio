@@ -154,16 +154,16 @@
                 <div class="collapsible-header" tabindex="0">Мои группы</div>
                 <div class="cal collapsible-body" style="padding: 0rem;">
                   
-                  {% for event in groups %}
-                  <ul class="collection" event="{{event.event.pk}}"> 
+                  {% for group in groups %}
+                  <ul class="collection" group="{{group.group.pk}}"> 
                       
                     <li class="collection-item">
-                      <div> {{event.group.name}}
+                      <div> {{group.group.name}}
                           {% csrf_token %}   
-                          <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                          <a href="#!" class="secondary-content  decline-group" dada="{{group.group.pk}}" act="False">
                               <i class="small material-icons">clear</i>
                           </a>
-                          <a href="/mygroups/{{event.group.pk}}" class="secondary-content">
+                          <a href="/mygroups/{{group.group.pk}}" class="secondary-content">
                               <i class="small material-icons">remove_red_eye</i>
                           </a>
                       </div>
