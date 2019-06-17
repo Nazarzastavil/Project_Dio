@@ -154,16 +154,16 @@
                 <div class="collapsible-header" tabindex="0">Мои группы</div>
                 <div class="cal collapsible-body" style="padding: 0rem;">
                   
-                  {% for event in groups %}
-                  <ul class="collection" event="{{event.event.pk}}"> 
+                  {% for group in groups %}
+                  <ul class="collection" group="{{group.group.pk}}"> 
                       
                     <li class="collection-item">
-                      <div> {{event.group.name}}
+                      <div> {{group.group.name}}
                           {% csrf_token %}   
-                          <a href="#!" class="secondary-content  decline-event" dada="{{event.event.pk}}" act="False">
+                          <a href="#!" class="secondary-content  decline-group" dada="{{group.group.pk}}" act="False">
                               <i class="small material-icons">clear</i>
                           </a>
-                          <a href="/mygroups/{{event.group.pk}}" class="secondary-content">
+                          <a href="/mygroups/{{group.group.pk}}" class="secondary-content">
                               <i class="small material-icons">remove_red_eye</i>
                           </a>
                       </div>
@@ -351,9 +351,6 @@
         </div>
         </div>
         
-        <div id = "eventlist" class="selected-date row">
-          <div class="col m3 l3 s3"></div>
-          <ul class="collapsible col m6 center" style="margin-block-end: 0px;     margin-block-start: 0px;">
 
             {% for event in  selected_events %}
             
@@ -393,7 +390,23 @@
             </li> -->
         </ul>
         </div>
+
+
+
+
+
         
+
+
+
+
+
+
+
+
+
+
+
             
     
             <!-- <li>
@@ -407,11 +420,58 @@
  
 
       </div>
+
+
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <div id = "eventlist" class="selected-date row">
+            <div class="col m3 l3 s3"></div>
+            <ul class="collapsible col m6 center" style="margin-block-end: 0px;     margin-block-start: 0px;">
+  
+              {% for event in  selected_events %}
+              
+              <li class="">
+                <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
+                  <div class="collapsible-header" tabindex="0"> <a href="{% url 'EventDetail' pk=event.pk %}"> {{event.name}} </a> <span class="badge">{{event.date}} </span></div>
+                  <div class="collapsible-body" style="display: none;"  event="{{event.event.pk}}">
+                    <p> Описание: {{event.description}}</p>
+                    <p> Адрес проведения: {{event.address}}</p>
+                    <p> Выступают: {{event.group}}</p>
+                    <p> Проводит: {{event.company.company}}</p>
+      
+                    
+                     {% for follow in event_follows %}
+                      {% if event.id == follow.event.id %}
+                      <div class="follow"></div>
+                      {% endif %}
+                    {% endfor %}
+                    
+      
+                    
+                      {% csrf_token %}          
+                      <button type="submit" id={{ event.id }} class='btn-small red btn-follow' style="margin-top: 30px;">Follow</button>
+                    <!-- </form> -->
+      
+                    
+                   
+                  </div>
+                  
+              </li>
+              
+              {% endfor %}
+        </div>
+        
+      </div>
 <!-- <script src="{% static 'jquery-2.1.4.min.js' %}"></script> -->
 
 <script src="{% static 'js/jquery.simple-calendar.js' %}"></script>
 
 <script>
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+
+
   $(".accpet-event, .decline-event").click(function(e) {
     $.ajax({
       type: "POST", 
@@ -563,6 +623,7 @@
             success: function(data) {
               //console.log($(data).find(".selected-date").html());
               //console.log($(data).find(".sbox").remove(".sbox").html());
+              $('.modal').modal('open');
               $(".selected-date").html($(data).find(".selected-date").html())
               //$(document).html(data)
             }
