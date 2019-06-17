@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 
 
 class UserForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
@@ -13,12 +17,17 @@ class UserForm(forms.ModelForm):
             'first_name':'Имя',
             'last_name':'Фамилия',
         }
-        required={
-            'first_name':'True',
-            'last_name':'True',
-        }
+    
 
 class ProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['birth_date'].required = True
+        self.fields['adress'].required = True
+        self.fields['phone'].required = True
+        self.fields['description'].required = True
+        self.fields['image'].required = True
+
     class Meta:
         model = PersonProfile
         fields = ('birth_date', 'adress', 'phone', 'description','image', 'nickname','genres', 'instruments', 'soundcloud', 'company')
@@ -45,6 +54,16 @@ class ProfileForm(forms.ModelForm):
             
             'birth_date': ''
         }
+
+
+class EditProfileForm(ProfileForm):
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['birth_date'].required = True
+        self.fields['adress'].required = True
+        self.fields['phone'].required = True
+        self.fields['description'].required = True
+        self.fields['image'].required = False
 
 class GroupForm(forms.ModelForm):
     class Meta:

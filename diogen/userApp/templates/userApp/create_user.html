@@ -23,9 +23,21 @@
                            
                         <form method='post'>
                             {% csrf_token %}
-                            {{ form }}
+                        
+
+                            <p>Введите имя пользователя</p>
+                            {{ form.username }}
+                            <p>Пароль может содержать только буквы, цифры или @/./+/-/_. Пароль не должен совпадать с именем пользователя, должен содержать
+                                минимум 8 символов, не может быть полностью цифровым, а также должен быть сложным: содержать хотя бы одну букву, цифру и символ</p>
+                                <p>Введите пароль </p>
+                                {{ form.password1 }}
+                            <p>Подтвердите пароль</p>
+                            {{ form.password2 }}
+
+                            {{errors}}
                             <div class="row center">
-                            <div class="row center"><input type="submit" value="Register" class="btn-large"/></div>
+                            <div class="row center"><input type="submit" value="Зарегистрироваться" class="btn-large"/></div>
+                            
                         </div>
                         </form>
                             

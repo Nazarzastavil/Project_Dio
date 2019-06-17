@@ -199,28 +199,28 @@
      <div id = "muslist">
 
         
-        <div class="input-field col s12">
-          <input type="text" id="autocomplete-input" class="autocomplete nick" name="q">
-          <label for="autocomplete-input">Поиск</label>
+        <div class="input-field inline col s12">
+          <input type="text" id="search-input" class="autocomplete nick" name="q">
+          <label for="search-input">Поиск</label>
         </div>
     
     
     
-        <div class="input-field col s6">
-          <input type="text" id="autocomplete-input" class="autocomplete instr" name="instrs">
-          <label for="autocomplete-input">Инструменты</label>
+        <div class="input-field inline col s6">
+          <input type="text" id="instrs-input" class="autocomplete instr" name="instrs">
+          <label for="instrs-input">Инструменты</label>
         </div>
   
 
 
-        <div class="input-field col s6">
-          <input type="text" id="autocomplete-input" class="autocomplete genre" name="genres">
-          <label for="autocomplete-input">Жанры</label>
+        <div class="input-field inline col s6">
+          <input type="text" id="genres-input" class="autocomplete genre" name="genres">
+          <label for="genres-input">Жанры</label>
         </div>
 
-        <div class="input-field col s6">
-          <input type="text" id="autocomplete-input" class="autocomplete town" name="town">
-          <label for="autocomplete-input">Город</label>
+        <div class="input-field inline col s6">
+          <input type="text" id="town-input" class="autocomplete town" name="town">
+          <label for="town-input">Город</label>
         </div>
         <div>
           <p class="col m3">
@@ -311,8 +311,51 @@
 
             {% for event in  event_list %}
             <li class="">
-              <!-- Зочем таб.индекс нужен? Как сделать чтобы все изначально не разворачивались? -->
                 <div class="collapsible-header" tabindex="0"> {{event.name}} <span class="badge">{{event.date}} </span></div>
+                <div class="collapsible-body" style="display: none;"  event="{{event.event.pk}}">
+                  <p> Описание: {{event.description}}</p>
+                  <p> Адрес проведения: {{event.address}}</p>
+                  <p> Выступают: {{event.group}}</p>
+                  <p> Проводит: {{event.company.company}}</p>
+    
+                    <form id="" action={% url 'EventDetail' pk=event.pk %}>
+                      {% csrf_token %}          
+                      <button type="submit", class='btn-small blue ' style="margin-top: 30px;">Просмотр</button>
+                  </form>
+                   {% for follow in event_follows %}
+                    {% if event.id == follow.event.id %}
+                    <div class="follow"></div>
+                    {% endif %}
+                  {% endfor %}
+                  
+    
+                  
+                    {% csrf_token %}          
+                    <button type="submit" id={{ event.id }} class='btn-small red btn-follow' style="margin-top: 30px;">Follow</button>
+                  <!-- </form> -->
+    
+                  
+                 
+                </div>
+                
+            </li>
+            {% endfor %}
+            
+        </ul>
+        </div>
+        
+            
+    
+
+        </ul>
+        </div>
+        </div>
+        
+
+            {% for event in  selected_events %}
+            
+            <li class="">
+                <div class="collapsible-header" tabindex="0"> <a href="{% url 'EventDetail' pk=event.pk %}"> {{event.name}} </a> <span class="badge">{{event.date}} </span></div>
                 <div class="collapsible-body" style="display: none;"  event="{{event.event.pk}}">
                   <p> Описание: {{event.description}}</p>
                   <p> Адрес проведения: {{event.address}}</p>
@@ -337,43 +380,8 @@
                 </div>
                 
             </li>
+            
             {% endfor %}
-            
-    
-            <!-- <li>
-              <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
-              <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
-            </li> -->
-        </ul>
-        </div>
-        
-            
-    
-            <!-- <li>
-              <div class="collapsible-header" tabindex="0">First<span class="new badge">4</span></div>
-              <div class="collapsible-body" style=""><p>Lorem ipsum dolor sit amet.</p></div>
-            </li> -->
-        </ul>
-        </div>
-        </div>
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
             
     
             <!-- <li>

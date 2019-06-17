@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.urls import reverse
 
 class PersonProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
 
     adress=models.CharField(max_length=100,default='', blank=True)
     
