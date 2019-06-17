@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'l6bo6f#!cpzn%mh495%_z4@5s3__uo8%rt1o$+ct)wfdhihq-2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True   
+DEBUG = False   
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -135,5 +135,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = ''
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = 'Epicups Team <admin@epicups.com>'
 
 AUTH_PROFILE_MODULE = 'accounts.PersonProfile'
