@@ -5,8 +5,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
-    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     path('', views.mainpage , name='mainpage'),
     path('', include('django.contrib.auth.urls')),
     path('reg/', views.registration , name='registration'), 
